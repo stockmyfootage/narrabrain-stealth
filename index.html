@@ -4,56 +4,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NARRABRAIN | The Narrative Intelligence Core</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Geist+Mono&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #000000; --zinc-950: #09090b; --zinc-900: #18181b; }
-        body { background-color: var(--bg); color: #71717a; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        body { background-color: #000000; color: #71717a; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
         .mono { font-family: 'Geist Mono', monospace; }
-        .text-glow { text-shadow: 0 0 20px rgba(255,255,255,0.1); }
         
-        @keyframes pulse {
-            0%, 100% { opacity: 0.6; transform: scale(1); filter: brightness(1); }
-            50% { opacity: 1; transform: scale(1.02); filter: brightness(1.2) drop-shadow(0 0 15px rgba(255,255,255,0.1)); }
+        /* Subtle Pulsating Logo Animation */
+        @keyframes subtle-pulse {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); filter: brightness(1.2); }
         }
-        .animate-pulse-slow { animation: pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-        
-        .grid-pattern {
+        .animate-pulse-slow { animation: subtle-pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+
+        /* Dark Grid Texture */
+        .bg-grid {
             background-image: radial-gradient(circle, #18181b 1px, transparent 1px);
-            background-size: 40px 40px;
+            background-size: 30px 30px;
         }
     </style>
 </head>
-<body class="min-h-screen grid-pattern">
+<body class="bg-grid min-h-screen flex flex-col">
 
-    <nav class="fixed top-0 w-full p-6 md:p-10 flex justify-between items-center z-50 mix-blend-difference">
-        <div class="text-zinc-100 font-semibold tracking-tighter uppercase text-sm md:text-base">Narrabrain Labs</div>
+    <nav class="w-full p-6 md:p-10 flex justify-between items-center z-50">
+        <div class="text-zinc-100 font-semibold tracking-tighter uppercase text-sm">Narrabrain Labs</div>
         <div class="mono text-[9px] tracking-[0.4em] uppercase text-zinc-500">Classification: Stealth // Phase I</div>
     </nav>
 
-    <main class="relative pt-32 pb-20 px-6">
+    <main class="flex-grow flex flex-col items-center justify-center px-6 py-20 text-center">
         
-        <div class="flex flex-col items-center mb-24 md:mb-40">
-            <div class="relative mb-12">
-                <img src="NB.png" alt="Narrabrain Logo" class="w-24 h-24 md:w-32 md:h-32 object-contain animate-pulse-slow">
-            </div>
-            <h1 class="text-zinc-100 text-5xl md:text-8xl font-semibold tracking-[ -0.05em] leading-[0.9] text-center mb-8 text-glow">
+        <div class="mb-16">
+            <img src="NB.png" alt="NB" class="w-20 h-20 md:w-28 md:h-28 object-contain animate-pulse-slow mx-auto">
+        </div>
+
+        <div class="max-w-5xl mx-auto mb-24">
+            <h1 class="text-zinc-100 text-4xl md:text-7xl lg:text-8xl font-semibold tracking-[-0.04em] leading-[1.05] mb-8">
                 The Cognitive Spine <br/> for Creative AI.
             </h1>
-            <p class="mono text-[10px] md:text-xs tracking-[0.2em] uppercase text-zinc-500 text-center">
-                Hardware-Accelerated Neuro-Symbolic Architecture
+            <p class="mono text-[10px] md:text-xs tracking-[0.2em] uppercase text-zinc-500">
+                Foundational Neuro-Symbolic Infrastructure
             </p>
         </div>
 
-        <section class="max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 mb-40 items-start">
-            <div class="md:col-span-4 border-l border-zinc-800 pl-6 py-2">
-                <span class="mono text-[10px] uppercase tracking-widest text-zinc-500">The Thesis</span>
-            </div>
-            <div class="md:col-span-8">
-                <h2 class="text-2xl md:text-4xl text-zinc-200 font-light leading-tight">
-                    "Generative AI is currently <span class="text-zinc-100 font-medium">storytelling-agnostic</span>. While the world chases larger datasets, we are building the <span class="text-white font-medium">deterministic logic layer</span> that prevents narrative drift. We don't just generate pixels; we enforce causality."
-                </h2>
-            </div>
+        <section class="max-w-3xl mx-auto mb-32 text-left border-l border-zinc-800 pl-8">
+            <h2 class="mono text-[10px] uppercase tracking-widest text-zinc-600 mb-6">The Thesis</h2>
+            <p class="text-xl md:text-3xl text-zinc-300 font-light leading-tight">
+                "Generative AI is currently <span class="text-zinc-100 font-medium">storytelling-agnostic</span>. We are building the <span class="text-white font-medium">deterministic logic layer</span> that prevents narrative drift. We don't just generate pixels; we enforce causality."
+            </p>
         </section>
 
-        <section class="max-w-screen-xl mx-auto mb-40">
+        <div class="max-w-6xl w-full grid grid-cols-1 md:grid-cols-3 gap-12 text-left mb-32">
+            <div class="space-y-4">
+                <div class="mono text-[10px] text-zinc-700">MOD-01</div>
+                <h3 class="text-zinc-100 font-medium uppercase text-xs tracking-widest">SCLC Engine</h3>
+                <p class="text-sm leading-relaxed font-light">The Shared Contextual Logic Core externalizes intent, offloading semantic reasoning to a specialized metadata layer.</p>
+            </div>
+            <div class="space-y-4">
+                <div class="mono text-[10px] text-zinc-700">MOD-02</div>
+                <h3 class="text-zinc-100 font-medium uppercase text-xs tracking-widest">E2RAG Framework</h3>
+                <p class="text-sm leading-relaxed font-light">Utilizing Topological Mapping to solve Temporal Collapse. We ensure entity persistence before synthesis.</p>
+            </div>
+            <div class="space-y-4">
+                <div class="mono text-[10px] text-zinc-700">MOD-03</div>
+                <h3 class="text-zinc-100 font-medium uppercase text-xs tracking-widest">Compliance Vault</h3>
+                <p class="text-sm leading-relaxed font-light">Integrating cryptographic provenance and automated 3-hour takedown readiness for the 2026 domestic market.</p>
+            </div>
+        </div>
+
+        <div class="mb-20">
+            <a href="mailto:hello@narrabrain.in" class="bg-white text-black px-12 py-5 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-zinc-200 transition-all">
+                Request Technical Access
+            </a>
+            <p class="mt-8 mono text-[9px] uppercase tracking-[0.3em] text-zinc-600">Restricted: Authorized Partners Only</p>
+        </div>
+    </main>
+
+    <footer class="bg-black border-t border-zinc-900 p-10 md:p-20">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+                <div>
+                    <p class="text-zinc-100 font-semibold uppercase tracking-tighter text-lg mb-2">Narrabrain Labs Private Limited</p>
+                    <p class="mono text-[10px] text-zinc-500 uppercase tracking-widest">Deep Tech Research & Development</p>
+                </div>
+                <div class="flex flex-col md:items-end space-y-4">
+                    <p class="mono text-[10px] text-zinc-400 uppercase tracking-widest">Legal / Compliance</p>
+                    <div class="flex gap-6 text-[11px] uppercase tracking-wider text-zinc-600 font-medium">
+                        <a href="/privacy/" class="hover:text-white transition-colors">Privacy Policy</a>
+                        <a href="/terms/" class="hover:text-white transition-colors">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-zinc-900/50 text-center">
+                <p class="mono text-[9px] text-zinc-700 uppercase tracking-[0.5em]">© 2026 Narrabrain Labs Private Limited. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
