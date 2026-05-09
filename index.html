@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NARRABRAIN | The Narrative Intelligence Blueprint</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Geist+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Geist+Mono&display=swap" rel="stylesheet">
     <style>
         body { background-color: #000; color: #71717a; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
         .mono { font-family: 'Geist Mono', monospace; }
+        .text-accent { color: #facc15; } /* Cyberpunk Amber Yellow */
+        
         @keyframes pulse {
-            0%, 100% { opacity: 0.6; transform: scale(1); }
+            0%, 100% { opacity: 0.7; transform: scale(1); }
             50% { opacity: 1; transform: scale(1.02); filter: brightness(1.1); }
         }
         .animate-pulse-slow { animation: pulse 6s ease-in-out infinite; }
@@ -40,19 +42,19 @@
             </p>
         </div>
 
-        <div class="max-w-5xl w-full grid grid-cols-1 md:grid-cols-3 gap-10 text-left mb-32">
+        <div class="max-w-5xl w-full grid grid-cols-1 md:grid-cols-3 gap-12 text-left mb-32">
             <div class="space-y-3">
-                <span class="mono text-[9px] text-zinc-700">SPEC-01</span>
+                <span class="mono text-[10px] text-accent font-bold tracking-widest">SPEC-01</span>
                 <h3 class="text-zinc-200 text-xs font-bold uppercase tracking-widest">SCLC Core</h3>
                 <p class="text-[13px] leading-relaxed">Conceptual metadata layer designed to externalize reasoning from synthetic synthesis engines.</p>
             </div>
             <div class="space-y-3">
-                <span class="mono text-[9px] text-zinc-700">SPEC-02</span>
+                <span class="mono text-[10px] text-accent font-bold tracking-widest">SPEC-02</span>
                 <h3 class="text-zinc-200 text-xs font-bold uppercase tracking-widest">E2RAG Framework</h3>
                 <p class="text-[13px] leading-relaxed">Topological mapping blueprint intended to ensure entity persistence and logical subtext across long-form media.</p>
             </div>
             <div class="space-y-3">
-                <span class="mono text-[9px] text-zinc-700">SPEC-03</span>
+                <span class="mono text-[10px] text-accent font-bold tracking-widest">SPEC-03</span>
                 <h3 class="text-zinc-200 text-xs font-bold uppercase tracking-widest">Compliance Logic</h3>
                 <p class="text-[13px] leading-relaxed">Architectural support for statutory takedown windows and cryptographic provenance (C2PA).</p>
             </div>
@@ -61,44 +63,39 @@
         <section class="max-w-md w-full bg-zinc-950 p-10 rounded-2xl border border-zinc-900 mb-32">
             <h3 class="text-zinc-100 text-sm font-semibold mb-8 uppercase tracking-widest">Technical Access Request</h3>
             
-            <div class="space-y-6">
+            <form action="https://api.web3forms.com/submit" method="POST" class="space-y-6">
+                <input type="hidden" name="access_key" value="e1dfdefc-8601-41e0-9abf-b38814bd6205">
+                <input type="hidden" name="subject" value="Narrabrain Blueprint Access Request">
+                <input type="hidden" name="from_name" value="Narrabrain.in Site">
+
+                <input type="email" name="email" placeholder="Professional Email" required 
+                    class="w-full bg-black border border-zinc-800 rounded-lg p-3 text-sm text-zinc-200 focus:outline-none focus:border-zinc-400 transition-all">
+
                 <div class="flex items-start gap-4 text-left">
-                    <input type="checkbox" id="consent" class="mt-1 w-5 h-5 rounded border-zinc-800 bg-black accent-white cursor-pointer">
+                    <input type="checkbox" id="consent" required class="mt-1 w-5 h-5 rounded border-zinc-800 bg-black accent-zinc-100 cursor-pointer">
                     <label for="consent" class="text-[11px] text-zinc-500 leading-snug cursor-pointer">
                         I agree to the <a href="/terms/" class="text-zinc-300 underline">Terms of Service</a> and <a href="/privacy/" class="text-zinc-300 underline">Privacy Policy</a>, acknowledging the conceptual nature of the NB-P2 blueprint.
                     </label>
                 </div>
 
-                <button onclick="handleAccessRequest()" class="w-full bg-white text-black py-4 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-zinc-200 transition-all">
+                <button type="submit" class="w-full bg-white text-black py-4 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-zinc-200 transition-all">
                     Request Blueprint Access
                 </button>
-            </div>
+            </form>
         </section>
     </main>
 
-    <footer class="bg-black border-t border-zinc-900 p-12">
-        <div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+    <footer class="p-12 border-t border-zinc-900 bg-black">
+        <div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 text-[11px] mono uppercase tracking-widest">
             <div class="text-center md:text-left">
-                <p class="text-zinc-100 font-semibold uppercase tracking-tighter">Narrabrain Labs</p>
-                <p class="mono text-[9px] text-zinc-600 uppercase tracking-widest">Stealth R&D / 2026 Blueprint Phase</p>
+                <p class="text-zinc-100 font-semibold mb-1">Narrabrain Labs</p>
+                <p class="text-zinc-600">Stealth R&D / 2026 Blueprint Phase</p>
             </div>
-            <div class="flex gap-8 text-[10px] uppercase tracking-widest mono text-zinc-700">
-                <a href="/privacy/" class="hover:text-zinc-400">Privacy</a>
-                <a href="/terms/" class="hover:text-zinc-400">Terms</a>
+            <div class="flex gap-8 text-zinc-700">
+                <a href="/privacy/" class="hover:text-zinc-400 transition-colors">Privacy</a>
+                <a href="/terms/" class="hover:text-zinc-400 transition-colors">Terms</a>
             </div>
         </div>
     </footer>
-
-    <script>
-        function handleAccessRequest() {
-            const isChecked = document.getElementById('consent').checked;
-            if (!isChecked) {
-                alert("Please agree to the Terms and Privacy Policy to continue.");
-                return;
-            }
-            // Opens email client with pre-filled details
-            window.location.href = "mailto:hello@narrabrain.in?subject=Technical Access Request: Narrabrain Blueprint&body=I am interested in reviewing the Narrabrain NB-P2 architectural specifications. [Please include your LinkedIn profile or Institutional affiliation]";
-        }
-    </script>
 </body>
 </html>
