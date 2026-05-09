@@ -1,31 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NARRABRAIN | The Narrative Intelligence Blueprint</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Geist+Mono&display=swap" rel="stylesheet">
-    <style>
-        body { background-color: #000; color: #71717a; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
-        .mono { font-family: 'Geist Mono', monospace; }
-        .text-logo-blue { color: #06b6d4; }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 0.7; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.02); filter: brightness(1.1); }
-        }
-        .animate-pulse-slow { animation: pulse 6s ease-in-out infinite; }
-    </style>
-</head>
-<body class="min-h-screen flex flex-col selection:bg-zinc-800">
-
-    <nav class="p-6 md:p-10 flex justify-between items-center gap-4">
-        <div class="text-zinc-100 font-semibold tracking-tighter uppercase text-sm shrink-0">Narrabrain Labs</div>
-        <div class="mono text-[9px] tracking-[0.3em] uppercase text-logo-blue font-bold text-right">Stage: Stealth R&D / Conceptual</div>
-    </nav>
-
-    <main class="flex-grow flex flex-col items-center px-6 py-12 text-center">
+<main class="flex-grow flex flex-col items-center px-6 py-12 text-center">
         
         <div class="mb-16">
             <img src="NB.png" alt="Narrabrain Logo" class="w-40 md:w-56 h-auto mx-auto animate-pulse-slow block">
@@ -43,9 +16,9 @@
             <div class="w-12 h-[1px] bg-zinc-800 mx-auto mt-12"></div>
         </div>
 
-        <section class="max-w-6xl mx-auto mb-40 grid grid-cols-1 md:grid-cols-2 gap-0 items-start px-4">
+        <section class="max-w-6xl mx-auto mb-40 grid grid-cols-1 md:grid-cols-2 gap-y-24 md:gap-0 items-start px-4">
             
-            <div class="space-y-8 flex flex-col items-start text-left md:pr-16 pb-16 md:pb-0">
+            <div class="space-y-8 flex flex-col items-start text-left md:pr-16">
                 <div class="space-y-2">
                     <span class="mono text-[10px] text-logo-blue font-bold tracking-widest">MODULE-IO</span>
                     <h2 class="text-2xl md:text-3xl text-zinc-100 font-semibold tracking-tighter">NARRABRAIN.IO</h2>
@@ -67,7 +40,7 @@
                 </div>
             </div>
 
-            <div class="space-y-8 flex flex-col items-end text-right md:border-l border-zinc-800 md:pl-16 pt-16 md:pt-0 border-t md:border-t-0">
+            <div class="space-y-8 flex flex-col items-end text-right border-t border-zinc-900 pt-16 md:pt-0 md:border-t-0 md:border-l md:pl-16">
                 <div class="space-y-2">
                     <span class="mono text-[10px] text-logo-blue font-bold tracking-widest">MODULE-STUDIO</span>
                     <h2 class="text-2xl md:text-3xl text-zinc-100 font-semibold tracking-tighter">NARRABRAIN.STUDIO</h2>
@@ -88,6 +61,7 @@
                     </p>
                 </div>
             </div>
+        </section>
 
         <div class="max-w-6xl w-full grid grid-cols-1 md:grid-cols-3 gap-12 mb-40 border-t border-zinc-900 pt-16 px-4">
             <div class="space-y-3 text-left flex flex-col items-start">
@@ -98,7 +72,7 @@
             <div class="space-y-3 text-center flex flex-col items-center">
                 <span class="mono text-[10px] text-logo-blue font-bold tracking-widest">SPEC-02</span>
                 <h3 class="text-zinc-200 text-xs font-bold uppercase tracking-widest">E2RAG Framework</h3>
-                <p class="text-[13px] leading-relaxed font-light max-w-[280px]">Topological mapping blueprint intended to ensure entity persistence and logical subtext across long-form media.</p>
+                <p class="text-[13px] leading-relaxed font-light max-w-[280px]">Topological mapping blueprint intended to ensure entity persistence and logical subtext.</p>
             </div>
             <div class="space-y-3 text-right flex flex-col items-end">
                 <span class="mono text-[10px] text-logo-blue font-bold tracking-widest">SPEC-03</span>
@@ -126,19 +100,3 @@
             </form>
         </section>
     </main>
-
-    <footer class="p-12 border-t border-zinc-900 bg-black">
-        <div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 text-[11px] mono uppercase tracking-widest">
-            <div class="text-center md:text-left">
-                <p class="text-zinc-100 font-semibold mb-1">Narrabrain Labs</p>
-                <p class="text-zinc-600">Stealth R&D / 2026 Blueprint Phase</p>
-            </div>
-            <div class="flex gap-8 text-zinc-700 font-bold">
-                <a href="/privacy/" class="hover:text-logo-blue transition-colors">Privacy</a>
-                <span class="text-zinc-900">|</span>
-                <a href="/terms/" class="hover:text-logo-blue transition-colors">Terms</a>
-            </div>
-        </div>
-    </footer>
-</body>
-</html>
