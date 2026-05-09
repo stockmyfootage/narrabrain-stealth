@@ -9,20 +9,19 @@
     <style>
         body { background-color: #000; color: #71717a; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
         .mono { font-family: 'Geist Mono', monospace; }
-        
-        /* Unified Blue Calibration */
-        .text-logo-blue { color: #06b6d4; } /* Central Blue from NB Logo */
+        .text-logo-blue { color: #06b6d4; }
         
         @keyframes pulse {
             0%, 100% { opacity: 0.7; transform: scale(1); }
             50% { opacity: 1; transform: scale(1.02); filter: brightness(1.1); }
         }
         .animate-pulse-slow { animation: pulse 6s ease-in-out infinite; }
+        .text-glow-sm { text-shadow: 0 0 15px rgba(6, 182, 212, 0.3); }
     </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col selection:bg-zinc-800">
 
-   <nav class="p-6 md:p-10 flex justify-between items-center gap-4">
+    <nav class="p-6 md:p-10 flex justify-between items-center gap-4">
         <div class="text-zinc-100 font-semibold tracking-tighter uppercase text-sm shrink-0">Narrabrain Labs</div>
         <div class="mono text-[9px] tracking-[0.3em] uppercase text-logo-blue font-bold text-right">Stage: Stealth R&D / Conceptual</div>
     </nav>
@@ -30,64 +29,68 @@
     <main class="flex-grow flex flex-col items-center px-6 py-12 text-center">
         
         <div class="mb-16">
-            <img src="NB.png" alt="Narrabrain Logo" class="w-48 md:w-64 h-auto mx-auto animate-pulse-slow block">
+            <img src="NB.png" alt="Narrabrain Logo" class="w-40 md:w-56 h-auto mx-auto animate-pulse-slow block">
         </div>
 
         <h1 class="text-zinc-100 text-4xl md:text-7xl font-semibold tracking-tighter leading-[1.1] mb-12 max-w-4xl">
             The Cognitive Spine <br/> for Creative AI.
         </h1>
 
-        <div class="max-w-3xl mx-auto mb-24 text-left border-l border-zinc-800 pl-8">
+        <div class="max-w-3xl mx-auto mb-32 text-left border-l border-zinc-800 pl-8">
             <h2 class="mono text-[10px] uppercase tracking-widest text-logo-blue mb-4 font-bold">Architectural Thesis</h2>
             <p class="text-xl md:text-3xl text-zinc-300 font-light leading-tight">
                 "Generative AI is currently <span class="text-zinc-100 font-medium">storytelling-agnostic</span>. We are developing the <span class="text-white font-medium">deterministic logic layer</span> to prevent narrative drift. We don't just generate pixels; we enforce causality."
             </p>
         </div>
 
-        <section class="max-w-screen-xl mx-auto mb-40 grid grid-cols-1 md:grid-cols-2 gap-16 items-center px-6 md:px-10">
+        <section class="max-w-6xl mx-auto mb-40 grid grid-cols-1 md:grid-cols-2 gap-20 items-start px-4">
             
-            <div class="space-y-10 order-2 md:order-1">
-                <div class="text-left">
-                    <h2 class="text-4xl md:text-5xl text-glow text-zinc-100 font-semibold tracking-tighter mb-3">NARRABRAIN.IO</h2>
-                    <p class="mono text-sm md:text-base tracking-[0.2em] uppercase text-zinc-500 mb-8">Agentic Discovery Aggregator <span class="text-amber font-bold">(The MVP)</span></p>
-                    <p class="text-xl md:text-2xl text-zinc-300 font-light leading-snug mb-6">
-                        The <span class="text-white font-medium">"Creative Interpreter"</span> translating subjective briefs into structured semantic signals. 
+            <div class="space-y-8 flex flex-col items-start text-left">
+                <div class="space-y-2">
+                    <span class="mono text-[10px] text-logo-blue font-bold tracking-widest">MODULE-IO</span>
+                    <h2 class="text-2xl md:text-3xl text-zinc-100 font-semibold tracking-tighter">NARRABRAIN.IO</h2>
+                    <p class="mono text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-medium">Agentic Discovery Aggregator <span class="text-logo-blue">/ MVP</span></p>
+                </div>
+                
+                <div class="relative w-full aspect-square max-w-[320px] mx-auto md:mx-0 rounded-full overflow-hidden border border-zinc-900 group">
+                    <img src="NB-IO-UI.png" alt="Narrabrain.io" class="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 transition-all duration-700">
+                    <div class="absolute inset-0 bg-cyan-900/10 mix-blend-overlay"></div>
+                </div>
+
+                <div class="space-y-4">
+                    <p class="text-lg text-zinc-300 font-light leading-snug">
+                        The <span class="text-white font-medium italic">"Creative Interpreter"</span> translating subjective briefs into structured semantic signals. 
                     </p>
-                    <p class="text-base text-zinc-400 font-light leading-relaxed">
+                    <p class="text-sm text-zinc-500 font-light leading-relaxed">
                         Utilizes a Universal Relational Inference Graph (URIG) to parse script prompts and retrieve verified assets from legacy libraries. <span class="text-logo-blue font-medium">Deterministic Priority Protocol ensures algorithmic fairness.</span>
                     </p>
                 </div>
-                <div class="relative flex justify-center md:justify-start">
-                    <div class="relative w-72 h-72 md:w-80 md:h-80 rounded-full overflow-hidden border-2 border-zinc-900 group">
-                        <img src="NB-IO-UI.png" alt="Narrabrain.io UI Mask" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors"></div>
-                    </div>
-                    <div class="absolute -top-4 -left-4 mono text-[10px] uppercase tracking-widest text-zinc-800">Visual Core I</div>
-                </div>
             </div>
 
-            <div class="space-y-10 order-1 md:order-2">
-                <div class="relative flex justify-center md:justify-end">
-                    <div class="relative w-72 h-72 md:w-80 md:h-80 rounded-full overflow-hidden border-2 border-zinc-900 group">
-                        <img src="NB-Studio-Scene.png" alt="Narrabrain.studio Scene Mask" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors"></div>
-                    </div>
-                    <div class="absolute -bottom-4 -right-4 mono text-[10px] uppercase tracking-widest text-zinc-800">Visual Core II</div>
+            <div class="space-y-8 flex flex-col items-start text-left">
+                <div class="space-y-2">
+                    <span class="mono text-[10px] text-logo-blue font-bold tracking-widest">MODULE-STUDIO</span>
+                    <h2 class="text-2xl md:text-3xl text-zinc-100 font-semibold tracking-tighter">NARRABRAIN.STUDIO</h2>
+                    <p class="mono text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-medium">Autonomous Media Synthesis</p>
                 </div>
-                <div class="text-left md:text-right">
-                    <h2 class="text-4xl md:text-5xl text-glow text-zinc-100 font-semibold tracking-tighter mb-3">NARRABRAIN.STUDIO</h2>
-                    <p class="mono text-sm md:text-base tracking-[0.2em] uppercase text-logo-blue mb-8">Autonomous Media Synthesis</p>
-                    <p class="text-xl md:text-2xl text-zinc-300 font-light leading-snug mb-6 md:border-r md:border-zinc-800 md:pr-6">
-                        Purely processing high-fidelity video rendering by <span class="text-white font-medium">offloading semantic reasoning to the SCLC layer</span>.
+
+                <div class="relative w-full aspect-square max-w-[320px] mx-auto md:mx-0 rounded-full overflow-hidden border border-zinc-900 group">
+                    <img src="NB-Studio-Scene.png" alt="Narrabrain.studio" class="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 transition-all duration-700">
+                    <div class="absolute inset-0 bg-cyan-900/10 mix-blend-overlay"></div>
+                </div>
+
+                <div class="space-y-4">
+                    <p class="text-lg text-zinc-300 font-light leading-snug">
+                        Processing high-fidelity synthesis by <span class="text-white font-medium italic">offloading reasoning</span> to the specialized SCLC layer.
                     </p>
-                    <p class="text-base text-zinc-400 font-light leading-relaxed">
-                        Solves Temporal Collapse via NDRL (Narrative Delta Reinforcement Logic). Isolate <span class="text-logo-blue font-medium">micro-variables (lighting/angle) without full recalculation</span>—the ultimate creative "Data Flywheel."
+                    <p class="text-sm text-zinc-500 font-light leading-relaxed">
+                        Solves Temporal Collapse via NDRL (Narrative Delta Reinforcement Logic). Isolate <span class="text-logo-blue font-medium">micro-variables (lighting/angle)</span> without full recalculation—the ultimate creative "Data Flywheel."
                     </p>
                 </div>
             </div>
         </section>
 
-        <div class="max-w-5xl w-full grid grid-cols-1 md:grid-cols-3 gap-12 text-left mb-32">
+        <div class="max-w-5xl w-full grid grid-cols-1 md:grid-cols-3 gap-12 text-left mb-40 border-t border-zinc-900 pt-16">
             <div class="space-y-3">
                 <span class="mono text-[10px] text-logo-blue font-bold tracking-widest">SPEC-01</span>
                 <h3 class="text-zinc-200 text-xs font-bold uppercase tracking-widest">SCLC Core</h3>
@@ -111,13 +114,12 @@
             <form action="https://api.web3forms.com/submit" method="POST" class="space-y-6">
                 <input type="hidden" name="access_key" value="e1dfdefc-8601-41e0-9abf-b38814bd6205">
                 <input type="hidden" name="subject" value="Narrabrain Blueprint Access Request">
-                <input type="hidden" name="from_name" value="Narrabrain.in Site">
 
                 <input type="email" name="email" placeholder="Professional Email" required 
-                    class="w-full bg-black border border-zinc-800 rounded-lg p-3 text-sm text-zinc-200 focus:outline-none focus:border-zinc-400 transition-all">
+                    class="w-full bg-black border border-zinc-800 rounded-lg p-3 text-sm text-zinc-200 focus:outline-none focus:border-cyan-500 transition-all">
 
                 <div class="flex items-start gap-4 text-left">
-                    <input type="checkbox" id="consent" required class="mt-1 w-5 h-5 rounded border-zinc-800 bg-black accent-zinc-100 cursor-pointer">
+                    <input type="checkbox" id="consent" required class="mt-1 w-5 h-5 rounded border-zinc-800 bg-black accent-cyan-500 cursor-pointer">
                     <label for="consent" class="text-[11px] text-zinc-500 leading-snug cursor-pointer">
                         I agree to the <a href="/terms/" class="text-zinc-300 underline">Terms of Service</a> and <a href="/privacy/" class="text-zinc-300 underline">Privacy Policy</a>, acknowledging the conceptual nature of the NB-P2 blueprint.
                     </label>
