@@ -9,7 +9,10 @@
     <style>
         body { background-color: #000; color: #71717a; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
         .mono { font-family: 'Geist Mono', monospace; }
-        .text-accent { color: #facc15; } /* Cyberpunk Amber Yellow */
+        
+        /* Color Calibration */
+        .text-amber { color: #facc15; } /* Matches Spec Labels */
+        .text-logo-blue { color: #06b6d4; } /* Matches NB Logo Central Blue */
         
         @keyframes pulse {
             0%, 100% { opacity: 0.7; transform: scale(1); }
@@ -22,7 +25,7 @@
 
     <nav class="p-6 md:p-10 flex justify-between items-center">
         <div class="text-zinc-100 font-semibold tracking-tighter uppercase text-sm">Narrabrain Labs</div>
-        <div class="mono text-[9px] tracking-[0.3em] uppercase text-zinc-500">Stage: Stealth R&D / Conceptual</div>
+        <div class="mono text-[9px] tracking-[0.3em] uppercase text-amber font-bold">Stage: Stealth R&D / Conceptual</div>
     </nav>
 
     <main class="flex-grow flex flex-col items-center px-6 py-12 text-center">
@@ -36,35 +39,35 @@
         </h1>
 
         <div class="max-w-3xl mx-auto mb-24 text-left border-l border-zinc-800 pl-8">
-            <h2 class="mono text-[10px] uppercase tracking-widest text-zinc-600 mb-4">Architectural Thesis</h2>
+            <h2 class="mono text-[10px] uppercase tracking-widest text-logo-blue mb-4 font-bold">Architectural Thesis</h2>
             <p class="text-xl md:text-3xl text-zinc-300 font-light leading-tight">
-                "Generative AI is currently <span class="text-zinc-100 font-medium">storytelling-agnostic</span>. We are developing the <span class="text-white font-medium">deterministic logic layer</span> to prevent narrative drift. We don't just generate pixels; we enforce causality."
+                "Generative AI is currently <span class="text-zinc-100 font-medium text-glow">storytelling-agnostic</span>. We are developing the <span class="text-white font-medium">deterministic logic layer</span> to prevent narrative drift. We don't just generate pixels; we enforce causality."
             </p>
         </div>
 
         <div class="max-w-5xl w-full grid grid-cols-1 md:grid-cols-3 gap-12 text-left mb-32">
             <div class="space-y-3">
-                <span class="mono text-[10px] text-accent font-bold tracking-widest">SPEC-01</span>
+                <span class="mono text-[10px] text-amber font-bold tracking-widest">SPEC-01</span>
                 <h3 class="text-zinc-200 text-xs font-bold uppercase tracking-widest">SCLC Core</h3>
                 <p class="text-[13px] leading-relaxed">Conceptual metadata layer designed to externalize reasoning from synthetic synthesis engines.</p>
             </div>
             <div class="space-y-3">
-                <span class="mono text-[10px] text-accent font-bold tracking-widest">SPEC-02</span>
+                <span class="mono text-[10px] text-amber font-bold tracking-widest">SPEC-02</span>
                 <h3 class="text-zinc-200 text-xs font-bold uppercase tracking-widest">E2RAG Framework</h3>
                 <p class="text-[13px] leading-relaxed">Topological mapping blueprint intended to ensure entity persistence and logical subtext across long-form media.</p>
             </div>
             <div class="space-y-3">
-                <span class="mono text-[10px] text-accent font-bold tracking-widest">SPEC-03</span>
+                <span class="mono text-[10px] text-amber font-bold tracking-widest">SPEC-03</span>
                 <h3 class="text-zinc-200 text-xs font-bold uppercase tracking-widest">Compliance Logic</h3>
                 <p class="text-[13px] leading-relaxed">Architectural support for statutory takedown windows and cryptographic provenance (C2PA).</p>
             </div>
         </div>
 
-        <section class="max-w-md w-full bg-zinc-950 p-10 rounded-2xl border border-zinc-900 mb-32">
+        <section class="max-w-md w-full bg-zinc-950 p-10 rounded-2xl border border-zinc-900 mb-32 shadow-2xl">
             <h3 class="text-zinc-100 text-sm font-semibold mb-8 uppercase tracking-widest">Technical Access Request</h3>
             
             <form action="https://api.web3forms.com/submit" method="POST" class="space-y-6">
-                <input type="hidden" name="access_key" value="e1dfdefc-8601-41e0-9abf-b38814bd6205">
+                <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
                 <input type="hidden" name="subject" value="Narrabrain Blueprint Access Request">
                 <input type="hidden" name="from_name" value="Narrabrain.in Site">
 
@@ -91,9 +94,9 @@
                 <p class="text-zinc-100 font-semibold mb-1">Narrabrain Labs</p>
                 <p class="text-zinc-600">Stealth R&D / 2026 Blueprint Phase</p>
             </div>
-            <div class="flex gap-8 text-zinc-700">
-                <a href="/privacy/" class="hover:text-zinc-400 transition-colors">Privacy</a>
-                <a href="/terms/" class="hover:text-zinc-400 transition-colors">Terms</a>
+            <div class="flex gap-8 text-zinc-700 font-bold">
+                <a href="/privacy/" class="hover:text-amber transition-colors">Privacy</a>
+                <a href="/terms/" class="hover:text-amber transition-colors">Terms</a>
             </div>
         </div>
     </footer>
