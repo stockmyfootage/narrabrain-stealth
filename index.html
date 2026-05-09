@@ -11,9 +11,9 @@
         .mono { font-family: 'Geist Mono', monospace; }
         @keyframes pulse {
             0%, 100% { opacity: 0.6; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.03); filter: brightness(1.1); }
+            50% { opacity: 1; transform: scale(1.02); filter: brightness(1.1); }
         }
-        .animate-pulse-slow { animation: pulse 5s ease-in-out infinite; }
+        .animate-pulse-slow { animation: pulse 6s ease-in-out infinite; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -25,11 +25,11 @@
 
     <main class="flex-grow flex flex-col items-center px-6 py-12 text-center">
         
-        <div class="mb-12">
-            <img src="NB.png" alt="NB" class="w-20 h-20 md:w-24 md:h-24 mx-auto animate-pulse-slow">
+        <div class="mb-16">
+            <img src="NB.png" alt="Narrabrain Logo" class="w-48 md:w-64 h-auto mx-auto animate-pulse-slow block">
         </div>
 
-        <h1 class="text-zinc-100 text-4xl md:text-7xl font-semibold tracking-tighter leading-[1.1] mb-8 max-w-4xl">
+        <h1 class="text-zinc-100 text-4xl md:text-7xl font-semibold tracking-tighter leading-[1.1] mb-12 max-w-4xl">
             The Cognitive Spine <br/> for Creative AI.
         </h1>
 
@@ -44,7 +44,7 @@
             <div class="space-y-3">
                 <span class="mono text-[9px] text-zinc-700">SPEC-01</span>
                 <h3 class="text-zinc-200 text-xs font-bold uppercase tracking-widest">SCLC Core</h3>
-                <p class="text-[13px] leading-relaxed">Conceptual metadata layer designed to offload semantic reasoning from synthetic synthesis engines.</p>
+                <p class="text-[13px] leading-relaxed">Conceptual metadata layer designed to externalize reasoning from synthetic synthesis engines.</p>
             </div>
             <div class="space-y-3">
                 <span class="mono text-[9px] text-zinc-700">SPEC-02</span>
@@ -54,15 +54,51 @@
             <div class="space-y-3">
                 <span class="mono text-[9px] text-zinc-700">SPEC-03</span>
                 <h3 class="text-zinc-200 text-xs font-bold uppercase tracking-widest">Compliance Logic</h3>
-                <p class="text-[13px] leading-relaxed">Built-in architectural support for 2026 statutory takedown windows and cryptographic content provenance.</p>
+                <p class="text-[13px] leading-relaxed">Architectural support for statutory takedown windows and cryptographic provenance (C2PA).</p>
             </div>
         </div>
 
-        <section class="max-w-md w-full bg-zinc-950 p-8 rounded-2xl border border-zinc-900 mb-20">
-            <h3 class="text-zinc-100 text-sm font-semibold mb-6 uppercase tracking-widest">Request Technical Access</h3>
-            <form action="mailto:hello@narrabrain.in" method="GET" class="space-y-4">
-                <input type="email" placeholder="Professional Email" required class="w-full bg-black border border-zinc-800 rounded-lg p-3 text-sm text-zinc-200 focus:outline-none focus:border-zinc-500">
-                
-                <div class="flex items-start gap-3 text-left">
-                    <input type="checkbox" id="consent" required class="mt-1 w-4 h-4 rounded border-zinc-800 bg-black checked:bg-zinc-100">
-                    <label for="consent" class="text-[10px] text-zinc-500 leading
+        <section class="max-w-md w-full bg-zinc-950 p-10 rounded-2xl border border-zinc-900 mb-32">
+            <h3 class="text-zinc-100 text-sm font-semibold mb-8 uppercase tracking-widest">Technical Access Request</h3>
+            
+            <div class="space-y-6">
+                <div class="flex items-start gap-4 text-left">
+                    <input type="checkbox" id="consent" class="mt-1 w-5 h-5 rounded border-zinc-800 bg-black accent-white cursor-pointer">
+                    <label for="consent" class="text-[11px] text-zinc-500 leading-snug cursor-pointer">
+                        I agree to the <a href="/terms/" class="text-zinc-300 underline">Terms of Service</a> and <a href="/privacy/" class="text-zinc-300 underline">Privacy Policy</a>, acknowledging the conceptual nature of the NB-P2 blueprint.
+                    </label>
+                </div>
+
+                <button onclick="handleAccessRequest()" class="w-full bg-white text-black py-4 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-zinc-200 transition-all">
+                    Request Blueprint Access
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-black border-t border-zinc-900 p-12">
+        <div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-center md:text-left">
+                <p class="text-zinc-100 font-semibold uppercase tracking-tighter">Narrabrain Labs</p>
+                <p class="mono text-[9px] text-zinc-600 uppercase tracking-widest">Stealth R&D / 2026 Blueprint Phase</p>
+            </div>
+            <div class="flex gap-8 text-[10px] uppercase tracking-widest mono text-zinc-700">
+                <a href="/privacy/" class="hover:text-zinc-400">Privacy</a>
+                <a href="/terms/" class="hover:text-zinc-400">Terms</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function handleAccessRequest() {
+            const isChecked = document.getElementById('consent').checked;
+            if (!isChecked) {
+                alert("Please agree to the Terms and Privacy Policy to continue.");
+                return;
+            }
+            // Opens email client with pre-filled details
+            window.location.href = "mailto:hello@narrabrain.in?subject=Technical Access Request: Narrabrain Blueprint&body=I am interested in reviewing the Narrabrain NB-P2 architectural specifications. [Please include your LinkedIn profile or Institutional affiliation]";
+        }
+    </script>
+</body>
+</html>
