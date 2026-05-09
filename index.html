@@ -3,41 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NARRABRAIN | The Cognitive Spine for Creative AI</title>
+    <title>NARRABRAIN | The Narrative Intelligence Core</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&family=Geist+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Geist+Mono&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #050505; color: #e0e0e0; }
         .mono { font-family: 'Geist Mono', monospace; }
+        .glass { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); }
+        
+        @keyframes logo-pulse {
+            0% { transform: scale(1); opacity: 0.8; filter: drop-shadow(0 0 0px rgba(0, 255, 255, 0)); }
+            50% { transform: scale(1.05); opacity: 1; filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.2)); }
+            100% { transform: scale(1); opacity: 0.8; filter: drop-shadow(0 0 0px rgba(0, 255, 255, 0)); }
+        }
+        .pulse-logo { animation: logo-pulse 4s ease-in-out infinite; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-zinc-800">
-    <nav class="p-8 flex justify-between items-center">
-        <div class="text-xl font-medium tracking-tighter uppercase">Narrabrain</div>
-        <div class="text-[10px] tracking-[0.2em] text-zinc-500 uppercase mono">Phase I Architecture / 2026</div>
+    <nav class="p-8 flex justify-between items-center z-50">
+        <div class="text-xl font-medium tracking-tighter uppercase text-zinc-100">Narrabrain</div>
+        <div class="text-[10px] tracking-[0.3em] text-zinc-500 uppercase mono">Phase I / Stealth Operations</div>
     </nav>
 
-    <main class="flex-grow flex flex-col items-center justify-center px-6 text-center">
-        <h1 class="text-5xl md:text-7xl font-semibold tracking-tighter mb-4 text-zinc-100">
-            The Cognitive Spine <br> for Creative AI.
-        </h1>
-        <p class="max-w-2xl mx-auto text-lg md:text-xl text-zinc-400 font-light leading-relaxed">
-            Solving <span class="italic text-zinc-200">Temporal Collapse</span> and <span class="italic text-zinc-200">Discovery Friction</span> through a hardware-accelerated Neuro-Symbolic Core.
-        </p>
+    <main class="flex-grow flex flex-col items-center justify-center px-6 pt-10 pb-32">
+        <div class="mb-12">
+            <img src="NB.png" alt="Narrabrain Logo" class="w-32 h-32 md:w-40 md:h-40 pulse-logo object-contain">
+        </div>
 
-        <div class="mt-12">
-            <a href="mailto:hello@narrabrain.in" class="px-8 py-3 bg-zinc-100 text-black text-sm font-medium rounded-full hover:bg-zinc-300 transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+        <section class="text-center max-w-4xl mb-24">
+            <h1 class="text-5xl md:text-8xl font-semibold tracking-tighter mb-6 text-zinc-100 leading-tight">
+                The Cognitive Spine <br> for Creative AI.
+            </h1>
+            <p class="max-w-2xl mx-auto text-xl md:text-2xl text-zinc-400 font-light leading-relaxed">
+                Solving <span class="italic text-zinc-200">Temporal Collapse</span> through a hardware-accelerated Neuro-Symbolic Core.
+            </p>
+        </section>
+
+        <section class="max-w-3xl w-full mb-32 p-10 glass rounded-2xl">
+            <h2 class="mono text-[10px] text-zinc-500 uppercase tracking-widest mb-6">The Narrabrain Thesis</h2>
+            <blockquote class="text-2xl md:text-3xl font-light text-zinc-200 leading-snug">
+                "Generative AI is currently <span class="text-white font-medium">storytelling-agnostic</span>. While the world chases more VRAM and larger datasets, we are building the <span class="text-white font-medium">deterministic logic layer</span> that prevents narrative drift. We don't just generate pixels; we enforce causality."
+            </blockquote>
+        </section>
+
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl w-full mb-32">
+            <div class="space-y-4">
+                <h3 class="mono text-[11px] text-zinc-200 uppercase tracking-wider">SCLC Engine</h3>
+                <p class="text-sm text-zinc-500 leading-relaxed">Decoupling narrative intent from synthesis by offloading reasoning to a specialized metadata layer.</p>
+            </div>
+            <div class="space-y-4">
+                <h3 class="mono text-[11px] text-zinc-200 uppercase tracking-wider">E2RAG Framework</h3>
+                <p class="text-sm text-zinc-500 leading-relaxed">Graph-based reasoning solving persistence and causality before a single pixel renders.</p>
+            </div>
+            <div class="space-y-4">
+                <h3 class="mono text-[11px] text-zinc-200 uppercase tracking-wider">NIC Architecture</h3>
+                <p class="text-sm text-zinc-500 leading-relaxed">Hardware-accelerated neuro-symbolic processing designed for high-throughput media production.</p>
+            </div>
+        </section>
+
+        <section class="text-center">
+            <a href="mailto:hello@narrabrain.in" class="px-10 py-4 bg-zinc-100 text-black text-sm font-semibold rounded-full hover:bg-zinc-300 transition-all shadow-[0_0_30px_rgba(255,255,255,0.05)]">
                 Request Technical Access
             </a>
-            <p class="mt-4 text-[10px] text-zinc-600 mono tracking-widest uppercase">Restricted to Industry Partners & Investors</p>
-        </div>
+            <p class="mt-6 text-[10px] text-zinc-600 mono tracking-widest uppercase text-center">Restricted to Institutional Partners</p>
+        </section>
     </main>
 
-    <footer class="p-12">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 border-t border-zinc-900 pt-8 text-[11px] mono tracking-wider text-zinc-500 uppercase">
+    <footer class="p-12 border-t border-zinc-900 bg-black">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-[11px] mono tracking-wider text-zinc-500 uppercase mb-12">
             <div><p class="text-zinc-300 mb-1">Intellectual Property</p><p>Patent-Pending NB-P2 Architecture</p></div>
-            <div class="md:text-center"><p class="text-zinc-300 mb-1">Institutional Alignment</p><p>Incubated at SINE, IIT Bombay</p></div>
-            <div class="md:text-right"><p class="text-zinc-300 mb-1">Compliance State</p><p>Ready for 2026 India IT Rules</p></div>
+            <div class="md:text-center"><p class="text-zinc-300 mb-1">Research Focus</p><p>Domain-Specific Neuro-Symbolic AI</p></div>
+            <div class="md:text-right"><p class="text-zinc-300 mb-1">Compliance</p><p>DPDP Ready & 2026 IT Rule Compliant</p></div>
+        </div>
+        
+        <div class="flex gap-6 justify-center text-[9px] text-zinc-700 uppercase tracking-widest mono">
+            <a href="/privacy/" class="hover:text-zinc-400 transition-colors">Privacy Policy</a>
+            <span class="text-zinc-900">|</span>
+            <a href="/terms/" class="hover:text-zinc-400 transition-colors">Terms of Service</a>
         </div>
     </footer>
 </body>
