@@ -344,73 +344,6 @@ textarea::placeholder, input::placeholder {
   box-shadow: 0 12px 32px rgba(0,245,255,0.3);
 }
 
-.results {
-  display: none;
-}
-
-.results.show {
-  display: block;
-}
-
-.results-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 36px;
-  font-weight: 800;
-  margin-bottom: 12px;
-  background: linear-gradient(135deg, var(--secondary), var(--tertiary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.results-subtitle {
-  font-size: 14px;
-  color: rgba(255,255,255,0.7);
-  margin-bottom: 28px;
-}
-
-.result-item {
-  border: 2px solid var(--border);
-  border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 12px;
-  background: rgba(255,255,255,0.02);
-}
-
-.result-label {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1.2px;
-  color: var(--secondary);
-  text-transform: uppercase;
-  margin-bottom: 6px;
-}
-
-.result-value {
-  font-size: 14px;
-  color: rgba(255,255,255,0.9);
-}
-
-.loading {
-  text-align: center;
-  color: rgba(255,255,255,0.6);
-  font-size: 13px;
-}
-
-.error {
-  background: rgba(255,0,110,0.1);
-  border: 1px solid rgba(255,0,110,0.3);
-  color: #ff6b9d;
-  padding: 12px;
-  border-radius: 6px;
-  margin-bottom: 16px;
-  font-size: 13px;
-}
-
-.option-label a {
-  color: var(--secondary);
-  text-decoration: underline;
-}
-
 #done-page {
   display: none;
   position: fixed;
@@ -1076,12 +1009,13 @@ textarea::placeholder, input::placeholder {
           <input type="checkbox" name="privacy-consent" value="agreed" required>
           <span class="option-label"><span class="checkbox-mark"></span>I agree to Narrabrain's <a href="https://narrabrain.in/privacy" target="_blank" style="color: var(--secondary); text-decoration: underline;">Privacy Policy</a> and <a href="https://narrabrain.in/terms" target="_blank" style="color: var(--secondary); text-decoration: underline;">Terms of Service</a></span>
         </label>
+        <div class="error-message">[you must agree to the privacy policy to continue]</div>
       </div>
     </div>
 
     <div id="done-page">
       <div style="text-align: center;">
-        <div style="font-size: 72px; margin-bottom: 28px; animation: fadeInScale 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);"></div>
+        <div style="font-size: 72px; margin-bottom: 28px; animation: fadeInScale 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);">✨</div>
         <div style="font-family: 'Playfair Display', serif; font-size: 52px; font-weight: 800; margin-bottom: 20px; background: linear-gradient(135deg, var(--secondary), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Done</div>
         <p style="font-size: 15px; color: rgba(255,255,255,0.65); margin-bottom: 12px;">Thanks for sharing your insights.</p>
         <p style="font-size: 13px; color: rgba(255,255,255,0.45);">Closing in <span id="countdown" style="font-weight: 600; color: rgba(255,255,255,0.7);">5</span> seconds...</p>
@@ -1112,9 +1046,6 @@ function showSection(n) {
     if (sec) sec.classList.toggle('hidden', i !== n);
   }
   
-  const results = document.getElementById('results');
-  if (results) results.classList.remove('show');
-  
   const nav = document.getElementById('nav');
   if (nav) nav.style.display = n <= totalSections ? 'flex' : 'none';
   
@@ -1123,7 +1054,6 @@ function showSection(n) {
   if (btnPrev) btnPrev.disabled = n === 1;
   if (btnNext) btnNext.textContent = n === totalSections ? 'Submit ' : 'Next ';
   
-  // Setup error clearing for current section
   const currentSection = document.getElementById(`sec${n}`);
   if (currentSection) {
     setupErrorClearing(currentSection);
@@ -1134,76 +1064,73 @@ function showSection(n) {
 }
 
 function validateSection(n) {
-  const section = document.getElementById(`sec${n}`);
-  if (!section) return true;
+  const currentSecElement = document.getElementById(`sec${n}`);
+  if (!currentSecElement) return true;
+  
   const rules = {
     1: [
-      { type: 'text', name: 'name', label: 'Name' },
-      { type: 'radio', name: 'role', label: 'Role' },
-      { type: 'radio', name: 'exp', label: 'Experience' },
-      { type: 'checkbox', name: 'content', label: 'Content type' }
+      { type: 'text', name: 'name' },
+      { type: 'radio', name: 'role' },
+      { type: 'radio', name: 'exp' },
+      { type: 'checkbox', name: 'content' }
     ],
     2: [
-      { type: 'checkbox', name: 'search-method', label: 'Search method' },
-      { type: 'radio', name: 'time-pct', label: 'Time percentage' },
-      { type: 'radio', name: 'search-fail', label: 'Search failure' },
-      { type: 'textarea', name: 'vibe-brief', label: 'Vibe brief' }
+      { type: 'checkbox', name: 'search-method' },
+      { type: 'radio', name: 'time-pct' },
+      { type: 'radio', name: 'search-fail' },
+      { type: 'textarea', name: 'vibe-brief' }
     ],
     3: [
-      { type: 'checkbox', name: 'brief-contains', label: 'Brief contents' },
-      { type: 'radio', name: 'intent-match', label: 'Intent match' },
-      { type: 'radio', name: 'ai-frustration', label: 'AI frustration' }
+      { type: 'checkbox', name: 'brief-contains' },
+      { type: 'radio', name: 'intent-match' },
+      { type: 'radio', name: 'ai-frustration' }
     ],
     4: [
-      { type: 'radio', name: 'ai-produced', label: 'AI produced' },
-      { type: 'radio', name: 'ai-trend', label: 'AI trend' },
-      { type: 'radio', name: 'ai-concern', label: 'AI concern' },
-      { type: 'radio', name: 'ai-comfort', label: 'AI comfort' },
-      { type: 'radio', name: 'ai-comfort-factor', label: 'Comfort factor' }
+      { type: 'radio', name: 'ai-produced' },
+      { type: 'radio', name: 'ai-trend' },
+      { type: 'radio', name: 'ai-concern' },
+      { type: 'radio', name: 'ai-comfort' },
+      { type: 'radio', name: 'ai-comfort-factor' }
     ],
     5: [
-      { type: 'checkbox', name: 'libraries', label: 'Libraries' },
-      { type: 'radio', name: 'workflow-sat', label: 'Workflow satisfaction' },
-      { type: 'radio', name: 'willingness', label: 'Willingness to pay' }
+      { type: 'checkbox', name: 'libraries' },
+      { type: 'radio', name: 'workflow-sat' },
+      { type: 'radio', name: 'willingness' }
     ],
     6: [
-      { type: 'textarea', name: 'biggest-problem', label: 'Biggest problem' },
-      { type: 'radio', name: 'ideal-tool', label: 'Ideal tool' },
-      { type: 'radio', name: 'alpha', label: 'Alpha testing' },
-      { type: 'checkbox', name: 'privacy-consent', label: 'Privacy consent' }
+      { type: 'textarea', name: 'biggest-problem' },
+      { type: 'radio', name: 'ideal-tool' },
+      { type: 'radio', name: 'alpha' },
+      { type: 'checkbox', name: 'privacy-consent' }
     ]
   };
+  
   const sectionRules = rules[n] || [];
   let firstErrorElement = null;
-  let hasErrors = false;
 
-  // Clear all error states first
-  section.querySelectorAll('.question-group').forEach(qg => {
+  currentSecElement.querySelectorAll('.question-group').forEach(qg => {
     qg.classList.remove('error-state');
   });
 
   for (let rule of sectionRules) {
-    const questionGroup = section.querySelector(`input[name="${rule.name}"], textarea[name="${rule.name}"]`)?.closest('.question-group');
+    const inputElement = currentSecElement.querySelector(`input[name="${rule.name}"], textarea[name="${rule.name}"]`);
+    const questionGroup = inputElement ? inputElement.closest('.question-group') : null;
     
     if (!questionGroup) continue;
     let isFilled = false;
 
     if (rule.type === 'text' || rule.type === 'textarea') {
-      const input = questionGroup.querySelector(`${rule.type === 'textarea' ? 'textarea' : 'input[type="text"]'}[name="${rule.name}"]`);
-      isFilled = input && input.value.trim() !== '';
+      isFilled = inputElement && inputElement.value.trim() !== '';
     } else if (rule.type === 'radio' || rule.type === 'checkbox') {
       const checked = questionGroup.querySelector(`input[name="${rule.name}"]:checked`);
       isFilled = !!checked;
     }
 
     if (!isFilled) {
-      hasErrors = true;
-      // Only mark the FIRST unfilled question
       if (!firstErrorElement) {
         firstErrorElement = questionGroup;
         questionGroup.classList.add('error-state');
         
-        // Trigger vibration animation
         questionGroup.style.animation = 'none';
         setTimeout(() => {
           questionGroup.style.animation = '';
@@ -1212,7 +1139,6 @@ function validateSection(n) {
     }
   }
 
-  // Scroll to first error if any
   if (firstErrorElement) {
     firstErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
     return false;
@@ -1221,29 +1147,21 @@ function validateSection(n) {
   return true;
 }
 
-// Add real-time error clearing when user fills fields
-function setupErrorClearing(section) {
-  section.querySelectorAll('input, textarea').forEach(input => {
+function setupErrorClearing(secElement) {
+  secElement.querySelectorAll('input, textarea').forEach(input => {
     input.addEventListener('change', function() {
       const questionGroup = this.closest('.question-group');
       if (!questionGroup) return;
 
       const name = this.name;
-      const isCheckboxOrRadio = this.type === 'checkbox' || this.type === 'radio';
-      
-      let isFilled = false;
-
-      if (isCheckboxOrRadio) {
-        isFilled = !!questionGroup.querySelector(`input[name="${name}"]:checked`);
-      } else {
-        isFilled = this.value.trim() !== '';
-      }
+      let isFilled = (this.type === 'checkbox' || this.type === 'radio') 
+        ? !!questionGroup.querySelector(`input[name="${name}"]:checked`)
+        : this.value.trim() !== '';
 
       if (isFilled) {
         questionGroup.classList.remove('error-state');
       }
 
-      // Auto-scroll to next question for radio buttons (single-choice)
       if (this.type === 'radio' && isFilled) {
         const nextQuestion = questionGroup.nextElementSibling;
         if (nextQuestion && nextQuestion.classList.contains('question-group')) {
@@ -1251,7 +1169,6 @@ function setupErrorClearing(section) {
             nextQuestion.scrollIntoView({ behavior: 'smooth', block: 'center' });
           }, 250);
         } else {
-          // Last question in section - vibrate Next button
           const btnNext = document.getElementById('btn-next');
           if (btnNext) {
             btnNext.style.animation = 'none';
@@ -1263,11 +1180,10 @@ function setupErrorClearing(section) {
       }
     });
 
-    // For real-time input (text fields)
     if (input.type === 'text' || input.tagName === 'TEXTAREA') {
       input.addEventListener('input', function() {
         const questionGroup = this.closest('.question-group');
-        if (this.value.trim() !== '') {
+        if (questionGroup && this.value.trim() !== '') {
           questionGroup.classList.remove('error-state');
         }
       });
@@ -1297,16 +1213,13 @@ function submitForm() {
   const formElement = document.getElementById('survey-form');
   if (!formElement) return;
 
-  // 1. Explicit data compilation utilizing standard form elements tree to prevent data loss from hidden sections
   const data = {};
   
-  // Extract Text values safely
   data.name = formElement.elements['name']?.value || '';
   data.email = formElement.elements['email']?.value || '';
   data['vibe-brief'] = formElement.elements['vibe-brief']?.value || '';
   data['biggest-problem'] = formElement.elements['biggest-problem']?.value || '';
 
-  // Extract all single-choice radio selections
   const radioFields = [
     'role', 'exp', 'time-pct', 'search-fail', 'intent-match', 
     'ai-frustration', 'ai-produced', 'ai-trend', 'ai-concern', 
@@ -1317,36 +1230,30 @@ function submitForm() {
     data[field] = checkedRadio ? checkedRadio.value : '';
   });
 
-  // Extract all multi-choice checkboxes as raw array formats to fit Apps Script processing loops
   const checkboxFields = ['content', 'search-method', 'brief-contains', 'libraries'];
   checkboxFields.forEach(field => {
     const checkedBoxes = Array.from(formElement.querySelectorAll(`input[name="${field}"]:checked`));
     data[field] = checkedBoxes.map(cb => cb.value);
   });
 
-  // Handle policy confirmation element mapping
   const privacyCheck = formElement.querySelector('input[name="privacy-consent"]:checked');
   data['privacy-consent'] = privacyCheck ? privacyCheck.value : '';
-  
-  // Generate tracking metrics
   data.timestamp = new Date().toISOString();
 
-  // 2. Transmit the data array packet to Google Web App endpoint
+  // UPDATED SCRIPT URL PIPELINE ACCORDING TO YOUR SPECIFICATION
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwurSxkl-EfdDYHzaFOKG2T2DVvFRmy84nduuDjTBylEJuyjNUzBkIRFLwhlakpmip2/exec';
 
   fetch(SCRIPT_URL, {
     method: 'POST',
-    mode: 'no-cors', // Bypasses browser CORS redirect pipeline filters safely
+    mode: 'no-cors',
     body: JSON.stringify(data)
   })
   .then(() => {
-    console.log('Submission successfully routed across server pipelines.');
-    // 3. Clear container containers out of view ONLY after response lifecycle triggers
+    console.log('Payload transmitted cleanly.');
     executeLayoutCleanup();
   })
   .catch(err => {
-    console.error('Submission pipeline tracking error:', err);
-    // Fallback cleanup process execution to protect against sticky screen locking state issues
+    console.error('Submission pipeline connection error:', err);
     executeLayoutCleanup();
   });
 }
@@ -1368,7 +1275,6 @@ function showDonePage() {
   if (donePage) {
     donePage.classList.add('show');
     
-    // Start countdown
     let countdown = 5;
     const countdownEl = document.getElementById('countdown');
     
@@ -1378,7 +1284,6 @@ function showDonePage() {
       
       if (countdown === 0) {
         clearInterval(countdownInterval);
-        // Auto-reload after 5 seconds
         window.location.reload();
       }
     }, 1000);
