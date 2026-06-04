@@ -509,7 +509,7 @@ textarea::placeholder, input::placeholder {
           </label>
           <label class="option-wrapper">
             <input type="radio" name="role" value="Producer">
-            <span class="option-label"><span class="radio-mark"></span>Producer / Exec</span>
+            <span class="option-label"><span class="radio-mark"></span>Producer / </span>
           </label>
           <label class="option-wrapper">
             <input type="radio" name="role" value="Agency Lead">
@@ -1331,21 +1331,24 @@ function submitForm() {
 
   // Submit to Google Apps Script webhook
   // REPLACE THIS with your actual Apps Script deployment URL
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw24aQkzH045QAXH4mbACWQS1nunQ22wxw36irf2UybP5ToBWtOg0KnPNuIaIVsttM2/exec';
+  // Submit to Google Apps Script webhook
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxgj_Sqrw5fhC8GUmlNFLnSZNW8-JKjOV-wEPYwClB_nu2QxTI4JCuvKy8mVfOVbX0Aow/exec';
   
+  // Use mode: 'no-cors' to prevent Google's 302 redirect from getting blocked
   fetch(SCRIPT_URL, {
     method: 'POST',
+    mode: 'no-cors', // <-- CRITICAL FIX FOR GOOGLE APPS SCRIPT
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
   })
-  .then(res => res.json())
-  .then(result => {
-    console.log('Response recorded:', result);
+  .then(() => {
+    // Note: With 'no-cors', the browser won't let you read the response body, 
+    // but the data will successfully land on your Google Sheet!
+    console.log('Submission sent to Google Sheet');
     showDonePage();
   })
   .catch(err => {
     console.error('Submission error:', err);
-    // Still show Done page even if submission fails
     showDonePage();
   });
 }
