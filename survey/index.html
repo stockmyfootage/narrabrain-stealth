@@ -1305,46 +1305,38 @@ function prevSection() {
 }
 
 function submitForm() {
+  const form = document.getElementById('survey-form');
+  if (!form) return;
+
+  // 1. Compile the data object safely field-by-field
   const data = {};
 
-  // 1. Explicitly grab Text and Textarea values
+  // Capture Text/Textarea strings
   data.name = document.querySelector('input[name="name"]')?.value || '';
+  data.email = document.querySelector('input[name="email"]')?.value || '';
   data['vibe-brief'] = document.querySelector('textarea[name="vibe-brief"]')?.value || '';
   data['biggest-problem'] = document.querySelector('textarea[name="biggest-problem"]')?.value || '';
-  data.email = document.querySelector('input[name="email"]')?.value || '';
 
-  // 2. Explicitly grab Single-Choice Radio values
+  // Capture Single-Choice Radios
   const radioFields = [
     'role', 'exp', 'time-pct', 'search-fail', 'intent-match', 
     'ai-frustration', 'ai-produced', 'ai-trend', 'ai-concern', 
     'ai-comfort', 'ai-comfort-factor', 'workflow-sat', 'willingness', 'ideal-tool', 'alpha'
   ];
-  
   radioFields.forEach(field => {
     data[field] = document.querySelector(`input[name="${field}"]:checked`)?.value || '';
   });
 
-  // 3. Explicitly grab Multi-Choice Checkbox values as Arrays
+  // Capture Multi-Choice Checkboxes as Arrays
   const checkboxFields = ['content', 'search-method', 'brief-contains', 'libraries'];
-  
   checkboxFields.forEach(field => {
-    const checkedCheckboxes = Array.from(document.querySelectorAll(`input[name="${field}"]:checked`));
-    data[field] = checkedCheckboxes.map(cb => cb.value); // Sends as an Array matching your App Script logic
+    const checked = Array.from(document.querySelectorAll(`input[name="${field}"]:checked`));
+    data[field] = checked.map(cb => cb.value);
   });
 
-  // 4. Grab Privacy Consent
+  // Capture Privacy Consent
   data['privacy-consent'] = document.querySelector('input[name="privacy-consent"]:checked')?.value || '';
-
-  // 5. Add Timestamp
   data.timestamp = new Date().toISOString();
-
-  // Hide form layout items
-  const nav = document.getElementById('nav');
-  if (nav) nav.style.display = 'none';
-  for (let i = 1; i <= totalSections; i++) {
-    const sec = document.getElementById(`sec${i}`);
-    if (sec) sec.classList.add('hidden');
-  }
 
   // Submit to Google Apps Script webhook
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwurSxkl-EfdDYHzaFOKG2T2DVvFRmy84nduuDjTBylEJuyjNUzBkIRFLwhlakpmip2/exec';
@@ -1354,39 +1346,31 @@ function submitForm() {
   fetch(SCRIPT_URL, {
     method: 'POST',
     mode: 'no-cors', 
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
+    body: JSON.stringify(data) 
   })
   .then(() => {
-    console.log('Successfully recorded variables directly:', data);
-    showDonePage();
+    console.log('Payload dispatched securely.');
+    // Transition layouts ONLY after the request successfully fires out
+    cleanUpAndShowDone();
   })
   .catch(err => {
     console.error('Submission error:', err);
-    showDonePage();
+    // Fallback transition layout anyway so user isn't stuck
+    cleanUpAndShowDone();
   });
 }
 
-function showDonePage() {
-  const donePage = document.getElementById('done-page');
-  if (donePage) {
-    donePage.classList.add('show');
-    
-    // Start countdown
-    let countdown = 5;
-    const countdownEl = document.getElementById('countdown');
-    
-    const countdownInterval = setInterval(() => {
-      countdown--;
-      if (countdownEl) countdownEl.textContent = countdown;
-      
-      if (countdown === 0) {
-        clearInterval(countdownInterval);
-        // Auto-reload after 5 seconds
-        window.location.reload();
-      }
-    }, 1000);
+// Helper function to cleanly handle layout toggles without trapping the user
+function cleanUpAndShowDone() {
+  const nav = document.getElementById('nav');
+  if (nav) nav.style.display = 'none';
+  
+  for (let i = 1; i <= totalSections; i++) {
+    const sec = document.getElementById(`sec${i}`);
+    if (sec) sec.classList.add('hidden');
   }
+  
+  showDonePage();
 }
 
 showSection(1);
