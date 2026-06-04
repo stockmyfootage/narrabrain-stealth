@@ -1213,6 +1213,16 @@ function submitForm() {
   const formElement = document.getElementById('survey-form');
   if (!formElement) return;
 
+  // --- NEW BLOCK: PREVENT DOUBLE SUBMISSIONS ---
+  const btnNext = document.getElementById('btn-next');
+  if (btnNext && btnNext.textContent.includes('Submit')) {
+    btnNext.disabled = true;
+    btnNext.textContent = 'Submitting...';
+    btnNext.style.opacity = '0.5';
+    btnNext.style.cursor = 'not-allowed';
+  }
+  // ----------------------------------------------
+
   const data = {};
   
   data.name = formElement.elements['name']?.value || '';
@@ -1240,7 +1250,6 @@ function submitForm() {
   data['privacy-consent'] = privacyCheck ? privacyCheck.value : '';
   data.timestamp = new Date().toISOString();
 
-  // UPDATED SCRIPT URL PIPELINE ACCORDING TO YOUR SPECIFICATION
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwurSxkl-EfdDYHzaFOKG2T2DVvFRmy84nduuDjTBylEJuyjNUzBkIRFLwhlakpmip2/exec';
 
   fetch(SCRIPT_URL, {
@@ -1254,6 +1263,7 @@ function submitForm() {
   })
   .catch(err => {
     console.error('Submission pipeline connection error:', err);
+    // Even on error, clean up so the UI doesn't get stuck forever
     executeLayoutCleanup();
   });
 }
