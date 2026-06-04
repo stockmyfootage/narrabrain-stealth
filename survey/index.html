@@ -1330,26 +1330,23 @@ function submitForm() {
   }
 
   // Submit to Google Apps Script webhook
-  // REPLACE THIS with your actual Apps Script deployment URL
-  // Submit to Google Apps Script webhook
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwurSxkl-EfdDYHzaFOKG2T2DVvFRmy84nduuDjTBylEJuyjNUzBkIRFLwhlakpmip2/exec';
   
-  // Use mode: 'no-cors' to prevent Google's 302 redirect from getting blocked
+  // Adding mode: 'no-cors' instructs your browser to send the payload across 
+  // the redirect wall without crashing.
   fetch(SCRIPT_URL, {
     method: 'POST',
-    mode: 'no-cors', // <-- CRITICAL FIX FOR GOOGLE APPS SCRIPT
+    mode: 'no-cors', // <-- CRITICAL FIXED LINE
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
   })
   .then(() => {
-    // Note: With 'no-cors', the browser won't let you read the response body, 
-    // but the data will successfully land on your Google Sheet!
-    console.log('Submission sent to Google Sheet');
+    console.log('Submission sent over to Google Sheet!');
     showDonePage();
   })
   .catch(err => {
     console.error('Submission error:', err);
-    showDonePage();
+    showDonePage(); // Fallback to show page regardless
   });
 }
 
