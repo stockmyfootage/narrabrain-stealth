@@ -1305,25 +1305,42 @@ function prevSection() {
 }
 
 function submitForm() {
-  const formData = new FormData(form);
   const data = {};
-  
-  for (const [key, value] of formData) {
-    if (data[key]) {
-      if (!Array.isArray(data[key])) data[key] = [data[key]];
-      data[key].push(value);
-    } else {
-      data[key] = value;
-    }
-  }
 
+  // 1. Explicitly grab Text and Textarea values
+  data.name = document.querySelector('input[name="name"]')?.value || '';
+  data['vibe-brief'] = document.querySelector('textarea[name="vibe-brief"]')?.value || '';
+  data['biggest-problem'] = document.querySelector('textarea[name="biggest-problem"]')?.value || '';
+  data.email = document.querySelector('input[name="email"]')?.value || '';
+
+  // 2. Explicitly grab Single-Choice Radio values
+  const radioFields = [
+    'role', 'exp', 'time-pct', 'search-fail', 'intent-match', 
+    'ai-frustration', 'ai-produced', 'ai-trend', 'ai-concern', 
+    'ai-comfort', 'ai-comfort-factor', 'workflow-sat', 'willingness', 'ideal-tool', 'alpha'
+  ];
+  
+  radioFields.forEach(field => {
+    data[field] = document.querySelector(`input[name="${field}"]:checked`)?.value || '';
+  });
+
+  // 3. Explicitly grab Multi-Choice Checkbox values as Arrays
+  const checkboxFields = ['content', 'search-method', 'brief-contains', 'libraries'];
+  
+  checkboxFields.forEach(field => {
+    const checkedCheckboxes = Array.from(document.querySelectorAll(`input[name="${field}"]:checked`));
+    data[field] = checkedCheckboxes.map(cb => cb.value); // Sends as an Array matching your App Script logic
+  });
+
+  // 4. Grab Privacy Consent
+  data['privacy-consent'] = document.querySelector('input[name="privacy-consent"]:checked')?.value || '';
+
+  // 5. Add Timestamp
   data.timestamp = new Date().toISOString();
 
-  // Hide form and nav
+  // Hide form layout items
   const nav = document.getElementById('nav');
   if (nav) nav.style.display = 'none';
-  
-  // Get all form sections and hide them
   for (let i = 1; i <= totalSections; i++) {
     const sec = document.getElementById(`sec${i}`);
     if (sec) sec.classList.add('hidden');
@@ -1336,17 +1353,17 @@ function submitForm() {
   // the redirect wall without crashing.
   fetch(SCRIPT_URL, {
     method: 'POST',
-    mode: 'no-cors', // <-- CRITICAL FIXED LINE
+    mode: 'no-cors', 
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
   })
   .then(() => {
-    console.log('Submission sent over to Google Sheet!');
+    console.log('Successfully recorded variables directly:', data);
     showDonePage();
   })
   .catch(err => {
     console.error('Submission error:', err);
-    showDonePage(); // Fallback to show page regardless
+    showDonePage();
   });
 }
 
