@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Narrabrain Labs Research</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #ff006e;
+  --secondary: #00f5ff;
+  --tertiary: #ffbe0b;
+  --black: #0a0a0a;
+  --dark: #1a1a2e;
+  --text: #ffffff;
+  --border: rgba(255,255,255,0.1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: linear-gradient(135deg, var(--black) 0%, var(--dark) 100%);
+  color: var(--text);
+  font-family: 'Space Grotesk', sans-serif;
+  line-height: 1.6;
+  padding: 40px 20px;
+}
+
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+header {
+  margin-bottom: 48px;
+  text-align: center;
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 44px;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--secondary), var(--primary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 12px;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: rgba(255,255,255,0.7);
+}
+
+.progress {
+  margin-bottom: 40px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 3px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  width: 16%;
+  transition: width 0.4s ease;
+}
+
+.progress-text {
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.card {
+  background: rgba(26,26,46,0.6);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 40px;
+  margin-bottom: 32px;
+  backdrop-filter: blur(20px);
+  min-height: 400px;
+}
+
+.section-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--secondary);
+  margin-bottom: 20px;
+  background: rgba(0,245,255,0.1);
+  padding: 6px 12px;
+  border-radius: 4px;
+}
+
+.question-group {
+  margin-bottom: 28px;
+}
+
+.question-group:last-child {
+  margin-bottom: 0;
+}
+
+label.q-title {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 14px;
+  color: var(--text);
+}
+
+.hint {
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  margin-top: -10px;
+  margin-bottom: 12px;
+}
+
+.options {
+  display: grid;
+  gap: 10px;
+}
+
+.options.two-col {
+  grid-template-columns: 1fr 1fr;
+}
+
+.option-wrapper {
+  position: relative;
+  display: block;
+}
+
+.option-wrapper input[type="radio"],
+.option-wrapper input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.option-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.02);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  color: rgba(255,255,255,0.8);
+  user-select: none;
+}
+
+.option-label:hover {
+  border-color: rgba(0,245,255,0.3);
+  background: rgba(0,245,255,0.05);
+}
+
+.option-wrapper input:checked + .option-label {
+  background: linear-gradient(135deg, rgba(255,0,110,0.2), rgba(0,245,255,0.2));
+  border-color: var(--secondary);
+  color: var(--text);
+  font-weight: 600;
+}
+
+.checkbox-mark, .radio-mark {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.checkbox-mark {
+  border-radius: 4px;
+}
+
+.option-wrapper input:checked + .option-label .checkbox-mark,
+.option-wrapper input:checked + .option-label .radio-mark {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border-color: var(--secondary);
+  box-shadow: 0 0 10px var(--secondary);
+}
+
+.option-wrapper input:checked + .option-label .checkbox-mark::after {
+  content: '✓';
+  color: var(--black);
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.option-wrapper input:checked + .option-label .radio-mark::after {
+  content: '';
+  width: 5px;
+  height: 5px;
+  background: var(--black);
+  border-radius: 50%;
+}
+
+.scale-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.scale-wrapper {
+  position: relative;
+}
+
+.scale-wrapper input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.scale-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 8px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.02);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 80px;
+  text-align: center;
+}
+
+.scale-label:hover {
+  border-color: rgba(255,190,11,0.3);
+  background: rgba(255,190,11,0.05);
+}
+
+.scale-wrapper input:checked + .scale-label {
+  background: linear-gradient(135deg, rgba(255,190,11,0.3), rgba(0,245,255,0.2));
+  border-color: var(--tertiary);
+  box-shadow: 0 0 15px rgba(255,190,11,0.2);
+}
+
+.scale-num {
+  font-size: 22px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--secondary), var(--tertiary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.scale-text {
+  font-size: 10px;
+  color: rgba(255,255,255,0.5);
+  font-weight: 600;
+}
+
+textarea, input[type="email"], input[type="text"] {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.03);
+  color: var(--text);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+textarea:focus, input:focus {
+  outline: none;
+  border-color: var(--secondary);
+  background: rgba(0,245,255,0.05);
+  box-shadow: 0 0 15px rgba(0,245,255,0.1);
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+textarea::placeholder, input::placeholder {
+  color: rgba(255,255,255,0.3);
+}
+
+.hidden {
+  display: none !important;
+}
+
+.nav {
+  display: flex;
+  gap: 14px;
+  margin-top: 40px;
+}
+
+.btn {
+  padding: 13px 24px;
+  border: 2px solid var(--secondary);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--secondary);
+  flex: 0.6;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: rgba(0,245,255,0.1);
+}
+
+.btn-secondary:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  flex: 1;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: var(--black);
+  font-weight: 700;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0,245,255,0.3);
+}
+
+.results {
+  display: none;
+}
+
+.results.show {
+  display: block;
+}
+
+.results-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  font-weight: 800;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, var(--secondary), var(--tertiary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.results-subtitle {
+  font-size: 14px;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 28px;
+}
+
+.result-item {
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+  background: rgba(255,255,255,0.02);
+}
+
+.result-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  color: var(--secondary);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.result-value {
+  font-size: 14px;
+  color: rgba(255,255,255,0.9);
+}
+
+.loading {
+  text-align: center;
+  color: rgba(255,255,255,0.6);
+  font-size: 13px;
+}
+
+.error {
+  background: rgba(255,0,110,0.1);
+  border: 1px solid rgba(255,0,110,0.3);
+  color: #ff6b9d;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+
+.option-label a {
+  color: var(--secondary);
+  text-decoration: underline;
+}
+
+#done-page {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, var(--black) 0%, var(--dark) 100%);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+#done-page.show {
+  display: flex;
+  opacity: 1;
+}
+
+@keyframes vibrate {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+  20%, 40%, 60%, 80% { transform: translateX(4px); }
+}
+
+@keyframes vibrate-button {
+  0%, 100% { transform: translateX(0) scale(1); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-2px) scale(1.02); }
+  20%, 40%, 60%, 80% { transform: translateX(2px) scale(1.02); }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.question-group.error-state {
+  animation: vibrate 0.4s ease-in-out;
+}
+
+.error-message {
+  display: none;
+  font-size: 12px;
+  color: #ff6b6b;
+  margin-top: 8px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+.question-group.error-state .error-message {
+  display: block;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>Narrabrain Labs</h1>
+    <p class="subtitle">Research Study — Creative Workflow Discovery</p>
+  </header>
+
+  <div class="progress">
+    <div class="progress-bar">
+      <div class="progress-fill" id="prog-fill"></div>
+    </div>
+    <div class="progress-text" id="prog-text">Section 1 of 6</div>
+  </div>
+
+  <form id="survey-form">
+    <!-- SECTION 1 -->
+    <div class="card" id="sec1">
+      <span class="section-badge">Section 1 of 6</span>
+
+      <div class="question-group">
+        <label class="q-title">What is your name?</label>
+        <input type="text" name="name" placeholder="Your name">
+        <div class="error-message">[you forgot to fill this]</div>
+      </div>
+
+      <div class="question-group">
+        <label class="q-title">Your primary role</label>
+        <div class="options">
+          <label class="option-wrapper">
+            <input type="radio" name="role" value="Director / Creative Director">
+            <span class="option-label"><span class="radio-mark"></span>Director / Creative</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="role" value="Editor / Post-Production">
+            <span class="option-label"><span class="radio-mark"></span>Editor / Post-Prod</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="role" value="Producer">
+            <span class="option-label"><span class="radio-mark"></span>Producer / Exec</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="role" value="Agency Lead">
+            <span class="option-label"><span class="radio-mark"></span>Agency Lead</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="role" value="Cinematographer">
+            <span class="option-label"><span class="radio-mark"></span>Cinematographer</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="role" value="Freelance">
+            <span class="option-label"><span class="radio-mark"></span>Freelance / Solo</span>
+          </label>
+        </div>
+        <div class="error-message">[you forgot to fill this]</div>
+      </div>
+
+      <div class="question-group">
+        <label class="q-title">Years of experience</label>
+        <div class="options two-col">
+          <label class="option-wrapper">
+            <input type="radio" name="exp" value="0-2 years">
+            <span class="option-label"><span class="radio-mark"></span>0–2 yrs</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="exp" value="3-5 years">
+            <span class="option-label"><span class="radio-mark"></span>3–5 yrs</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="exp" value="6-10 years">
+            <span class="option-label"><span class="radio-mark"></span>6–10 yrs</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="exp" value="10+ years">
+            <span class="option-label"><span class="radio-mark"></span>10+ yrs</span>
+          </label>
+        </div>
+        <div class="error-message">[you forgot to fill this]</div>
+      </div>
+
+      <div class="question-group">
+        <label class="q-title">What content do you create? (choose as many as you like)</label>
+        <div class="options two-col">
+          <label class="option-wrapper">
+            <input type="checkbox" name="content" value="Advertising">
+            <span class="option-label"><span class="checkbox-mark"></span>Advertising</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="checkbox" name="content" value="Streaming">
+            <span class="option-label"><span class="checkbox-mark"></span>Streaming</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="checkbox" name="content" value="Films">
+            <span class="option-label"><span class="checkbox-mark"></span>Films</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="checkbox" name="content" value="Social">
+            <span class="option-label"><span class="checkbox-mark"></span>Social</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="checkbox" name="content" value="Documentary">
+            <span class="option-label"><span class="checkbox-mark"></span>Documentary</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="checkbox" name="content" value="Music Video">
+            <span class="option-label"><span class="checkbox-mark"></span>Music Video</span>
+          </label>
+        </div>
+        <div class="error-message">[you forgot to fill this]</div>
+      </div>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="card hidden" id="sec2">
+      <span class="section-badge">Section 2 of 6</span>
+
+      <div class="question-group">
+        <label class="q-title">How do you search for assets? (choose as many as you like)</label>
+        <div class="options two-col">
+          <label class="option-wrapper">
+            <input type="checkbox" name="search-method" value="Keyword search">
+            <span class="option-label"><span class="checkbox-mark"></span>Keyword search</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="checkbox" name="search-method" value="Internal library">
+            <span class="option-label"><span class="checkbox-mark"></span>Internal library</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="checkbox" name="search-method" value="Pinterest">
+            <span class="option-label"><span class="checkbox-mark"></span>Pinterest / Refs</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="checkbox" name="search-method" value="Delegating">
+            <span class="option-label"><span class="checkbox-mark"></span>Delegating</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="checkbox" name="search-method" value="AI tools">
+            <span class="option-label"><span class="checkbox-mark"></span>AI tools</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="checkbox" name="search-method" value="Shooting">
+            <span class="option-label"><span class="checkbox-mark"></span>Shooting</span>
+          </label>
+        </div>
+        <div class="error-message">[you forgot to fill this]</div>
+      </div>
+
+      <div class="question-group">
+        <label class="q-title">Time spent on finding assets?</label>
+        <div class="options two-col">
+          <label class="option-wrapper">
+            <input type="radio" name="time-pct" value="Less than 10%">
+            <span class="option-label"><span class="radio-mark"></span>&lt; 10%</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="time-pct" value="10-25%">
+            <span class="option-label"><span class="radio-mark"></span>10–25%</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="time-pct" value="25-40%">
+            <span class="option-label"><span class="radio-mark"></span>25–40%</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="time-pct" value="40-60%">
+            <span class="option-label"><span class="radio-mark"></span>40–60%</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="time-pct" value="More than 60%">
+            <span class="option-label"><span class="radio-mark"></span>&gt; 60%</span>
+          </label>
+        </div>
+        <div class="error-message">[you forgot to fill this]</div>
+      </div>
+
+      <div class="question-group">
+        <label class="q-title">What fails most in your search?</label>
+        <div class="options">
+          <label class="option-wrapper">
+            <input type="radio" name="search-fail" value="Keywords too literal">
+            <span class="option-label"><span class="radio-mark"></span>Keywords too literal — can't capture mood</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="search-fail" value="Tonal inconsistency">
+            <span class="option-label"><span class="radio-mark"></span>Results are tonally inconsistent</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="search-fail" value="No narrative context">
+            <span class="option-label"><span class="radio-mark"></span>No way to convey narrative context</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="search-fail" value="Poor metadata">
+            <span class="option-label"><span class="radio-mark"></span>Poor metadata tagging</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="search-fail" value="Too many results">
+            <span class="option-label"><span class="radio-mark"></span>Too many irrelevant results</span>
+          </label>
+        </div>
+        <div class="error-message">[you forgot to fill this]</div>
+      </div>
+
+      <div class="question-group">
+        <label class="q-title">Real example of impossible vibe to search for</label>
+        <p class="hint">E.g., "wanted urban isolation with warmth but got tourist shots"</p>
+        <textarea name="vibe-brief" placeholder="Tell us..."></textarea>
+        <div class="error-message">[you forgot to fill this]</div>
+      </div>
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="card hidden" id="sec3">
+      <span class="section-badge">Section 3 of 6</span>
+
+      <div class="question-group">
+        <label class="q-title">Your briefs usually include: (choose as many as you like)</label>
+        <div class="options two-col">
+          <label class="option-wrapper">
+            <input type="checkbox" name="brief-contains" value="Mood">
+            <span class="option-label"><span class="checkbox-mark"></span>Mood / tone</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="checkbox" name="brief-contains" value="Color">
+            <span class="option-label"><span class="checkbox-mark"></span>Color palette</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="checkbox" name="brief-contains" value="Story arc">
+            <span class="option-label"><span class="checkbox-mark"></span>Story arc</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="checkbox" name="brief-contains" value="Character">
+            <span class="option-label"><span class="checkbox-mark"></span>Character</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="checkbox" name="brief-contains" value="References">
+            <span class="option-label"><span class="checkbox-mark"></span>References</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="checkbox" name="brief-contains" value="Camera">
+            <span class="option-label"><span class="checkbox-mark"></span>Camera direction</span>
+          </label>
+        </div>
+        <div class="error-message">[you forgot to fill this]</div>
+      </div>
+
+      <div class="question-group">
+        <label class="q-title">How often does output match your intent?</label>
+        <div class="scale-grid">
+          <label class="scale-wrapper">
+            <input type="radio" name="intent-match" value="1">
+            <span class="scale-label"><span class="scale-num">1</span><span class="scale-text">Never</span></span>
+          </label>
+          <label class="scale-wrapper">
+            <input type="radio" name="intent-match" value="2">
+            <span class="scale-label"><span class="scale-num">2</span><span class="scale-text">Rarely</span></span>
+          </label>
+          <label class="scale-wrapper">
+            <input type="radio" name="intent-match" value="3">
+            <span class="scale-label"><span class="scale-num">3</span><span class="scale-text">Sometimes</span></span>
+          </label>
+          <label class="scale-wrapper">
+            <input type="radio" name="intent-match" value="4">
+            <span class="scale-label"><span class="scale-num">4</span><span class="scale-text">Often</span></span>
+          </label>
+          <label class="scale-wrapper">
+            <input type="radio" name="intent-match" value="5">
+            <span class="scale-label"><span class="scale-num">5</span><span class="scale-text">Always</span></span>
+          </label>
+        </div>
+        <div class="error-message">[you forgot to fill this]</div>
+      </div>
+
+      <div class="question-group">
+        <label class="q-title">Biggest frustration with AI search?</label>
+        <div class="options">
+          <label class="option-wrapper">
+            <input type="radio" name="ai-frustration" value="Objects not stories">
+            <span class="option-label"><span class="radio-mark"></span>Understands objects, not stories</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="ai-frustration" value="Breaks continuity">
+            <span class="option-label"><span class="radio-mark"></span>Results break narrative continuity</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="ai-frustration" value="Can't do complex">
+            <span class="option-label"><span class="radio-mark"></span>Can't process complex briefs</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="ai-frustration" value="Generic">
+            <span class="option-label"><span class="radio-mark"></span>Suggestions feel generic</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="ai-frustration" value="Don't use yet">
+            <span class="option-label"><span class="radio-mark"></span>I don't use AI search yet</span>
+          </label>
+        </div>
+        <div class="error-message">[you forgot to fill this]</div>
+      </div>
+    </div>
+
+    <!-- SECTION 4 -->
+    <div class="card hidden" id="sec4">
+      <span class="section-badge">Section 4 of 6</span>
+
+      <div class="question-group">
+        <label class="q-title">Made AI-generated content?</label>
+        <div class="options">
+          <label class="option-wrapper">
+            <input type="radio" name="ai-produced" value="Yes multiple">
+            <span class="option-label"><span class="radio-mark"></span>Yes, multiple times</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="ai-produced" value="Yes once">
+            <span class="option-label"><span class="radio-mark"></span>Yes, once or twice</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="ai-produced" value="Exploring">
+            <span class="option-label"><span class="radio-mark"></span>Not yet, exploring</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="ai-produced" value="Cautious">
+            <span class="option-label"><span class="radio-mark"></span>No, I'm cautious</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="ai-produced" value="Avoid">
+            <span class="option-label"><span class="radio-mark"></span>No, I avoid it</span>
+          </label>
+        </div>
+        <div class="error-message">[you forgot to fill this]</div>
+      </div>
+
+      <div class="question-group">
+        <label class="q-title">Trend you're observing?</label>
+        <div class="options">
+          <label class="option-wrapper">
+            <input type="radio" name="ai-trend" value="Rapidly adopting">
+            <span class="option-label"><span class="radio-mark"></span>Rapidly adopting — it's standard</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="ai-trend" value="Cautious pilots">
+            <span class="option-label"><span class="radio-mark"></span>Exploring cautiously</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="ai-trend" value="Mixed">
+            <span class="option-label"><span class="radio-mark"></span>Mixed — some embrace, some resist</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="ai-trend" value="Strong resistance">
+            <span class="option-label"><span class="radio-mark"></span>Strong resistance</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="ai-trend" value="Not on radar">
+            <span class="option-label"><span class="radio-mark"></span>Not on the radar yet</span>
+          </label>
+        </div>
+        <div class="error-message">[you forgot to fill this]</div>
+      </div>
+
+      <div class="question-group">
+        <label class="q-title">Biggest concern about AI media?</label>
+        <div class="options">
+          <label class="option-wrapper">
+            <input type="radio" name="ai-concern" value="Lost authorship">
+            <span class="option-label"><span class="radio-mark"></span>Loss of creative authorship</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="ai-concern" value="Legal ambiguity">
+            <span class="option-label"><span class="radio-mark"></span>Legal ambiguity on copyright</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="ai-concern" value="Deepfakes">
+            <span class="option-label"><span class="radio-mark"></span>Deepfakes and misinformation</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="ai-concern" value="Job loss">
+            <span class="option-label"><span class="radio-mark"></span>Job displacement</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="ai-concern" value="Quality">
+            <span class="option-label"><span class="radio-mark"></span>Quality not good enough yet</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="ai-concern" value="No concerns">
+            <span class="option-label"><span class="radio-mark"></span>No major concerns</span>
+          </label>
+        </div>
+        <div class="error-message">[you forgot to fill this]</div>
+      </div>
+
+      <div class="question-group">
+        <label class="q-title">Comfort level with AI media?</label>
+        <div class="scale-grid">
+          <label class="scale-wrapper">
+            <input type="radio" name="ai-comfort" value="1">
+            <span class="scale-label"><span class="scale-num">1</span><span class="scale-text">Uncomfortable</span></span>
+          </label>
+          <label class="scale-wrapper">
+            <input type="radio" name="ai-comfort" value="2">
+            <span class="scale-label"><span class="scale-num">2</span><span class="scale-text">Uneasy</span></span>
+          </label>
+          <label class="scale-wrapper">
+            <input type="radio" name="ai-comfort" value="3">
+            <span class="scale-label"><span class="scale-num">3</span><span class="scale-text">Neutral</span></span>
+          </label>
+          <label class="scale-wrapper">
+            <input type="radio" name="ai-comfort" value="4">
+            <span class="scale-label"><span class="scale-num">4</span><span class="scale-text">Open</span></span>
+          </label>
+          <label class="scale-wrapper">
+            <input type="radio" name="ai-comfort" value="5">
+            <span class="scale-label"><span class="scale-num">5</span><span class="scale-text">Embrace</span></span>
+          </label>
+        </div>
+        <div class="error-message">[you forgot to fill this]</div>
+      </div>
+
+      <div class="question-group">
+        <label class="q-title">What would increase adoption?</label>
+        <div class="options">
+          <label class="option-wrapper">
+            <input type="radio" name="ai-comfort-factor" value="Provenance">
+            <span class="option-label"><span class="radio-mark"></span>Clear provenance</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="ai-comfort-factor" value="Legal">
+            <span class="option-label"><span class="radio-mark"></span>Legal protection</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="ai-comfort-factor" value="Human loop">
+            <span class="option-label"><span class="radio-mark"></span>Human-in-the-loop</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="ai-comfort-factor" value="Quality">
+            <span class="option-label"><span class="radio-mark"></span>Better quality</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="ai-comfort-factor" value="Already comfortable">
+            <span class="option-label"><span class="radio-mark"></span>I'm already comfortable</span>
+          </label>
+        </div>
+        <div class="error-message">[you forgot to fill this]</div>
+      </div>
+    </div>
+
+    <!-- SECTION 5 -->
+    <div class="card hidden" id="sec5">
+      <span class="section-badge">Section 5 of 6</span>
+
+      <div class="question-group">
+        <label class="q-title">Libraries you use? (choose as many as you like)</label>
+        <div class="options two-col">
+          <label class="option-wrapper">
+            <input type="checkbox" name="libraries" value="Shutterstock">
+            <span class="option-label"><span class="checkbox-mark"></span>Shutterstock</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="checkbox" name="libraries" value="Getty">
+            <span class="option-label"><span class="checkbox-mark"></span>Getty</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="checkbox" name="libraries" value="Adobe">
+            <span class="option-label"><span class="checkbox-mark"></span>Adobe Stock</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="checkbox" name="libraries" value="Pond5">
+            <span class="option-label"><span class="checkbox-mark"></span>Pond5</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="checkbox" name="libraries" value="Envato">
+            <span class="option-label"><span class="checkbox-mark"></span>Envato</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="checkbox" name="libraries" value="Internal">
+            <span class="option-label"><span class="checkbox-mark"></span>Internal</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="checkbox" name="libraries" value="Runway">
+            <span class="option-label"><span class="checkbox-mark"></span>Runway</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="checkbox" name="libraries" value="Midjourney">
+            <span class="option-label"><span class="checkbox-mark"></span>Midjourney</span>
+          </label>
+        </div>
+        <div class="error-message">[you forgot to fill this]</div>
+      </div>
+
+      <div class="question-group">
+        <label class="q-title">Satisfied with workflow?</label>
+        <div class="scale-grid">
+          <label class="scale-wrapper">
+            <input type="radio" name="workflow-sat" value="1">
+            <span class="scale-label"><span class="scale-num">1</span><span class="scale-text">Broken</span></span>
+          </label>
+          <label class="scale-wrapper">
+            <input type="radio" name="workflow-sat" value="2">
+            <span class="scale-label"><span class="scale-num">2</span><span class="scale-text">Frustrating</span></span>
+          </label>
+          <label class="scale-wrapper">
+            <input type="radio" name="workflow-sat" value="3">
+            <span class="scale-label"><span class="scale-num">3</span><span class="scale-text">OK</span></span>
+          </label>
+          <label class="scale-wrapper">
+            <input type="radio" name="workflow-sat" value="4">
+            <span class="scale-label"><span class="scale-num">4</span><span class="scale-text">Works</span></span>
+          </label>
+          <label class="scale-wrapper">
+            <input type="radio" name="workflow-sat" value="5">
+            <span class="scale-label"><span class="scale-num">5</span><span class="scale-text">Love it</span></span>
+          </label>
+        </div>
+        <div class="error-message">[you forgot to fill this]</div>
+      </div>
+
+      <div class="question-group">
+        <label class="q-title">Worth of perfect understanding tool?</label>
+        <div class="options">
+          <label class="option-wrapper">
+            <input type="radio" name="willingness" value="Premium subscription">
+            <span class="option-label"><span class="radio-mark"></span>Premium subscription</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="willingness" value="Per-project">
+            <span class="option-label"><span class="radio-mark"></span>Per-project pricing</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="willingness" value="Only free">
+            <span class="option-label"><span class="radio-mark"></span>Only if free</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="willingness" value="Needs approval">
+            <span class="option-label"><span class="radio-mark"></span>Needs budget approval</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="willingness" value="Not convinced">
+            <span class="option-label"><span class="radio-mark"></span>Not convinced yet</span>
+          </label>
+        </div>
+        <div class="error-message">[you forgot to fill this]</div>
+      </div>
+    </div>
+
+    <!-- SECTION 6 -->
+    <div class="card hidden" id="sec6">
+      <span class="section-badge">Section 6 of 6</span>
+
+      <div class="question-group">
+        <label class="q-title">Biggest unsolved problem in your workflow?</label>
+        <textarea name="biggest-problem" placeholder="Be honest..." required></textarea>
+        <div class="error-message">[you forgot to fill this]</div>
+      </div>
+
+      <div class="question-group">
+        <label class="q-title">Genuinely useful AI tool would look like:</label>
+        <div class="options">
+          <label class="option-wrapper">
+            <input type="radio" name="ideal-tool" value="Full briefs">
+            <span class="option-label"><span class="radio-mark"></span>Understands full narrative briefs</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="ideal-tool" value="Consistency">
+            <span class="option-label"><span class="radio-mark"></span>Maintains visual consistency</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="ideal-tool" value="Variable tweaks">
+            <span class="option-label"><span class="radio-mark"></span>Tweak one variable</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="ideal-tool" value="Unique">
+            <span class="option-label"><span class="radio-mark"></span>Surfaces assets I'd never find</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="ideal-tool" value="NLE">
+            <span class="option-label"><span class="radio-mark"></span>Integrates with NLE</span>
+          </label>
+        </div>
+        <div class="error-message">[you forgot to fill this]</div>
+      </div>
+
+      <div class="question-group">
+        <label class="q-title">Interested in alpha testing?</label>
+        <div class="options two-col">
+          <label class="option-wrapper">
+            <input type="radio" name="alpha" value="Yes">
+            <span class="option-label"><span class="radio-mark"></span>Yes</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="alpha" value="Maybe">
+            <span class="option-label"><span class="radio-mark"></span>Maybe</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="alpha" value="Depends">
+            <span class="option-label"><span class="radio-mark"></span>Depends</span>
+          </label>
+          <label class="option-wrapper">
+            <input type="radio" name="alpha" value="No">
+            <span class="option-label"><span class="radio-mark"></span>No</span>
+          </label>
+        </div>
+        <div class="error-message">[you forgot to fill this]</div>
+      </div>
+
+      <div class="question-group">
+        <label class="q-title">Email (optional)</label>
+        <input type="email" name="email" placeholder="your@email.com">
+        <div class="error-message">[you forgot to fill this]</div>
+      </div>
+
+      <div class="question-group" style="border-top: 1px solid var(--border); padding-top: 24px; margin-top: 24px;">
+        <label class="option-wrapper" style="margin: 0;">
+          <input type="checkbox" name="privacy-consent" value="agreed" required>
+          <span class="option-label"><span class="checkbox-mark"></span>I agree to Narrabrain's <a href="https://narrabrain.in/privacy" target="_blank" style="color: var(--secondary); text-decoration: underline;">Privacy Policy</a> and <a href="https://narrabrain.in/terms" target="_blank" style="color: var(--secondary); text-decoration: underline;">Terms of Service</a></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- DONE PAGE -->
+    <div id="done-page">
+      <div style="text-align: center;">
+        <div style="font-size: 72px; margin-bottom: 28px; animation: fadeInScale 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);">✓</div>
+        <div style="font-family: 'Playfair Display', serif; font-size: 52px; font-weight: 800; margin-bottom: 20px; background: linear-gradient(135deg, var(--secondary), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Done</div>
+        <p style="font-size: 15px; color: rgba(255,255,255,0.65); margin-bottom: 12px;">Thanks for sharing your insights.</p>
+        <p style="font-size: 13px; color: rgba(255,255,255,0.45);">Closing in <span id="countdown" style="font-weight: 600; color: rgba(255,255,255,0.7);">5</span> seconds...</p>
+      </div>
+    </div>
+
+    <div class="nav">
+      <button type="button" class="btn btn-secondary" id="btn-prev" onclick="prevSection()" disabled>← Back</button>
+      <button type="button" class="btn btn-primary" id="btn-next" onclick="nextSection()">Next →</button>
+    </div>
+  </form>
+</div>
+
+<script>
+let section = 1;
+const totalSections = 6;
+const form = document.getElementById('survey-form');
+
+function updateProgress() {
+  const percent = (section / totalSections) * 100;
+  document.getElementById('prog-fill').style.width = percent + '%';
+  document.getElementById('prog-text').textContent = `Section ${section} of ${totalSections}`;
+}
+
+function showSection(n) {
+  for (let i = 1; i <= totalSections; i++) {
+    const sec = document.getElementById(`sec${i}`);
+    if (sec) sec.classList.toggle('hidden', i !== n);
+  }
+  
+  const results = document.getElementById('results');
+  if (results) results.classList.remove('show');
+  
+  const nav = document.getElementById('nav');
+  if (nav) nav.style.display = n <= totalSections ? 'flex' : 'none';
+  
+  const btnPrev = document.getElementById('btn-prev');
+  const btnNext = document.getElementById('btn-next');
+  if (btnPrev) btnPrev.disabled = n === 1;
+  if (btnNext) btnNext.textContent = n === totalSections ? 'Submit →' : 'Next →';
+  
+  // Setup error clearing for current section
+  const currentSection = document.getElementById(`sec${n}`);
+  if (currentSection) {
+    setupErrorClearing(currentSection);
+  }
+  
+  updateProgress();
+  window.scrollTo(0, 0);
+}
+
+function validateSection(n) {
+  const section = document.getElementById(`sec${n}`);
+  if (!section) return true;
+
+  const rules = {
+    1: [
+      { type: 'text', name: 'name', label: 'Name' },
+      { type: 'radio', name: 'role', label: 'Role' },
+      { type: 'radio', name: 'exp', label: 'Experience' },
+      { type: 'checkbox', name: 'content', label: 'Content type' }
+    ],
+    2: [
+      { type: 'checkbox', name: 'search-method', label: 'Search method' },
+      { type: 'radio', name: 'time-pct', label: 'Time percentage' },
+      { type: 'radio', name: 'search-fail', label: 'Search failure' },
+      { type: 'textarea', name: 'vibe-brief', label: 'Vibe brief' }
+    ],
+    3: [
+      { type: 'checkbox', name: 'brief-contains', label: 'Brief contents' },
+      { type: 'radio', name: 'intent-match', label: 'Intent match' },
+      { type: 'radio', name: 'ai-frustration', label: 'AI frustration' }
+    ],
+    4: [
+      { type: 'radio', name: 'ai-produced', label: 'AI produced' },
+      { type: 'radio', name: 'ai-trend', label: 'AI trend' },
+      { type: 'radio', name: 'ai-concern', label: 'AI concern' },
+      { type: 'radio', name: 'ai-comfort', label: 'AI comfort' },
+      { type: 'radio', name: 'ai-comfort-factor', label: 'Comfort factor' }
+    ],
+    5: [
+      { type: 'checkbox', name: 'libraries', label: 'Libraries' },
+      { type: 'radio', name: 'workflow-sat', label: 'Workflow satisfaction' },
+      { type: 'radio', name: 'willingness', label: 'Willingness to pay' }
+    ],
+    6: [
+      { type: 'textarea', name: 'biggest-problem', label: 'Biggest problem' },
+      { type: 'radio', name: 'ideal-tool', label: 'Ideal tool' },
+      { type: 'radio', name: 'alpha', label: 'Alpha testing' },
+      { type: 'checkbox', name: 'privacy-consent', label: 'Privacy consent' }
+    ]
+  };
+
+  const sectionRules = rules[n] || [];
+  let firstErrorElement = null;
+  let hasErrors = false;
+
+  // Clear all error states first
+  section.querySelectorAll('.question-group').forEach(qg => {
+    qg.classList.remove('error-state');
+  });
+
+  for (let rule of sectionRules) {
+    const questionGroup = section.querySelector(`input[name="${rule.name}"], textarea[name="${rule.name}"]`)?.closest('.question-group');
+    
+    if (!questionGroup) continue;
+
+    let isFilled = false;
+
+    if (rule.type === 'text' || rule.type === 'textarea') {
+      const input = questionGroup.querySelector(`${rule.type === 'textarea' ? 'textarea' : 'input[type="text"]'}[name="${rule.name}"]`);
+      isFilled = input && input.value.trim() !== '';
+    } else if (rule.type === 'radio' || rule.type === 'checkbox') {
+      const checked = questionGroup.querySelector(`input[name="${rule.name}"]:checked`);
+      isFilled = !!checked;
+    }
+
+    if (!isFilled) {
+      hasErrors = true;
+      
+      // Only mark the FIRST unfilled question
+      if (!firstErrorElement) {
+        firstErrorElement = questionGroup;
+        questionGroup.classList.add('error-state');
+        
+        // Trigger vibration animation
+        questionGroup.style.animation = 'none';
+        setTimeout(() => {
+          questionGroup.style.animation = '';
+        }, 10);
+      }
+    }
+  }
+
+  // Scroll to first error if any
+  if (firstErrorElement) {
+    firstErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return false;
+  }
+
+  return true;
+}
+
+// Add real-time error clearing when user fills fields
+function setupErrorClearing(section) {
+  section.querySelectorAll('input, textarea').forEach(input => {
+    input.addEventListener('change', function() {
+      const questionGroup = this.closest('.question-group');
+      if (!questionGroup) return;
+
+      const name = this.name;
+      const isCheckboxOrRadio = this.type === 'checkbox' || this.type === 'radio';
+      
+      let isFilled = false;
+
+      if (isCheckboxOrRadio) {
+        isFilled = !!questionGroup.querySelector(`input[name="${name}"]:checked`);
+      } else {
+        isFilled = this.value.trim() !== '';
+      }
+
+      if (isFilled) {
+        questionGroup.classList.remove('error-state');
+      }
+
+      // Auto-scroll to next question for radio buttons (single-choice)
+      if (this.type === 'radio' && isFilled) {
+        const nextQuestion = questionGroup.nextElementSibling;
+        if (nextQuestion && nextQuestion.classList.contains('question-group')) {
+          setTimeout(() => {
+            nextQuestion.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 250);
+        } else {
+          // Last question in section - vibrate Next button
+          const btnNext = document.getElementById('btn-next');
+          if (btnNext) {
+            btnNext.style.animation = 'none';
+            setTimeout(() => {
+              btnNext.style.animation = 'vibrate-button 0.5s ease-in-out';
+            }, 10);
+          }
+        }
+      }
+    });
+
+    // For real-time input (text fields)
+    if (input.type === 'text' || input.tagName === 'TEXTAREA') {
+      input.addEventListener('input', function() {
+        const questionGroup = this.closest('.question-group');
+        if (this.value.trim() !== '') {
+          questionGroup.classList.remove('error-state');
+        }
+      });
+    }
+  });
+}
+
+function nextSection() {
+  if (!validateSection(section)) return;
+  
+  if (section === totalSections) {
+    submitForm();
+  } else {
+    section++;
+    showSection(section);
+  }
+}
+
+function prevSection() {
+  if (section > 1) {
+    section--;
+    showSection(section);
+  }
+}
+
+function submitForm() {
+  const formData = new FormData(form);
+  const data = {};
+  
+  for (const [key, value] of formData) {
+    if (data[key]) {
+      if (!Array.isArray(data[key])) data[key] = [data[key]];
+      data[key].push(value);
+    } else {
+      data[key] = value;
+    }
+  }
+
+  data.timestamp = new Date().toISOString();
+
+  // Hide form and nav
+  const nav = document.getElementById('nav');
+  if (nav) nav.style.display = 'none';
+  
+  // Get all form sections and hide them
+  for (let i = 1; i <= totalSections; i++) {
+    const sec = document.getElementById(`sec${i}`);
+    if (sec) sec.classList.add('hidden');
+  }
+
+  // Submit to Google Apps Script webhook
+  // REPLACE THIS with your actual Apps Script deployment URL
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw24aQkzH045QAXH4mbACWQS1nunQ22wxw36irf2UybP5ToBWtOg0KnPNuIaIVsttM2/exec';
+  
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+  .then(res => res.json())
+  .then(result => {
+    console.log('Response recorded:', result);
+    showDonePage();
+  })
+  .catch(err => {
+    console.error('Submission error:', err);
+    // Still show Done page even if submission fails
+    showDonePage();
+  });
+}
+
+function showDonePage() {
+  const donePage = document.getElementById('done-page');
+  if (donePage) {
+    donePage.classList.add('show');
+    
+    // Start countdown
+    let countdown = 5;
+    const countdownEl = document.getElementById('countdown');
+    
+    const countdownInterval = setInterval(() => {
+      countdown--;
+      if (countdownEl) countdownEl.textContent = countdown;
+      
+      if (countdown === 0) {
+        clearInterval(countdownInterval);
+        // Auto-reload after 5 seconds
+        window.location.reload();
+      }
+    }, 1000);
+  }
+}
+
+showSection(1);
+</script>
+
+</body>
+</html>
