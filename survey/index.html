@@ -196,7 +196,7 @@ label.q-title {
 }
 
 .option-wrapper input:checked + .option-label .checkbox-mark::after {
-  content: '✓';
+  content: '';
   color: var(--black);
   font-size: 12px;
   font-weight: bold;
@@ -486,7 +486,6 @@ textarea::placeholder, input::placeholder {
   </div>
 
   <form id="survey-form">
-    <!-- SECTION 1 -->
     <div class="card" id="sec1">
       <span class="section-badge">Section 1 of 6</span>
 
@@ -509,7 +508,7 @@ textarea::placeholder, input::placeholder {
           </label>
           <label class="option-wrapper">
             <input type="radio" name="role" value="Producer">
-            <span class="option-label"><span class="radio-mark"></span>Producer / </span>
+            <span class="option-label"><span class="radio-mark"></span>Producer / Exec</span>
           </label>
           <label class="option-wrapper">
             <input type="radio" name="role" value="Agency Lead">
@@ -582,7 +581,6 @@ textarea::placeholder, input::placeholder {
       </div>
     </div>
 
-    <!-- SECTION 2 -->
     <div class="card hidden" id="sec2">
       <span class="section-badge">Section 2 of 6</span>
 
@@ -679,7 +677,6 @@ textarea::placeholder, input::placeholder {
       </div>
     </div>
 
-    <!-- SECTION 3 -->
     <div class="card hidden" id="sec3">
       <span class="section-badge">Section 3 of 6</span>
 
@@ -769,7 +766,6 @@ textarea::placeholder, input::placeholder {
       </div>
     </div>
 
-    <!-- SECTION 4 -->
     <div class="card hidden" id="sec4">
       <span class="section-badge">Section 4 of 6</span>
 
@@ -913,7 +909,6 @@ textarea::placeholder, input::placeholder {
       </div>
     </div>
 
-    <!-- SECTION 5 -->
     <div class="card hidden" id="sec5">
       <span class="section-badge">Section 5 of 6</span>
 
@@ -1011,7 +1006,6 @@ textarea::placeholder, input::placeholder {
       </div>
     </div>
 
-    <!-- SECTION 6 -->
     <div class="card hidden" id="sec6">
       <span class="section-badge">Section 6 of 6</span>
 
@@ -1085,19 +1079,18 @@ textarea::placeholder, input::placeholder {
       </div>
     </div>
 
-    <!-- DONE PAGE -->
     <div id="done-page">
       <div style="text-align: center;">
-        <div style="font-size: 72px; margin-bottom: 28px; animation: fadeInScale 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);">✓</div>
+        <div style="font-size: 72px; margin-bottom: 28px; animation: fadeInScale 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);"></div>
         <div style="font-family: 'Playfair Display', serif; font-size: 52px; font-weight: 800; margin-bottom: 20px; background: linear-gradient(135deg, var(--secondary), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Done</div>
         <p style="font-size: 15px; color: rgba(255,255,255,0.65); margin-bottom: 12px;">Thanks for sharing your insights.</p>
         <p style="font-size: 13px; color: rgba(255,255,255,0.45);">Closing in <span id="countdown" style="font-weight: 600; color: rgba(255,255,255,0.7);">5</span> seconds...</p>
       </div>
     </div>
 
-    <div class="nav">
-      <button type="button" class="btn btn-secondary" id="btn-prev" onclick="prevSection()" disabled>← Back</button>
-      <button type="button" class="btn btn-primary" id="btn-next" onclick="nextSection()">Next →</button>
+    <div class="nav" id="nav">
+      <button type="button" class="btn btn-secondary" id="btn-prev" onclick="prevSection()" disabled> Back</button>
+      <button type="button" class="btn btn-primary" id="btn-next" onclick="nextSection()">Next </button>
     </div>
   </form>
 </div>
@@ -1128,7 +1121,7 @@ function showSection(n) {
   const btnPrev = document.getElementById('btn-prev');
   const btnNext = document.getElementById('btn-next');
   if (btnPrev) btnPrev.disabled = n === 1;
-  if (btnNext) btnNext.textContent = n === totalSections ? 'Submit →' : 'Next →';
+  if (btnNext) btnNext.textContent = n === totalSections ? 'Submit ' : 'Next ';
   
   // Setup error clearing for current section
   const currentSection = document.getElementById(`sec${n}`);
@@ -1143,7 +1136,6 @@ function showSection(n) {
 function validateSection(n) {
   const section = document.getElementById(`sec${n}`);
   if (!section) return true;
-
   const rules = {
     1: [
       { type: 'text', name: 'name', label: 'Name' },
@@ -1181,7 +1173,6 @@ function validateSection(n) {
       { type: 'checkbox', name: 'privacy-consent', label: 'Privacy consent' }
     ]
   };
-
   const sectionRules = rules[n] || [];
   let firstErrorElement = null;
   let hasErrors = false;
@@ -1195,7 +1186,6 @@ function validateSection(n) {
     const questionGroup = section.querySelector(`input[name="${rule.name}"], textarea[name="${rule.name}"]`)?.closest('.question-group');
     
     if (!questionGroup) continue;
-
     let isFilled = false;
 
     if (rule.type === 'text' || rule.type === 'textarea') {
@@ -1208,7 +1198,6 @@ function validateSection(n) {
 
     if (!isFilled) {
       hasErrors = true;
-      
       // Only mark the FIRST unfilled question
       if (!firstErrorElement) {
         firstErrorElement = questionGroup;
@@ -1305,72 +1294,95 @@ function prevSection() {
 }
 
 function submitForm() {
-  const form = document.getElementById('survey-form');
-  if (!form) return;
+  const formElement = document.getElementById('survey-form');
+  if (!formElement) return;
 
-  // 1. Compile the data object safely field-by-field
+  // 1. Explicit data compilation utilizing standard form elements tree to prevent data loss from hidden sections
   const data = {};
+  
+  // Extract Text values safely
+  data.name = formElement.elements['name']?.value || '';
+  data.email = formElement.elements['email']?.value || '';
+  data['vibe-brief'] = formElement.elements['vibe-brief']?.value || '';
+  data['biggest-problem'] = formElement.elements['biggest-problem']?.value || '';
 
-  // Capture Text/Textarea strings
-  data.name = document.querySelector('input[name="name"]')?.value || '';
-  data.email = document.querySelector('input[name="email"]')?.value || '';
-  data['vibe-brief'] = document.querySelector('textarea[name="vibe-brief"]')?.value || '';
-  data['biggest-problem'] = document.querySelector('textarea[name="biggest-problem"]')?.value || '';
-
-  // Capture Single-Choice Radios
+  // Extract all single-choice radio selections
   const radioFields = [
     'role', 'exp', 'time-pct', 'search-fail', 'intent-match', 
     'ai-frustration', 'ai-produced', 'ai-trend', 'ai-concern', 
     'ai-comfort', 'ai-comfort-factor', 'workflow-sat', 'willingness', 'ideal-tool', 'alpha'
   ];
   radioFields.forEach(field => {
-    data[field] = document.querySelector(`input[name="${field}"]:checked`)?.value || '';
+    const checkedRadio = formElement.querySelector(`input[name="${field}"]:checked`);
+    data[field] = checkedRadio ? checkedRadio.value : '';
   });
 
-  // Capture Multi-Choice Checkboxes as Arrays
+  // Extract all multi-choice checkboxes as raw array formats to fit Apps Script processing loops
   const checkboxFields = ['content', 'search-method', 'brief-contains', 'libraries'];
   checkboxFields.forEach(field => {
-    const checked = Array.from(document.querySelectorAll(`input[name="${field}"]:checked`));
-    data[field] = checked.map(cb => cb.value);
+    const checkedBoxes = Array.from(formElement.querySelectorAll(`input[name="${field}"]:checked`));
+    data[field] = checkedBoxes.map(cb => cb.value);
   });
 
-  // Capture Privacy Consent
-  data['privacy-consent'] = document.querySelector('input[name="privacy-consent"]:checked')?.value || '';
+  // Handle policy confirmation element mapping
+  const privacyCheck = formElement.querySelector('input[name="privacy-consent"]:checked');
+  data['privacy-consent'] = privacyCheck ? privacyCheck.value : '';
+  
+  // Generate tracking metrics
   data.timestamp = new Date().toISOString();
 
-  // Submit to Google Apps Script webhook
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwurSxkl-EfdDYHzaFOKG2T2DVvFRmy84nduuDjTBylEJuyjNUzBkIRFLwhlakpmip2/exec';
-  
-  // Adding mode: 'no-cors' instructs your browser to send the payload across 
-  // the redirect wall without crashing.
+  // 2. Transmit the data array packet to Google Web App endpoint
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxgj_Sqrw5fhC8GUmlNFLnSZNW8-JKjOV-wEPYwClB_nu2QxTI4JCuvKy8mVfOVbX0Aow/exec';
+
   fetch(SCRIPT_URL, {
     method: 'POST',
-    mode: 'no-cors', 
-    body: JSON.stringify(data) 
+    mode: 'no-cors', // Bypasses browser CORS redirect pipeline filters safely
+    body: JSON.stringify(data)
   })
   .then(() => {
-    console.log('Payload dispatched securely.');
-    // Transition layouts ONLY after the request successfully fires out
-    cleanUpAndShowDone();
+    console.log('Submission successfully routed across server pipelines.');
+    // 3. Clear container containers out of view ONLY after response lifecycle triggers
+    executeLayoutCleanup();
   })
   .catch(err => {
-    console.error('Submission error:', err);
-    // Fallback transition layout anyway so user isn't stuck
-    cleanUpAndShowDone();
+    console.error('Submission pipeline tracking error:', err);
+    // Fallback cleanup process execution to protect against sticky screen locking state issues
+    executeLayoutCleanup();
   });
 }
 
-// Helper function to cleanly handle layout toggles without trapping the user
-function cleanUpAndShowDone() {
+function executeLayoutCleanup() {
   const nav = document.getElementById('nav');
   if (nav) nav.style.display = 'none';
-  
+
   for (let i = 1; i <= totalSections; i++) {
     const sec = document.getElementById(`sec${i}`);
     if (sec) sec.classList.add('hidden');
   }
   
   showDonePage();
+}
+
+function showDonePage() {
+  const donePage = document.getElementById('done-page');
+  if (donePage) {
+    donePage.classList.add('show');
+    
+    // Start countdown
+    let countdown = 5;
+    const countdownEl = document.getElementById('countdown');
+    
+    const countdownInterval = setInterval(() => {
+      countdown--;
+      if (countdownEl) countdownEl.textContent = countdown;
+      
+      if (countdown === 0) {
+        clearInterval(countdownInterval);
+        // Auto-reload after 5 seconds
+        window.location.reload();
+      }
+    }, 1000);
+  }
 }
 
 showSection(1);
