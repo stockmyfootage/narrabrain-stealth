@@ -999,7 +999,7 @@ textarea::placeholder, input::placeholder {
       </div>
 
       <div class="question-group">
-        <label class="q-title">Email (optional)</label>
+        <label class="q-title">Email (don't worry, we don't SPAM)</label>
         <input type="email" name="email" placeholder="your@email.com">
         <div class="error-message">[you forgot to fill this]</div>
       </div>
@@ -1098,11 +1098,13 @@ function validateSection(n) {
       { type: 'radio', name: 'willingness' }
     ],
     6: [
+      { type: 'text', name: 'email' }, // <-- ADD THIS LINE
       { type: 'textarea', name: 'biggest-problem' },
       { type: 'radio', name: 'ideal-tool' },
       { type: 'radio', name: 'alpha' },
       { type: 'checkbox', name: 'privacy-consent' }
     ]
+
   };
   
   const sectionRules = rules[n] || [];
