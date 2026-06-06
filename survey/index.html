@@ -1098,7 +1098,7 @@ function validateSection(n) {
       { type: 'radio', name: 'willingness' }
     ],
     6: [
-      { type: 'text', name: 'email' }, // <-- ADD THIS LINE
+      { type: 'email', name: 'email' }, // <-- ADD THIS LINE
       { type: 'textarea', name: 'biggest-problem' },
       { type: 'radio', name: 'ideal-tool' },
       { type: 'radio', name: 'alpha' },
@@ -1114,18 +1114,41 @@ function validateSection(n) {
     qg.classList.remove('error-state');
   });
 
-  for (let rule of sectionRules) {
+for (let rule of sectionRules) {
     const inputElement = currentSecElement.querySelector(`input[name="${rule.name}"], textarea[name="${rule.name}"]`);
     const questionGroup = inputElement ? inputElement.closest('.question-group') : null;
     
     if (!questionGroup) continue;
     let isFilled = false;
+    
+    // Find the error tracking text container inside this specific group
+    const errorDiv = questionGroup.querySelector('.error-message');
 
     if (rule.type === 'text' || rule.type === 'textarea') {
       isFilled = inputElement && inputElement.value.trim() !== '';
+      // Reset default error message text if it was modified by a previous validation pass
+      if (!isFilled && errorDiv) errorDiv.textContent = '[you forgot to fill this]';
+      
+    } else if (rule.type === 'email') {
+      const emailValue = inputElement ? inputElement.value.trim() : '';
+      
+      // Standard structural pattern check (syntax verification)
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+      if (emailValue === '') {
+        if (errorDiv) errorDiv.textContent = '[you forgot to fill this]';
+        isFilled = false;
+      } else if (!emailPattern.test(emailValue)) {
+        if (errorDiv) errorDiv.textContent = '[please enter a valid email address]';
+        isFilled = false; // Fails syntax check even if the box isn't empty
+      } else {
+        isFilled = true;  // Safe and structurally valid
+      }
+
     } else if (rule.type === 'radio' || rule.type === 'checkbox') {
       const checked = questionGroup.querySelector(`input[name="${rule.name}"]:checked`);
       isFilled = !!checked;
+      if (!isFilled && errorDiv) errorDiv.textContent = '[you forgot to fill this]';
     }
 
     if (!isFilled) {
@@ -1139,7 +1162,8 @@ function validateSection(n) {
         }, 10);
       }
     }
-  }
+}
+
 
   if (firstErrorElement) {
     firstErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
