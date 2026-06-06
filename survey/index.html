@@ -976,22 +976,22 @@ textarea::placeholder, input::placeholder {
       </div>
 
       <div class="question-group">
-        <label class="q-title">Interested in alpha testing an AI-powered media search tool?</label>
+        <label class="q-title">Interested in beta testing an AI-powered media search tool?</label>
         <div class="options two-col">
           <label class="option-wrapper">
-            <input type="radio" name="alpha" value="Yes">
+            <input type="radio" name="beta" value="Yes">
             <span class="option-label"><span class="radio-mark"></span>Yes</span>
           </label>
           <label class="option-wrapper">
-            <input type="radio" name="alpha" value="Maybe">
+            <input type="radio" name="beta" value="Maybe">
             <span class="option-label"><span class="radio-mark"></span>Maybe</span>
           </label>
           <label class="option-wrapper">
-            <input type="radio" name="alpha" value="Depends">
+            <input type="radio" name="beta" value="Depends">
             <span class="option-label"><span class="radio-mark"></span>Depends</span>
           </label>
           <label class="option-wrapper">
-            <input type="radio" name="alpha" value="No">
+            <input type="radio" name="beta" value="No">
             <span class="option-label"><span class="radio-mark"></span>No</span>
           </label>
         </div>
@@ -1101,7 +1101,7 @@ function validateSection(n) {
       { type: 'email', name: 'email' }, // <-- ADD THIS LINE
       { type: 'textarea', name: 'biggest-problem' },
       { type: 'radio', name: 'ideal-tool' },
-      { type: 'radio', name: 'alpha' },
+      { type: 'radio', name: 'beta' },
       { type: 'checkbox', name: 'privacy-consent' }
     ]
 
@@ -1259,7 +1259,7 @@ function submitForm() {
   const radioFields = [
     'role', 'exp', 'time-pct', 'search-fail', 'intent-match', 
     'ai-frustration', 'ai-produced', 'ai-trend', 'ai-concern', 
-    'ai-comfort', 'ai-comfort-factor', 'workflow-sat', 'willingness', 'ideal-tool', 'alpha'
+    'ai-comfort', 'ai-comfort-factor', 'workflow-sat', 'willingness', 'ideal-tool', 'beta'
   ];
   radioFields.forEach(field => {
     const checkedRadio = formElement.querySelector(`input[name="${field}"]:checked`);
