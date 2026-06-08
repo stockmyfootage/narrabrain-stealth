@@ -45,7 +45,7 @@
             padding: 0 max(16px, 4vw);
         }
 
-        /* FIXED FIXED-NAVIGATION DE-CLUTTERING APPARATUS */
+        /* FIXED-NAVIGATION DE-CLUTTERING APPARATUS */
         .sticky-hud {
             position: sticky;
             top: 0;
@@ -87,7 +87,7 @@
             white-space: nowrap;
             padding-bottom: 4px;
             -webkit-overflow-scrolling: touch;
-            scrollbar-width: none; /* Hide scrollbar for clean UI */
+            scrollbar-width: none;
         }
 
         .hud-nav::-webkit-scrollbar {
@@ -109,7 +109,7 @@
             color: var(--nv-text-primary);
         }
 
-        /* 4. FLUID SPACING SYSTEM (Addresses massive gaps across viewport shifts) */
+        /* 4. FLUID SPACING SYSTEM */
         .hero-container {
             padding: clamp(40px, 8vw, 80px) 0 clamp(30px, 6vw, 50px) 0;
             border-bottom: 1px solid var(--nv-bg-element);
@@ -182,7 +182,7 @@
         p {
             color: var(--nv-text-muted);
             margin-bottom: 16px;
-            text-align: left; /* Better rendering alignment on compact mobile displays */
+            text-align: left;
         }
 
         ul {
@@ -229,7 +229,7 @@
             font-weight: bold;
             color: var(--nv-text-primary);
             font-size: 9pt;
-            word-break: break-all; /* Prevents overflow from tearing code layout containers */
+            word-break: break-all;
         }
 
         .micro-parameter {
@@ -269,7 +269,7 @@
         .token-table-view {
             width: 100%;
             border-collapse: collapse;
-            min-width: 600px; /* Forces stable architecture on small mobile panels */
+            min-width: 600px;
         }
 
         .token-table-view th {
@@ -336,39 +336,39 @@
 
         <header class="hero-container">
             <div class="url-ticker">narrabrain.in/design</div>
-            <h1>The interface framework built for <em>zero-halation</em> color grading.</h1>
+            <h1>Visual infrastructure for <em>story-intelligent</em> generative video layers.</h1>
             <p class="hero-lead">
-                Welcome to the open-source system dashboard layout. Version 8.2 defines architecture guardrails to protect creators from eye fatigue and adaptation loops during high-density editing shifts.
+                The interface framework built for parsing deep semantic metadata, cross-library vector asset search, and dual-layer storytelling prompting.
             </p>
         </header>
 
         <section id="philosophy" class="content-section">
             <h2 class="section-header">01 / System Foundations &amp; Philosophy</h2>
             <p>
-                The narrabrain platform serves creators who interface continuous 8-to-12 hour blocks in highly controlled visual spaces (grading suites, mixing bays) interacting with extremely complex, high-density telemetry timelines. 
+                The narrabrain workspace orchestrates complex relationships between semantic prompt engineering, asset library querying, and AI video generation layers. Creators manage high-density contextual feedback over extended work periods.
             </p>
             <p>
-                Traditional consumer web guidelines fail in this environment. High screen contrast, luminous light modes, or heavy saturated brand hues cause immediate ocular fatigue, retinal burn-in, and severe chromatic adaptation. Chromatic adaptation shifts an editor’s perception of white balance, leading to flawed color corrections and grading mistakes.
+                The interface maintains a zero-distraction dark mode canvas. By eliminating unnecessary ambient light emission and restricting hyper-saturated accents, we ensure that creators maintain visual focus on generation previews, timeline pacing charts, and contextual text matrices.
             </p>
 
             <div class="specimen-panel" style="border-left: 4px solid var(--nv-accent-brand);">
                 <p style="margin-bottom: 0; font-family: 'Playfair Display', serif; font-style: italic; font-size: 12pt; color: var(--nv-text-primary);">
-                    “The UI must be an invisible frame. The canvas stays completely dark and structurally desaturated, ensuring the user's focus is focused entirely on raw master content.”
+                    “The interface is a utility frame. High-density metadata, storytelling prompt structures, and media queries remain clean, organized, and dark—prioritizing content generation over decoration.”
                 </p>
             </div>
 
             <h3>Core Layout Maxims</h3>
             <ul>
-                <li><strong>The 90/10 Asset Ratio:</strong> Exactly 90% of active screen configurations must utilize fully desaturated gray scales. Saturated focus accents must occupy 10% or less of real estate, used exclusively to accelerate workflow orientation.</li>
-                <li><strong>Zero Halation Typography:</strong> Pure white text fields on dark monitors cause text "haloing" or visual ghosting. narrabrain enforces stepped-down illumination tokens for high-density reading.</li>
-                <li><strong>Structural Contrast via Depth:</strong> Panel segments are isolated not through high-contrast colored lines, but by layered, mathematical luminance adjustments (Z-axis elevation mapping).</li>
+                <li><strong>The 90/10 Asset Ratio:</strong> Exactly 90% of screen space maps directly to desaturated UI containers. Focus highlights occupy 10% or less, used explicitly to guide the eye toward generation status logs and timeline keyframes.</li>
+                <li><strong>Zero Halation Typography:</strong> Pure white texts on absolute dark backing induce halo ghosting effects during script reading. narrabrain enforces calibrated off-white scales to protect high-density data legibility.</li>
+                <li><strong>Structural Contrast via Depth:</strong> Panel boundaries separating the semantic text input layers from asset search grids are designated by elevation depth modifications (`--nv-bg-surface` to `--nv-bg-element`), avoiding high-contrast borders.</li>
             </ul>
         </section>
 
         <section id="colors" class="content-section">
             <h2 class="section-header">02 / Color Architecture &amp; Token Schema</h2>
             <p>
-                The color space configuration is mapped explicitly to combat macular exhaustion. All core variables must be referenced as system design tokens. Direct raw hex mapping inside component modules is structurally banned to preserve framework stability.
+                System variables are tokenized to protect developers and designers from random palette shifts across repository modules. Direct raw hex styling is structurally banned.
             </p>
 
             <div class="table-scroll-container">
@@ -386,49 +386,49 @@
                             <td><div class="color-swatch-box" style="background-color: #121214;"></div></td>
                             <td><span class="font-mono-tag">--nv-bg-canvas</span></td>
                             <td><span class="font-mono-tag">#121214</span></td>
-                            <td><strong>Global Canvas Base.</strong> The system container layer. Absorbs light glare across desktop viewports.</td>
+                            <td><strong>Global Canvas Base.</strong> System viewport container layer. Dampens backlighting glare.</td>
                         </tr>
                         <tr>
                             <td><div class="color-swatch-box" style="background-color: #1E1F22;"></div></td>
                             <td><span class="font-mono-tag">--nv-bg-surface</span></td>
                             <td><span class="font-mono-tag">#1E1F22</span></td>
-                            <td><strong>Structural Panel Bed.</strong> Tool areas, media asset bins, timeline containers, and sidebar wrappers.</td>
+                            <td><strong>Structural Panel Bed.</strong> Prompt composition fields, vector search results, and library trees.</td>
                         </tr>
                         <tr>
                             <td><div class="color-swatch-box" style="background-color: #2B2D31;"></div></td>
                             <td><span class="font-mono-tag">--nv-bg-element</span></td>
                             <td><span class="font-mono-tag">#2B2D31</span></td>
-                            <td><strong>Interactive Field Surface.</strong> Dropdowns, track layers, contextual inputs, and default button states.</td>
+                            <td><strong>Interactive Field Surface.</strong> Dropdowns, metadata tags, prompt sub-layers, and active fields.</td>
                         </tr>
                         <tr>
                             <td><div class="color-swatch-box" style="background-color: #E3E5E8;"></div></td>
                             <td><span class="font-mono-tag">--nv-text-primary</span></td>
                             <td><span class="font-mono-tag">#E3E5E8</span></td>
-                            <td><strong>Primary Text Scale.</strong> Dampened off-white typeface. High legibility index under severe low-light room conditions.</td>
+                            <td><strong>Primary Text Scale.</strong> Off-white typeface for reading scripts, prompts, and system configurations.</td>
                         </tr>
                         <tr>
                             <td><div class="color-swatch-box" style="background-color: #949BA4;"></div></td>
                             <td><span class="font-mono-tag">--nv-text-muted</span></td>
                             <td><span class="font-mono-tag">#949BA4</span></td>
-                            <td><strong>Secondary Information Text.</strong> Non-critical data fields, tracking metadata, inactive states, and timeline frames.</td>
+                            <td><strong>Secondary Information Text.</strong> Frame indexes, storage size tags, file hashes, and inactive states.</td>
                         </tr>
                         <tr>
                             <td><div class="color-swatch-box" style="background-color: #477BFF;"></div></td>
                             <td><span class="font-mono-tag">--nv-accent-brand</span></td>
                             <td><span class="font-mono-tag">#477BFF</span></td>
-                            <td><strong>Focus Highlight Accent.</strong> Selection boundaries, active workspace tabs, interactive keyframe heads.</td>
+                            <td><strong>Focus Highlight Accent.</strong> Primary active selection indicators, node pins, and timeline frames.</td>
                         </tr>
                         <tr>
                             <td><div class="color-swatch-box" style="background-color: #24A19C;"></div></td>
                             <td><span class="font-mono-tag">--nv-accent-success</span></td>
                             <td><span class="font-mono-tag">#24A19C</span></td>
-                            <td><strong>Operational Utility Green.</strong> Restricted to system telemetry, render states, and syntax indicators.</td>
+                            <td><strong>Operational Utility Green.</strong> Restricted to system telemetry, prompt compilation passes, and sync states.</td>
                         </tr>
                         <tr>
                             <td><div class="color-swatch-box" style="background-color: #D18E34;"></div></td>
                             <td><span class="font-mono-tag">--nv-accent-warning</span></td>
                             <td><span class="font-mono-tag">#D18E34</span></td>
-                            <td><strong>Telemetry Warning Orange.</strong> Highlights broken rendering paths, pipeline failures, and dissatisfaction telemetry loop inputs.</td>
+                            <td><strong>Telemetry Warning Orange.</strong> Render failures, broken prompt schemas, and dissatisfaction feedback inputs.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -439,7 +439,7 @@
                     Architectural Directive // Chromatic Guardrails (Green)
                 </div>
                 <p style="margin-bottom: 0; color: var(--nv-text-primary);">
-                    <strong>The Rule of Functional Utility Green (<span class="font-mono-tag" style="color: var(--nv-accent-success);">--nv-accent-success</span>):</strong> To prevent ocular fatigue and protect users from chromatic adaptation during critical post-production tasks, this green must never be used for promotional branding, decorative borders, or primary button elements. It is strictly reserved as an operational metric to indicate 100% completed engine processes, successful asset compilations, and terminal code telemetry.
+                    <strong>The Rule of Functional Utility Green (<span class="font-mono-tag" style="color: var(--nv-accent-success);">--nv-accent-success</span>):</strong> Reserved strictly for telemetry confirmation loops. This token highlights completely compiled generation prompts, successful vector indexing passes across libraries, and connected asset hooks. It must never serve decorative or marketing design purposes.
                 </p>
             </div>
 
@@ -448,7 +448,7 @@
                     Architectural Directive // Telemetry Loop Guardrails (Orange)
                 </div>
                 <p style="margin-bottom: 0; color: var(--nv-text-primary);">
-                    <strong>The Rule of Functional Warning Orange (<span class="font-mono-tag" style="color: var(--nv-accent-warning);">--nv-accent-warning</span>):</strong> This token serves to highlight a failed internal engine layout or compile process. Crucially, it functions as an interactive hook for user dissatisfaction inputs—capturing operational feedback loops specifically utilized for continuous model output training and structural dataset refinement. It must never populate static decorative surfaces.
+                    <strong>The Rule of Functional Warning Orange (<span class="font-mono-tag" style="color: var(--nv-accent-warning);">--nv-accent-warning</span>):</strong> This token signifies critical system exceptions, disconnected file path arrays, or broken layout scripts. Crucially, it functions as an interactive feedback hook for **user dissatisfaction inputs on AI model iterations**—capturing negative reinforcement metrics directly to train, refine, and improve the narrative output layers.
                 </p>
             </div>
         </section>
@@ -456,41 +456,41 @@
         <section id="typography" class="content-section">
             <h2 class="section-header">03 / Typography Matrix &amp; Hierarchy</h2>
             <p>
-                The narrabrain typographic framework creates a sharp distinction between editorial platform elements (using the high-contrast serif Playfair Display) and heavy functional toolsets (utilizing the geometric sans-serif Inter).
+                The framework uses a distinct typographic hierarchy. The editorial platform features use <strong>Playfair Display</strong>, while dense parameters, node tags, and prompting fields remain anchored in <strong>Inter</strong>.
             </p>
 
             <div class="specimen-panel">
-                <div class="specimen-header-ticker">Display Layer / Brand Headings (Playfair Display)</div>
+                <div class="specimen-header-ticker">Display Layer / Storytelling Headings (Playfair Display)</div>
                 <div style="font-family: 'Playfair Display', serif; font-size: clamp(20pt, 4vw, 26pt); font-weight: 700; color: var(--nv-text-primary); line-height: 1.2; margin-bottom: 8px;">
-                    The Creative Console.
+                    The Narrative Layer.
                 </div>
                 <div style="font-family: 'Playfair Display', serif; font-size: clamp(13pt, 2.5vw, 16pt); font-weight: 400; font-style: italic; color: var(--nv-text-muted);">
-                    Post-Production Orchestration, Perfected.
+                    Decoupled Story Logic, Generated Intelligently.
                 </div>
             </div>
 
             <div class="specimen-panel">
-                <div class="specimen-header-ticker">Interface Layer / Engineering Elements (Inter)</div>
+                <div class="specimen-header-ticker">Interface Layer / Prompt &amp; Asset Data (Inter)</div>
                 <div style="font-size: clamp(11pt, 2vw, 13pt); font-weight: 600; color: var(--nv-text-primary); margin-bottom: 8px; word-break: break-all;">
-                    Master_Sequence_V4_2026_Final.mov
+                    [Vector_Search_Query]: Cinematic tracking shot, low angle, dusk mood.json
                 </div>
-                <div class="micro-parameter">02:14:55:08 &nbsp;|&nbsp; 4096 × 2160 &nbsp;|&nbsp; REDCODE RAW v8.3</div>
+                <div class="micro-parameter">Match Confidence: 98.4% &nbsp;|&nbsp; Assets Parsed: 1,420,800 &nbsp;|&nbsp; Model Layer: v8.2-Story-Deep</div>
             </div>
 
             <h3>Micro-Text Readability Parameters</h3>
             <p>
-                When formatting timecodes, parameter values, or audio track configurations down to sizes smaller than 11px, strict typesetting guidelines must be executed via CSS to bypass the blurring effect typical of dark environments:
+                To prevent character blur on lower-lumen projection units or tracking monitors when rendering parameters below 11px:
             </p>
             <ul>
-                <li><strong>Letter Tracking Enhancement:</strong> All UI metadata labels at smaller sizes must force a letter-spacing index of <span class="font-mono-tag">0.05em</span> or higher to guarantee spacing between character glyph boundaries.</li>
-                <li><strong>Anti-Aliasing Smoothing:</strong> Webkit rendering flags must be hardcoded inside global application frames to eliminate display pixel fragmentation (<span class="font-mono-tag">-webkit-font-smoothing: antialiased;</span>).</li>
+                <li><strong>Letter Tracking Enhancement:</strong> All dense asset tags and script parameters must execute a forced letter-spacing index of <span class="font-mono-tag">0.05em</span> to clean up character tracking bounds.</li>
+                <li><strong>Anti-Aliasing Smoothing:</strong> Font rendering layers must enforce <span class="font-mono-tag">-webkit-font-smoothing: antialiased;</span> globally to stop sub-pixel bleeding on high-density prompt views.</li>
             </ul>
         </section>
 
         <section id="config" class="content-section">
             <h2 class="section-header">04 / Frontend Integration &amp; Config Specification</h2>
             <p>
-                To preserve complete structural alignment between designers and frontend engineering groups, reference the Tailwind CSS framework configuration asset outlined below. Ensure these variables populate the theme extension block directly.
+                Reference this verified framework configuration schema file below to drop directly into your engineering repositories:
             </p>
 
             <div class="code-container-block">/** @type {import('tailwindcss').Config} */
@@ -523,7 +523,7 @@ module.exports = {
         </section>
 
         <footer>
-            <div>&copy; 2026 narrabrain™ labs. System Manifest Rulebook Frame.</div>
+            <div>&copy; 2026 narrabrain™ labs. Core Generative Manifest Engine.</div>
             <div>narrabrain.in/design</div>
         </footer>
 
