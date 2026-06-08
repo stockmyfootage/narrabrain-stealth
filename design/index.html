@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>narrabrain™ — System Architecture & Design Specification v8.2</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Geist+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 1. CORE DESIGN SPEC TOKENS V8.2 */
+        :root {
+            --nv-bg-canvas: #121214;
+            --nv-bg-surface: #1E1F22;
+            --nv-bg-element: #2B2D31;
+            --nv-text-primary: #E3E5E8;
+            --nv-text-muted: #949BA4;
+            --nv-accent-brand: #477BFF;
+            --nv-accent-success: #24A19C;
+            --nv-accent-warning: #D18E34;
+        }
+
+        /* 2. BASE GLOBAL PROPERTIES SETUP */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--nv-bg-canvas);
+            color: var(--nv-text-primary);
+            font-family: 'Inter', -apple-system, sans-serif;
+            font-size: 11pt;
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* 3. SCROLLABLE FRAMEWORK CONTAINERS */
+        .page-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Sticky Navigation HUD */
+        .sticky-hud {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(18, 18, 20, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--nv-bg-element);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+        }
+
+        .hud-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 16pt;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .hud-logo span {
+            font-family: 'Inter', sans-serif;
+            font-size: 8pt;
+            font-weight: 600;
+            color: var(--nv-accent-brand);
+            vertical-align: super;
+            margin-left: 1px;
+        }
+
+        .hud-nav {
+            display: flex;
+            gap: 24px;
+        }
+
+        .hud-nav a {
+            color: var(--nv-text-muted);
+            font-family: 'Geist Mono', monospace;
+            font-size: 8.5pt;
+            text-transform: uppercase;
+            text-decoration: none;
+            letter-spacing: 1px;
+            transition: color 0.2s ease;
+        }
+
+        .hud-nav a:hover {
+            color: var(--nv-text-primary);
+        }
+
+        /* Hero Splash Section */
+        .hero-container {
+            padding: 120px 0 80px 0;
+            border-bottom: 1px solid var(--nv-bg-element);
+            margin-bottom: 80px;
+        }
+
+        .url-ticker {
+            font-family: 'Geist Mono', monospace;
+            font-size: 9pt;
+            color: var(--nv-accent-brand);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 40pt;
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -1px;
+            margin-bottom: 24px;
+        }
+
+        h1 em {
+            font-style: italic;
+            font-weight: 400;
+            color: var(--nv-text-muted);
+        }
+
+        .hero-lead {
+            font-size: 13.5pt;
+            font-weight: 300;
+            color: var(--nv-text-muted);
+            max-width: 760px;
+            line-height: 1.7;
+        }
+
+        /* 4. SCROLL LAYOUT ARCHITECTURE CLASSES */
+        .content-section {
+            padding: 60px 0;
+            margin-bottom: 40px;
+        }
+
+        .section-header {
+            font-family: 'Playfair Display', serif;
+            font-size: 20pt;
+            font-weight: 700;
+            color: var(--nv-text-primary);
+            border-bottom: 1px solid var(--nv-bg-element);
+            padding-bottom: 12px;
+            margin-bottom: 32px;
+            letter-spacing: -0.3px;
+        }
+
+        h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 11pt;
+            font-weight: 600;
+            color: var(--nv-accent-brand);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin: 36px 0 16px 0;
+        }
+
+        p {
+            color: var(--nv-text-muted);
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        ul {
+            margin-bottom: 24px;
+            padding-left: 20px;
+        }
+
+        li {
+            color: var(--nv-text-muted);
+            margin-bottom: 12px;
+        }
+
+        li strong {
+            color: var(--nv-text-primary);
+            font-weight: 600;
+        }
+
+        /* High-Density Structural Specimen Blocks */
+        .specimen-panel {
+            background-color: var(--nv-bg-surface);
+            border: 1px solid var(--nv-bg-element);
+            border-radius: 8px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .specimen-header-ticker {
+            font-family: 'Geist Mono', monospace;
+            font-size: 8pt;
+            font-weight: 700;
+            color: var(--nv-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 1px solid var(--nv-bg-element);
+            padding-bottom: 10px;
+            margin-bottom: 24px;
+        }
+
+        /* Specialty Chromatic Guardrail Overrides */
+        .panel-success-directive { border-left: 4px solid var(--nv-accent-success); }
+        .panel-warning-directive { border-left: 4px solid var(--nv-accent-warning); }
+
+        /* 5. TYPOGRAPHY AND CODES PARAMETERS MAP */
+        .font-mono-tag {
+            font-family: 'Geist Mono', monospace;
+            font-weight: bold;
+            color: var(--nv-text-primary);
+            font-size: 9.5pt;
+        }
+
+        .micro-parameter {
+            font-size: 8.5pt !important;
+            letter-spacing: 0.05em !important; /* Spacing protection rule */
+            text-transform: uppercase !important;
+            color: var(--nv-text-muted);
+        }
+
+        .code-container-block {
+            background-color: #0B0B0C;
+            border: 1px solid var(--nv-bg-element);
+            border-left: 3px solid var(--nv-accent-success);
+            border-radius: 6px;
+            padding: 24px;
+            font-family: 'Geist Mono', monospace;
+            font-size: 9.5pt;
+            line-height: 1.5;
+            white-space: pre;
+            overflow-x: auto;
+            color: var(--nv-text-primary);
+        }
+
+        .kw { color: var(--nv-accent-brand); font-weight: bold; }
+        .str { color: var(--nv-accent-success); }
+        .cmt { color: #55585E; font-style: italic; }
+
+        /* Color Systems Matrix Layout */
+        .token-table-view {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+        }
+
+        .token-table-view th {
+            background-color: var(--nv-bg-surface);
+            color: var(--nv-text-primary);
+            font-size: 8.5pt;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: left;
+            padding: 14px 16px;
+            border: 1px solid var(--nv-bg-element);
+        }
+
+        .token-table-view td {
+            padding: 16px;
+            border-bottom: 1px solid var(--nv-bg-element);
+            font-size: 9.5pt;
+            color: var(--nv-text-muted);
+        }
+
+        .color-swatch-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 6px;
+            border: 1px solid var(--nv-bg-element);
+        }
+
+        /* Footer Apparatus */
+        footer {
+            margin-top: 120px;
+            border-top: 1px solid var(--nv-bg-element);
+            padding: 40px 0 60px 0;
+            font-family: 'Geist Mono', monospace;
+            font-size: 8.5pt;
+            color: var(--nv-text-muted);
+            display: flex;
+            justify-content: space-between;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sticky-hud">
+        <div class="hud-logo">narrabrain<span>TM</span></div>
+        <div class="hud-nav">
+            <a href="#philosophy">01 / Foundations</a>
+            <a href="#colors">02 / Token Core</a>
+            <a href="#typography">03 / Typography</a>
+            <a href="#config">04 / Integration</a>
+        </div>
+    </div>
+
+    <div class="page-wrapper">
+
+        <header class="hero-container">
+            <div class="url-ticker">narrabrain.in/design</div>
+            <h1>The interface framework built for <em>zero-halation</em> color grading.</h1>
+            <p class="hero-lead">
+                Welcome to the open-source system dashboard layout. Version 8.2 defines architecture guardrails to protect creators from eye fatigue and adaptation loops during high-density editing shifts.
+            </p>
+        </header>
+
+        <section id="philosophy" class="content-section">
+            <h2 class="section-header">01 / System Foundations &amp; Philosophy</h2>
+            <p>
+                The narrabrain platform serves creators who interface continuous 8-to-12 hour blocks in highly controlled visual spaces (grading suites, mixing bays) interacting with extremely complex, high-density telemetry timelines. 
+            </p>
+            <p>
+                Traditional consumer web guidelines fail in this environment. High screen contrast, luminous light modes, or heavy saturated brand hues cause immediate ocular fatigue, retinal burn-in, and severe chromatic adaptation. Chromatic adaptation shifts an editor’s perception of white balance, leading to flawed color corrections and grading mistakes.
+            </p>
+
+            <div class="specimen-panel" style="border-left: 4px solid var(--nv-accent-brand);">
+                <p style="margin-bottom: 0; font-family: 'Playfair Display', serif; font-style: italic; font-size: 13pt; color: var(--nv-text-primary);">
+                    “The UI must be an invisible frame. The canvas stays completely dark and structurally desaturated, ensuring the user's focus is focused entirely on raw master content.”
+                </p>
+            </div>
+
+            <h3>Core Layout Maxims</h3>
+            <ul>
+                <li><strong>The 90/10 Asset Ratio:</strong> Exactly 90% of active screen configurations must utilize fully desaturated gray scales. Saturated focus accents must occupy 10% or less of real estate, used exclusively to accelerate workflow orientation.</li>
+                <li><strong>Zero Halation Typography:</strong> Pure white text fields on dark monitors cause text "haloing" or visual ghosting. narrabrain enforces stepped-down illumination tokens for high-density reading.</li>
+                <li><strong>Structural Contrast via Depth:</strong> Panel segments are isolated not through high-contrast colored lines, but by layered, mathematical luminance adjustments (Z-axis elevation mapping).</li>
+            </ul>
+        </section>
+
+        <section id="colors" class="content-section">
+            <h2 class="section-header">02 / Color Architecture &amp; Token Schema</h2>
+            <p>
+                The color space configuration is mapped explicitly to combat macular exhaustion. All core variables must be referenced as system design tokens. Direct raw hex mapping inside component modules is structurally banned to preserve framework stability.
+            </p>
+
+            <table class="token-table-view">
+                <thead>
+                    <tr>
+                        <th style="width: 15%;">Swatch</th>
+                        <th style="width: 25%;">Token System Key</th>
+                        <th style="width: 15%;">Hex Code</th>
+                        <th style="width: 45%;">Functional System Application</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><div class="color-swatch-box" style="background-color: #121214;"></div></td>
+                        <td><span class="font-mono-tag">--nv-bg-canvas</span></td>
+                        <td><span class="font-mono-tag">#121214</span></td>
+                        <td><strong>Global Canvas Base.</strong> The system container layer. Absorbs light glare across desktop viewports.</td>
+                    </tr>
+                    <tr>
+                        <td><div class="color-swatch-box" style="background-color: #1E1F22;"></div></td>
+                        <td><span class="font-mono-tag">--nv-bg-surface</span></td>
+                        <td><span class="font-mono-tag">#1E1F22</span></td>
+                        <td><strong>Structural Panel Bed.</strong> Tool areas, media asset bins, timeline containers, and sidebar wrappers.</td>
+                    </tr>
+                    <tr>
+                        <td><div class="color-swatch-box" style="background-color: #2B2D31;"></div></td>
+                        <td><span class="font-mono-tag">--nv-bg-element</span></td>
+                        <td><span class="font-mono-tag">#2B2D31</span></td>
+                        <td><strong>Interactive Field Surface.</strong> Dropdowns, track layers, contextual inputs, and default button states.</td>
+                    </tr>
+                    <tr>
+                        <td><div class="color-swatch-box" style="background-color: #E3E5E8;"></div></td>
+                        <td><span class="font-mono-tag">--nv-text-primary</span></td>
+                        <td><span class="font-mono-tag">#E3E5E8</span></td>
+                        <td><strong>Primary Text Scale.</strong> Dampened off-white typeface. High legibility index under severe low-light room conditions.</td>
+                    </tr>
+                    <tr>
+                        <td><div class="color-swatch-box" style="background-color: #949BA4;"></div></td>
+                        <td><span class="font-mono-tag">--nv-text-muted</span></td>
+                        <td><span class="font-mono-tag">#949BA4</span></td>
+                        <td><strong>Secondary Information Text.</strong> Non-critical data fields, tracking metadata, inactive states, and timeline frames.</td>
+                    </tr>
+                    <tr>
+                        <td><div class="color-swatch-box" style="background-color: #477BFF;"></div></td>
+                        <td><span class="font-mono-tag">--nv-accent-brand</span></td>
+                        <td><span class="font-mono-tag">#477BFF</span></td>
+                        <td><strong>Focus Highlight Accent.</strong> Selection boundaries, active workspace tabs, interactive keyframe heads.</td>
+                    </tr>
+                    <tr>
+                        <td><div class="color-swatch-box" style="background-color: #24A19C;"></div></td>
+                        <td><span class="font-mono-tag">--nv-accent-success</span></td>
+                        <td><span class="font-mono-tag">#24A19C</span></td>
+                        <td><strong>Operational Utility Green.</strong> Restricted to system telemetry, render states, and syntax indicators.</td>
+                    </tr>
+                    <tr>
+                        <td><div class="color-swatch-box" style="background-color: #D18E34;"></div></td>
+                        <td><span class="font-mono-tag">--nv-accent-warning</span></td>
+                        <td><span class="font-mono-tag">#D18E34</span></td>
+                        <td><strong>Telemetry Warning Orange.</strong> Highlights broken rendering paths, pipeline failures, and dissatisfaction telemetry loop inputs.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="specimen-panel panel-success-directive">
+                <div class="specimen-header-ticker" style="color: var(--nv-accent-success); border-color: #2B2D31;">
+                    Architectural Directive // Chromatic Guardrails (Green)
+                </div>
+                <p style="margin-bottom: 0; color: var(--nv-text-primary);">
+                    <strong>The Rule of Functional Utility Green (<span class="font-mono-tag" style="color: var(--nv-accent-success);">--nv-accent-success</span>):</strong> To prevent ocular fatigue and protect users from chromatic adaptation during critical post-production tasks, this green must never be used for promotional branding, decorative borders, or primary button elements. It is strictly reserved as an operational metric to indicate 100% completed engine processes, successful asset compilations, and terminal code telemetry.
+                </p>
+            </div>
+
+            <div class="specimen-panel panel-warning-directive">
+                <div class="specimen-header-ticker" style="color: var(--nv-accent-warning); border-color: #2B2D31;">
+                    Architectural Directive // Telemetry Loop Guardrails (Orange)
+                </div>
+                <p style="margin-bottom: 0; color: var(--nv-text-primary);">
+                    <strong>The Rule of Functional Warning Orange (<span class="font-mono-tag" style="color: var(--nv-accent-warning);">--nv-accent-warning</span>):</strong> This token serves to highlight a failed internal engine layout or compile process. Crucially, it functions as an interactive hook for user dissatisfaction inputs—capturing operational feedback loops specifically utilized for continuous model output training and structural dataset refinement. It must never populate static decorative surfaces.
+                </p>
+            </div>
+        </section>
+
+        <section id="typography" class="content-section">
+            <h2 class="section-header">03 / Typography Matrix &amp; Hierarchy</h2>
+            <p>
+                The narrabrain typographic framework creates a sharp distinction between editorial platform elements (using the high-contrast serif Playfair Display) and heavy functional toolsets (utilizing the geometric sans-serif Inter).
+            </p>
+
+            <div class="specimen-panel">
+                <div class="specimen-header-ticker">Display Layer / Brand Headings (Playfair Display)</div>
+                <div style="font-family: 'Playfair Display', serif; font-size: 28pt; font-weight: 700; color: var(--nv-text-primary); line-height: 1.2; margin-bottom: 8px;">
+                    The Creative Console.
+                </div>
+                <div style="font-family: 'Playfair Display', serif; font-size: 18pt; font-weight: 400; font-style: italic; color: var(--nv-text-muted);">
+                    Post-Production Orchestration, Perfected.
+                </div>
+            </div>
+
+            <div class="specimen-panel">
+                <div class="specimen-header-ticker">Interface Layer / Engineering Elements (Inter)</div>
+                <div style="font-size: 14pt; font-weight: 600; color: var(--nv-text-primary); margin-bottom: 6px;">
+                    Master_Sequence_V4_2026_Final.mov
+                </div>
+                <div class="micro-parameter">02:14:55:08 &nbsp;|&nbsp; 4096 × 2160 &nbsp;|&nbsp; REDCODE RAW v8.3</div>
+            </div>
+
+            <h3>Micro-Text Readability Parameters</h3>
+            <p>
+                When formatting timecodes, parameter values, or audio track configurations down to sizes smaller than 11px, strict typesetting guidelines must be executed via CSS to bypass the blurring effect typical of dark environments:
+            </p>
+            <ul>
+                <li><strong>Letter Tracking Enhancement:</strong> All UI metadata labels at smaller sizes must force a letter-spacing index of <span class="font-mono-tag">0.05em</span> or higher to guarantee spacing between character glyph boundaries.</li>
+                <li><strong>Anti-Aliasing Smoothing:</strong> Webkit rendering flags must be hardcoded inside global application frames to eliminate display pixel fragmentation (<span class="font-mono-tag">-webkit-font-smoothing: antialiased;</span>).</li>
+            </ul>
+        </section>
+
+        <section id="config" class="content-section">
+            <h2 class="section-header">04 / Frontend Integration &amp; Config Specification</h2>
+            <p>
+                To preserve complete structural alignment between designers and frontend engineering groups, reference the Tailwind CSS framework configuration asset outlined below. Ensure these variables populate the theme extension block directly.
+            </p>
+
+            <div class="code-container-block">/** @type {import('tailwindcss').Config} */
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        narrabrain: {
+          canvas: <span class="str">'#121214'</span>,
+          surface: <span class="str">'#1E1F22'</span>,
+          element: <span class="str">'#2B2D31'</span>,
+          primary: <span class="str">'#E3E5E8'</span>,
+          muted: <span class="str">'#949BA4'</span>,
+          brand: <span class="str">'#477BFF'</span>,
+          success: <span class="str">'#24A19C'</span>,
+          warning: <span class="str">'#D18E34'</span>,
+        }
+      },
+      fontFamily: {
+        display: [<span class="str">'Playfair Display'</span>, <span class="str">'serif'</span>],
+        ui: [<span class="str">'Inter'</span>, <span class="str">'sans-serif'</span>],
+      },
+      letterSpacing: {
+        micro: <span class="str">'0.05em'</span>,
+      }
+    },
+  },
+  plugins: [],
+}</div>
+        </section>
+
+        <footer>
+            <div>&copy; 2026 Narrabrain Labs Private Limited. System Manifest Rulebook Frame.</div>
+            <div>narrabrain.in/design</div>
+        </footer>
+
+    </div>
+
+</body>
+</html>
