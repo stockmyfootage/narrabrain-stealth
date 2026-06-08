@@ -5,55 +5,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Narrabrain | The Narrative Intelligence Engine</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Geist+Mono&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Geist+Mono&display=swap" rel="stylesheet">
     <style>
+        /* 1. CORE TOKENS LAYERING */
+        :root {
+            --nv-bg-canvas: #121214;
+            --nv-bg-surface: #1E1F22;
+            --nv-bg-element: #2B2D31;
+            --nv-text-primary: #E3E5E8;
+            --nv-text-muted: #949BA4;
+            --nv-accent-brand: #477BFF;
+            --nv-accent-success: #24A19C;
+            --nv-accent-warning: #D18E34;
+        }
+
+        /* 2. ZERO-HALATION ANTI-ALIASING BASE */
         body { 
-            color: #71717a; 
+            color: var(--nv-text-muted); 
             font-family: 'Inter', sans-serif; 
             -webkit-font-smoothing: antialiased; 
+            -moz-osx-font-smoothing: grayscale;
         }
-        .mono { font-family: 'Geist Mono', monospace; }
-        .text-logo-blue { color: #06b6d4; }
+
+        /* 3. V8 TYPOGRAPHY MAPS */
+        .editorial-title {
+            font-family: 'Playfair Display', Georgia, serif !important;
+        }
+        .mono { 
+            font-family: 'Geist Mono', monospace; 
+            letter-spacing: 0.05em; /* Forced micro-text parameters protection rule */
+        }
         
-        /* Dark Mesh Background to enhance glass effect */
+        /* 4. INTEGRATED HIGH-DENSITY CANVAS BACKGROUND */
         .bg-mesh {
-            background-color: #000000;
+            background-color: var(--nv-bg-canvas);
             background-image: 
-                radial-gradient(at 15% 0%, rgba(6, 182, 212, 0.08) 0, transparent 40%), 
-                radial-gradient(at 85% 100%, rgba(59, 130, 246, 0.08) 0, transparent 40%);
+                radial-gradient(at 15% 0%, rgba(71, 123, 255, 0.04) 0, transparent 40%), 
+                radial-gradient(at 85% 100%, rgba(36, 161, 156, 0.03) 0, transparent 40%);
             background-attachment: fixed;
         }
 
-        /* Glassmorphism Utility */
+        /* 5. GLASSMORPHISM STRUCTURE REALLOCATION (Z-AXIS LAYER DEPTH) */
         .glass-panel {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            background: rgba(30, 31, 34, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--nv-bg-element);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
         }
         
-        /* New Pulsating Glowing Aura Animation */
+        /* 6. COMPONENT ANIMATION SPECIFICATIONS */
         @keyframes logo-glowing-aura {
             0%, 100% {
                 opacity: 0.8;
                 transform: scale(1);
-                filter: drop-shadow(0 0 10px rgba(6, 182, 212, 0.3)) brightness(1);
+                filter: drop-shadow(0 0 12px rgba(71, 123, 255, 0.15)) brightness(0.95);
             }
             50% {
                 opacity: 1;
-                transform: scale(1.05);
-                filter: drop-shadow(0 0 35px rgba(6, 182, 212, 0.7)) brightness(1.2);
+                transform: scale(1.03);
+                filter: drop-shadow(0 0 30px rgba(71, 123, 255, 0.35)) brightness(1.1);
             }
         }
         .animate-logo-glowing-aura { animation: logo-glowing-aura 6s ease-in-out infinite; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col selection:bg-zinc-800 bg-mesh">
+<body class="min-h-screen flex flex-col selection:bg-neutral-800 bg-mesh">
 
     <nav class="p-6 md:p-10 flex justify-between items-center gap-4 relative z-10">
-        <div class="text-zinc-100 font-semibold tracking-tighter uppercase text-sm shrink-0">Narrabrain Labs</div>
-        <div class="glass-panel px-4 py-2 rounded-full mono text-[9px] tracking-[0.3em] uppercase text-logo-blue font-bold text-right">
+        <div class="text-[var(--nv-text-primary)] font-semibold tracking-tighter uppercase text-sm shrink-0">Narrabrain Labs</div>
+        <div class="glass-panel px-4 py-2 rounded-full mono text-[9px] tracking-[0.3em] uppercase text-[var(--nv-accent-brand)] font-bold text-right">
             Stage: Stealth R&D / Patent Pending
         </div>
     </nav>
@@ -64,14 +87,14 @@
             <img src="NB.png" alt="Narrabrain Logo" class="w-72 md:w-96 h-auto mx-auto animate-logo-glowing-aura block">
         </div>
 
-        <h1 class="text-zinc-100 text-2xl md:text-3xl font-semibold tracking-tighter leading-[1.1] mb-12 max-w-4xl drop-shadow-md">
-            The creative industry doesn't have a generation problem.<br/> It has a <span class="text-logo-blue italic">comprehension</span> problem.
+        <h1 class="editorial-title text-[var(--nv-text-primary)] text-2xl md:text-3xl font-semibold tracking-tighter leading-[1.1] mb-12 max-w-4xl drop-shadow-md">
+            The creative industry doesn't have a generation problem.<br/> It has a <span class="text-[var(--nv-accent-brand)] italic font-normal">comprehension</span> problem.
         </h1>
 
         <div class="glass-panel rounded-3xl p-8 md:p-12 max-w-3xl mx-auto mb-32 text-center">
-            <h2 class="mono text-[10px] uppercase tracking-widest text-logo-blue mb-6 font-bold">The Solution</h2>
-            <p class="text-lg md:text-2xl text-zinc-300 font-light leading-relaxed">
-                Narrabrain is a hardware-accelerated <span class="text-white font-medium">neuro-symbolic architecture</span>, that decouples narrative intent from content synthesis — giving AI systems the structural capacity to understand story before rendering a single frame.
+            <h2 class="mono text-[10px] uppercase tracking-widest text-[var(--nv-accent-brand)] mb-6 font-bold">The Solution</h2>
+            <p class="text-lg md:text-2xl text-[var(--nv-text-muted)] font-light leading-relaxed">
+                Narrabrain is a hardware-accelerated <span class="text-[var(--nv-text-primary)] font-medium">neuro-symbolic architecture</span>, that decouples narrative intent from content synthesis — giving AI systems the structural capacity to understand story before rendering a single frame.
             </p>
         </div>
 
@@ -79,23 +102,23 @@
             
             <div class="glass-panel rounded-3xl p-8 md:p-12 flex flex-col items-start text-left space-y-8">
                 <div class="space-y-2">
-                    <span class="mono text-[10px] text-logo-blue font-bold tracking-widest">PHASE I</span>
+                    <span class="mono text-[10px] text-[var(--nv-accent-brand)] font-bold tracking-widest">PHASE I</span>
                     <a href="https://narrabrain.io" target="_blank" class="block group">
-                        <h2 class="text-2xl md:text-3xl text-zinc-100 font-semibold tracking-tighter group-hover:text-logo-blue transition-colors">NARRABRAIN.IO</h2>
+                        <h2 class="editorial-title text-2xl md:text-3xl text-[var(--nv-text-primary)] font-semibold tracking-tighter group-hover:text-[var(--nv-accent-brand)] transition-colors">NARRABRAIN.IO</h2>
                     </a>
-                    <p class="mono text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-medium">Agentic Discovery <span class="text-logo-blue">/ B2B Referral GTM</span></p>
+                    <p class="mono text-[10px] uppercase tracking-[0.2em] text-[var(--nv-text-muted)] font-medium">Agentic Discovery <span class="text-[var(--nv-accent-brand)]">/ B2B Referral GTM</span></p>
                 </div>
                 
-                <a href="https://narrabrain.io" target="_blank" class="relative w-full aspect-video rounded-2xl overflow-hidden border border-zinc-800 group self-center max-w-[350px]">
+                <a href="https://narrabrain.io" target="_blank" class="relative w-full aspect-video rounded-2xl overflow-hidden border border-[var(--nv-bg-element)] group self-center max-w-[350px]">
                     <img src="NB-IO-UI.png" alt="Narrabrain.io" class="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 transition-all duration-700">
-                    <div class="absolute inset-0 bg-cyan-900/10 mix-blend-overlay group-hover:bg-transparent transition-all"></div>
+                    <div class="absolute inset-0 bg-blue-950/10 mix-blend-overlay group-hover:bg-transparent transition-all"></div>
                 </a>
 
                 <div class="space-y-4">
-                    <p class="text-lg text-zinc-300 font-light leading-snug">
-                        The <span class="text-white font-medium italic">"Creative Interpreter"</span> bridging subjective intent and structured semantics.
+                    <p class="text-lg text-[var(--nv-text-muted)] font-light leading-snug">
+                        The <span class="text-[var(--nv-text-primary)] font-medium italic">"Creative Interpreter"</span> bridging subjective intent and structured semantics.
                     </p>
-                    <p class="text-sm text-zinc-400 font-light leading-relaxed">
+                    <p class="text-sm text-[var(--nv-text-muted)] font-light leading-relaxed">
                         Targets agency creatives to solve Discovery Friction. Designed to monetize via a 20% commission-per-transaction model for verified asset retrieval from legacy stock libraries.
                     </p>
                 </div>
@@ -103,23 +126,23 @@
 
             <div class="glass-panel rounded-3xl p-8 md:p-12 flex flex-col items-start text-left space-y-8">
                 <div class="space-y-2 w-full">
-                    <span class="mono text-[10px] text-logo-blue font-bold tracking-widest">PHASE II</span>
+                    <span class="mono text-[10px] text-[var(--nv-accent-brand)] font-bold tracking-widest">PHASE II</span>
                     <a href="https://narrabrain.studio" target="_blank" class="block group">
-                        <h2 class="text-2xl md:text-3xl text-zinc-100 font-semibold tracking-tighter group-hover:text-logo-blue transition-colors">NARRABRAIN.STUDIO</h2>
+                        <h2 class="editorial-title text-2xl md:text-3xl text-[var(--nv-text-primary)] font-semibold tracking-tighter group-hover:text-[var(--nv-accent-brand)] transition-colors">NARRABRAIN.STUDIO</h2>
                     </a>
-                    <p class="mono text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-medium">Autonomous Synthesis <span class="text-logo-blue">/ Enterprise SaaS</span></p>
+                    <p class="mono text-[10px] uppercase tracking-[0.2em] text-[var(--nv-text-muted)] font-medium">Autonomous Synthesis <span class="text-[var(--nv-accent-brand)]">/ Enterprise SaaS</span></p>
                 </div>
 
-                <a href="https://narrabrain.studio" target="_blank" class="relative w-full aspect-video rounded-2xl overflow-hidden border border-zinc-800 group self-center max-w-[350px]">
+                <a href="https://narrabrain.studio" target="_blank" class="relative w-full aspect-video rounded-2xl overflow-hidden border border-[var(--nv-bg-element)] group self-center max-w-[350px]">
                     <img src="NB-Studio-Scene.png" alt="Narrabrain.studio" class="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 transition-all duration-700">
-                    <div class="absolute inset-0 bg-cyan-900/10 mix-blend-overlay group-hover:bg-transparent transition-all"></div>
+                    <div class="absolute inset-0 bg-blue-950/10 mix-blend-overlay group-hover:bg-transparent transition-all"></div>
                 </a>
 
                 <div class="space-y-4 w-full">
-                    <p class="text-lg text-zinc-300 font-light leading-snug">
-                        High-fidelity rendering powered by our proprietary <span class="text-white font-medium italic">"Data Flywheel"</span> (NDRL).
+                    <p class="text-lg text-[var(--nv-text-muted)] font-light leading-snug">
+                        High-fidelity rendering powered by our proprietary <span class="text-[var(--nv-text-primary)] font-medium italic">"Data Flywheel"</span> (NDRL).
                     </p>
-                    <p class="text-sm text-zinc-400 font-light leading-relaxed">
+                    <p class="text-sm text-[var(--nv-text-muted)] font-light leading-relaxed">
                         Isolates micro-variables (e.g., lighting) without full recalculation. This self-sustaining feedback loop actively subsidizes model training costs while ensuring entity persistence.
                     </p>
                 </div>
@@ -128,39 +151,39 @@
 
         <div class="max-w-6xl w-full grid grid-cols-1 md:grid-cols-3 gap-6 mb-32 px-4">
             <div class="glass-panel p-6 rounded-2xl space-y-3 text-left">
-                <span class="mono text-[10px] text-logo-blue font-bold tracking-widest">SPEC-01</span>
-                <h3 class="text-zinc-200 text-xs font-bold uppercase tracking-widest">Neuro-Symbolic Moat</h3>
-                <p class="text-[13px] text-zinc-400 leading-relaxed font-light">Mathematically decouples intent from synthesis. Prevents incumbent models from easily replicating the structural logic layer.</p>
+                <span class="mono text-[10px] text-[var(--nv-accent-brand)] font-bold tracking-widest">SPEC-01</span>
+                <h3 class="text-[var(--nv-text-primary)] text-xs font-bold uppercase tracking-widest">Neuro-Symbolic Moat</h3>
+                <p class="text-[13px] text-[var(--nv-text-muted)] leading-relaxed font-light">Mathematically decouples intent from synthesis. Prevents incumbent models from easily replicating the structural logic layer.</p>
             </div>
             <div class="glass-panel p-6 rounded-2xl space-y-3 text-left">
-                <span class="mono text-[10px] text-logo-blue font-bold tracking-widest">SPEC-02</span>
-                <h3 class="text-zinc-200 text-xs font-bold uppercase tracking-widest">The Logic API</h3>
+                <span class="mono text-[10px] text-[var(--nv-accent-brand)] font-bold tracking-widest">SPEC-02</span>
+                <h3 class="text-[var(--nv-text-primary)] text-xs font-bold uppercase tracking-widest">The Logic API</h3>
                 <p class="text-[13px] text-zinc-400 leading-relaxed font-light">A token-based B2B integration designed to upgrade legacy stock libraries with deterministic semantic search capabilities.</p>
             </div>
             <div class="glass-panel p-6 rounded-2xl space-y-3 text-left">
-                <span class="mono text-[10px] text-logo-blue font-bold tracking-widest">SPEC-03</span>
-                <h3 class="text-zinc-200 text-xs font-bold uppercase tracking-widest">Enterprise Compliance</h3>
-                <p class="text-[13px] text-zinc-400 leading-relaxed font-light">Natively guarantees automated licensing, C2PA provenance, and fulfills strict mandates like the 2026 India IT Rules 3-hour takedown window.</p>
+                <span class="mono text-[10px] text-[var(--nv-accent-brand)] font-bold tracking-widest">SPEC-03</span>
+                <h3 class="text-[var(--nv-text-primary)] text-xs font-bold uppercase tracking-widest">Enterprise Compliance</h3>
+                <p class="text-[13px] text-[var(--nv-text-muted)] leading-relaxed font-light">Natively guarantees automated licensing, C2PA provenance, and fulfills strict mandates like the 2026 India IT Rules 3-hour takedown window.</p>
             </div>
         </div>
 
         <section class="max-w-md w-full glass-panel p-10 rounded-3xl mb-32">
-            <h3 class="text-zinc-100 text-sm font-semibold mb-8 uppercase tracking-widest">For incubator, grant, and pilot inquiries:</h3>
+            <h3 class="text-[var(--nv-text-primary)] text-sm font-semibold mb-8 uppercase tracking-widest">For incubator, grant, and pilot inquiries:</h3>
             <form action="https://api.web3forms.com/submit" method="POST" class="space-y-6">
                 <input type="hidden" name="access_key" value="a1aed7ac-2398-4259-804a-79fb4c0e6ac3">
                 <input type="hidden" name="subject" value="Narrabrain Blueprint Access Request">
                 
                 <input type="email" name="email" placeholder="Professional / Investor Email" required 
-                    class="w-full bg-black/40 border border-zinc-700 rounded-xl p-4 text-sm text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-cyan-500 transition-all backdrop-blur-sm">
+                    class="w-full bg-[var(--nv-bg-canvas)]/40 border border-[var(--nv-bg-element)] rounded-xl p-4 text-sm text-[var(--nv-text-primary)] placeholder-neutral-600 focus:outline-none focus:border-[var(--nv-accent-brand)] transition-all backdrop-blur-sm">
                 
                 <div class="flex items-start gap-4 text-left">
-                    <input type="checkbox" id="consent" required class="mt-1 w-4 h-4 rounded border-zinc-700 bg-black/40 accent-cyan-500 cursor-pointer">
-                    <label for="consent" class="text-[11px] text-zinc-400 leading-snug cursor-pointer">
-                        I agree to the <a href="/terms/" class="text-zinc-200 hover:text-cyan-400 transition-colors underline">Terms of Service</a> and <a href="/privacy/" class="text-zinc-200 hover:text-cyan-400 transition-colors underline">Privacy Policy</a>.
+                    <input type="checkbox" id="consent" required class="mt-1 w-4 h-4 rounded border-[var(--nv-bg-element)] bg-[var(--nv-bg-canvas)]/40 accent-[var(--nv-accent-brand)] cursor-pointer">
+                    <label for="consent" class="text-[11px] text-[var(--nv-text-muted)] leading-snug cursor-pointer">
+                        I agree to the <a href="/terms/" class="text-[var(--nv-text-primary)] hover:text-[var(--nv-accent-brand)] transition-colors underline">Terms of Service</a> and <a href="/privacy/" class="text-[var(--nv-text-primary)] hover:text-[var(--nv-accent-brand)] transition-colors underline">Privacy Policy</a>.
                     </label>
                 </div>
                 
-                <button type="submit" class="w-full bg-zinc-100 text-black py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-white hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-all duration-300">
+                <button type="submit" class="w-full bg-[var(--nv-accent-brand)] text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-blue-600 hover:shadow-[0_0_25px_rgba(71,123,255,0.45)] transition-all duration-300">
                     Request Blueprint Deck
                 </button>
             </form>
@@ -168,27 +191,27 @@
 
         <section class="max-w-4xl w-full glass-panel p-8 md:p-12 rounded-3xl mb-32 text-left relative overflow-hidden">
             <div class="flex flex-col space-y-8">
-                <div class="border-l-2 border-logo-blue pl-6">
-                    <h2 class="text-zinc-100 text-2xl md:text-3xl font-semibold tracking-tighter">Vibhav Nigam</h2>
-                    <p class="mono text-[10px] uppercase tracking-[0.2em] text-logo-blue font-bold mt-1">Founder & Solo Architect</p>
+                <div class="border-l-2 border-[var(--nv-accent-brand)] pl-6">
+                    <h2 class="editorial-title text-[var(--nv-text-primary)] text-2xl md:text-3xl font-semibold tracking-tighter">Vibhav Nigam</h2>
+                    <p class="mono text-[10px] uppercase tracking-[0.2em] text-[var(--nv-accent-brand)] font-bold mt-1">Founder & Solo Architect</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-5 gap-8">
                     <div class="md:col-span-2 space-y-4">
-                        <p class="text-xs md:text-sm text-zinc-400 font-light leading-relaxed mono uppercase tracking-wider">
+                        <p class="text-xs md:text-sm text-[var(--nv-text-muted)] font-light leading-relaxed mono uppercase tracking-wider">
                             Graduate of the Satyajit Ray Film & Television Institute. Jury Award recipient for Excellence in Editing. Nine years as a post-production specialist across feature films, web series, and commercial media.
                         </p>
                     </div>
                     <div class="md:col-span-3">
-                        <p class="text-sm md:text-xl text-zinc-200 font-light leading-relaxed italic">
+                        <p class="editorial-title text-sm md:text-xl text-[var(--nv-text-primary)] font-light leading-relaxed italic">
                             "The architecture behind Narrabrain was designed from inside the edit bay — built by someone who spent years translating a director's intent into the exact frame, and who understood precisely why no machine could do what even a junior editor could."
                         </p>
                     </div>
                 </div>
 
-                <div class="pt-8 border-t border-zinc-800/50 flex justify-between items-center">
-                    <span class="mono text-[9px] uppercase tracking-[0.3em] text-zinc-600">
-                        <span class="text-logo-blue font-bold">Patent Pending — Provisional Filed</span>, <span class="text-zinc-400 font-bold">May 2026</span>
+                <div class="pt-8 border-t border-[var(--nv-bg-element)]/50 flex justify-between items-center">
+                    <span class="mono text-[9px] uppercase tracking-[0.3em] text-[var(--nv-text-muted)]">
+                        <span class="text-[var(--nv-accent-brand)] font-bold">Patent Pending — Provisional Filed</span>, <span class="text-[var(--nv-text-primary)] font-bold">May 2026</span>
                     </span>
                 </div>
             </div>
@@ -196,18 +219,18 @@
 
     </main>
 
-    <footer class="p-8 md:p-12 border-t border-zinc-900/50 glass-panel mt-auto rounded-none border-x-0 border-b-0">
+    <footer class="p-8 md:p-12 border-t border-[var(--nv-bg-element)]/50 glass-panel mt-auto rounded-none border-x-0 border-b-0">
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 text-[11px] mono uppercase tracking-widest">
             <div class="text-center md:text-left">
-                <p class="text-zinc-100 font-semibold mb-1">Narrabrain Labs</p>
-                <p class="text-zinc-500">Stealth R&D / Conceptual Phase</p>
+                <p class="text-[var(--nv-text-primary)] font-semibold mb-1">Narrabrain Labs</p>
+                <p class="text-[var(--nv-text-muted)]/70">Stealth R&D / Conceptual Phase</p>
             </div>
-            <div class="flex flex-wrap justify-center md:justify-end gap-8 text-zinc-600 font-bold">
-                <a href="mailto:hello@narrabrain.in" class="hover:text-logo-blue transition-colors lowercase tracking-normal text-zinc-400">hello@narrabrain.in</a>
-                <span class="text-zinc-800 hidden md:inline">|</span>
-                <a href="/privacy/" class="hover:text-zinc-300 transition-colors">Privacy</a>
-                <span class="text-zinc-800 hidden md:inline">|</span>
-                <a href="/terms/" class="hover:text-zinc-300 transition-colors">Terms</a>
+            <div class="flex flex-wrap justify-center md:justify-end gap-8 text-[var(--nv-text-muted)] font-bold">
+                <a href="mailto:hello@narrabrain.in" class="hover:text-[var(--nv-accent-brand)] transition-colors lowercase tracking-normal text-[var(--nv-text-primary)]">hello@narrabrain.in</a>
+                <span class="text-neutral-800 hidden md:inline">|</span>
+                <a href="/privacy/" class="hover:text-[var(--nv-text-primary)] transition-colors">Privacy</a>
+                <span class="text-neutral-800 hidden md:inline">|</span>
+                <a href="/terms/" class="hover:text-[var(--nv-text-primary)] transition-colors">Terms</a>
             </div>
         </div>
     </footer>
