@@ -1,16 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>narrabrain™ — System Architecture & Design Specification v8.2</title>
+    <title>narrabrain™ Master Design System Spec & Component Library v9.0</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Geist+Mono&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        /* 1. CORE DESIGN SPEC TOKENS V8.2 */
+        /* ---------------------------------------------------------
+           CSS CUSTOM PROPERTY TOKEN ENGINE (NDS-V9 Core Tokens)
+           --------------------------------------------------------- */
         :root {
+            /* Chromatic Guardrails */
             --nv-bg-canvas: #121214;
             --nv-bg-surface: #1E1F22;
             --nv-bg-element: #2B2D31;
@@ -19,524 +23,1198 @@
             --nv-accent-brand: #477BFF;
             --nv-accent-success: #24A19C;
             --nv-accent-warning: #D18E34;
+
+            /* Spacing Matrix */
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --spacing-2xl: 48px;
+
+            /* Border Radii Scale */
+            --radius-xs: 2px;
+            --radius-sm: 4px;
+            --radius-md: 6px;
+            --radius-lg: 8px;
+            --radius-xl: 12px;
+            --radius-full: 9999px;
+
+            /* Elevation Shadow Matrix */
+            --elevation-0: none;
+            --elevation-1: 0 1px 3px rgba(0, 0, 0, 0.4);
+            --elevation-2: 0 4px 8px rgba(0, 0, 0, 0.5);
+            --elevation-3: 0 8px 16px rgba(0, 0, 0, 0.6);
+            --elevation-4: 0 12px 24px rgba(0, 0, 0, 0.7);
         }
 
-        /* 2. BASE GLOBAL PROPERTIES SETUP */
+        /* ---------------------------------------------------------
+           GLOBAL RESET & LAYOUT BASE
+           --------------------------------------------------------- */
         *, *::before, *::after {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
+        html {
+            scroll-behavior: smooth;
+            background-color: var(--nv-bg-canvas);
+        }
+
         body {
             background-color: var(--nv-bg-canvas);
             color: var(--nv-text-primary);
-            font-family: 'Inter', -apple-system, sans-serif;
-            font-size: 11pt;
-            line-height: 1.65;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            display: flex;
+            min-height: 100vh;
         }
 
-        /* 3. RESPONSIVE CONTAINER WITH FLUID PADDING */
-        .page-wrapper {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0 max(16px, 4vw);
-        }
-
-        /* FIXED-NAVIGATION DE-CLUTTERING APPARATUS */
-        .sticky-hud {
+        /* ---------------------------------------------------------
+           STICKY SIDEBAR TRACK
+           --------------------------------------------------------- */
+        .sidebar {
+            width: 280px;
+            background-color: var(--nv-bg-surface);
+            border-right: 1px solid var(--nv-bg-element);
+            height: 100vh;
             position: sticky;
             top: 0;
-            z-index: 100;
-            background: rgba(18, 18, 20, 0.9);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--nv-bg-element);
+            padding: var(--spacing-xl) var(--spacing-lg);
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px max(16px, 4vw);
-            gap: 20px;
-        }
-
-        .hud-logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 15pt;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            white-space: nowrap;
+            flex-direction: column;
+            overflow-y: auto;
             flex-shrink: 0;
         }
 
-        .hud-logo span {
+        .sidebar-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: var(--spacing-xl);
+            color: var(--nv-text-primary);
+            text-decoration: none;
+        }
+
+        .sidebar-brand span {
             font-family: 'Inter', sans-serif;
-            font-size: 8pt;
+            font-size: 10px;
             font-weight: 600;
             color: var(--nv-accent-brand);
             vertical-align: super;
-            margin-left: 1px;
+            margin-left: 2px;
+            text-transform: uppercase;
         }
 
-        /* Mobile Scroll-Engine for Tabs */
-        .hud-nav {
+        .sidebar-menu {
+            list-style: none;
             display: flex;
-            gap: 20px;
-            overflow-x: auto;
-            white-space: nowrap;
-            padding-bottom: 4px;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
+            flex-direction: column;
+            gap: var(--spacing-sm);
         }
 
-        .hud-nav::-webkit-scrollbar {
-            display: none;
-        }
-
-        .hud-nav a {
+        .sidebar-menu a {
             color: var(--nv-text-muted);
-            font-family: 'Geist Mono', monospace;
-            font-size: 8pt;
-            text-transform: uppercase;
             text-decoration: none;
-            letter-spacing: 1px;
-            transition: color 0.2s ease;
-            display: inline-block;
+            font-size: 13px;
+            font-weight: 500;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-md);
+            transition: all 0.2s ease;
+            display: block;
         }
 
-        .hud-nav a:hover {
+        .sidebar-menu a:hover {
             color: var(--nv-text-primary);
+            background-color: var(--nv-bg-element);
         }
 
-        /* 4. FLUID SPACING SYSTEM */
-        .hero-container {
-            padding: clamp(40px, 8vw, 80px) 0 clamp(30px, 6vw, 50px) 0;
+        /* ---------------------------------------------------------
+           MAIN WORKSPACE CONTAINER
+           --------------------------------------------------------- */
+        .workspace {
+            flex-grow: 1;
+            padding: var(--spacing-2xl) calc(var(--spacing-2xl) * 1.5);
+            max-width: 1100px;
+            margin: 0 auto;
+            overflow-x: hidden;
+        }
+
+        /* Typography & Headings */
+        .doc-header {
+            margin-bottom: var(--spacing-2xl);
             border-bottom: 1px solid var(--nv-bg-element);
+            padding-bottom: var(--spacing-xl);
         }
 
-        .url-ticker {
-            font-family: 'Geist Mono', monospace;
-            font-size: 8.5pt;
-            color: var(--nv-accent-brand);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 12px;
-            font-weight: 600;
-        }
-
-        h1 {
+        .doc-header h1 {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(24pt, 5vw, 36pt);
+            font-size: 42px;
             font-weight: 700;
+            letter-spacing: -1px;
             line-height: 1.2;
-            letter-spacing: -0.5px;
-            margin-bottom: 20px;
+            margin-bottom: var(--spacing-sm);
         }
 
-        h1 em {
-            font-style: italic;
-            font-weight: 400;
+        .doc-metadata {
+            font-family: 'Geist Mono', monospace;
+            font-size: 11px;
             color: var(--nv-text-muted);
+            letter-spacing: 0.5px;
         }
 
-        .hero-lead {
-            font-size: clamp(11pt, 2vw, 13pt);
-            font-weight: 300;
-            color: var(--nv-text-muted);
-            max-width: 760px;
-            line-height: 1.65;
+        .section-anchor {
+            padding-top: var(--spacing-xl);
+            margin-top: var(--spacing-2xl);
+            border-top: 1px solid var(--nv-bg-element);
         }
 
-        /* Dynamic Section Compactor */
-        .content-section {
-            padding: clamp(35px, 6vw, 55px) 0;
-            border-bottom: 1px solid rgba(43, 45, 49, 0.4);
-        }
-        
-        .content-section:last-of-type {
-            border-bottom: none;
-        }
-
-        .section-header {
+        .section-title {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(15pt, 3vw, 18pt);
+            font-size: 26px;
             font-weight: 700;
             color: var(--nv-text-primary);
-            border-bottom: 1px solid var(--nv-bg-element);
-            padding-bottom: 10px;
-            margin-bottom: 24px;
-            letter-spacing: -0.2px;
+            margin-bottom: var(--spacing-md);
+            letter-spacing: -0.5px;
         }
 
-        h3 {
-            font-family: 'Inter', sans-serif;
-            font-size: 10pt;
+        .section-subtitle {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
             font-weight: 600;
-            color: var(--nv-accent-brand);
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin: 28px 0 14px 0;
+            color: var(--nv-text-primary);
+            margin-top: var(--spacing-xl);
+            margin-bottom: var(--spacing-sm);
         }
 
         p {
             color: var(--nv-text-muted);
-            margin-bottom: 16px;
-            text-align: left;
+            margin-bottom: var(--spacing-md);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .lead {
+            font-size: 16px;
+            color: var(--nv-text-primary);
+            font-weight: 300;
         }
 
         ul {
-            margin-bottom: 20px;
-            padding-left: 18px;
+            margin-bottom: var(--spacing-lg);
+            padding-left: var(--spacing-lg);
         }
 
         li {
             color: var(--nv-text-muted);
-            margin-bottom: 10px;
+            margin-bottom: var(--spacing-sm);
+            line-height: 1.6;
         }
 
         li strong {
             color: var(--nv-text-primary);
-            font-weight: 600;
         }
 
-        /* High-Density Structural Specimen Panels */
-        .specimen-panel {
+        /* Callouts & Containers */
+        .quote-card {
             background-color: var(--nv-bg-surface);
-            border: 1px solid var(--nv-bg-element);
-            border-radius: 8px;
-            padding: clamp(16px, 4vw, 28px);
-            margin-bottom: 20px;
+            border-left: 4px solid var(--nv-accent-brand);
+            padding: var(--spacing-md) var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
         }
 
-        .specimen-header-ticker {
+        .quote-card p {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 15px;
+            color: var(--nv-text-primary);
+            margin-bottom: 0;
+        }
+
+        .directive-card {
+            background-color: var(--nv-bg-surface);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+            border: 1px solid var(--nv-bg-element);
+            border-left: 4px solid var(--nv-accent-success);
+        }
+
+        .directive-card.warning {
+            border-left-color: var(--nv-accent-warning);
+        }
+
+        .directive-card.open-source {
+            border-left-color: var(--nv-text-primary);
+        }
+
+        .directive-header {
             font-family: 'Geist Mono', monospace;
-            font-size: 7.5pt;
+            font-size: 11px;
             font-weight: 700;
-            color: var(--nv-text-muted);
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            border-bottom: 1px solid var(--nv-bg-element);
-            padding-bottom: 8px;
-            margin-bottom: 18px;
+            margin-bottom: var(--spacing-sm);
         }
 
-        .panel-success-directive { border-left: 4px solid var(--nv-accent-success); }
-        .panel-warning-directive { border-left: 4px solid var(--nv-accent-warning); }
-        .panel-open-source { border-left: 4px solid var(--nv-text-primary); }
-
-        .font-mono-tag {
-            font-family: 'Geist Mono', monospace;
-            font-weight: bold;
-            color: var(--nv-text-primary);
-            font-size: 9pt;
-            word-break: break-all;
-        }
-
-        .micro-parameter {
-            font-size: 8pt !important;
-            letter-spacing: 0.05em !important;
-            text-transform: uppercase !important;
-            color: var(--nv-text-muted);
-            line-height: 1.4;
-        }
-
-        /* 5. OVERFLOW PROTECTED CODE CONTAINERS */
-        .code-container-block {
-            background-color: #0B0B0C;
-            border: 1px solid var(--nv-bg-element);
-            border-left: 3px solid var(--nv-accent-success);
-            border-radius: 6px;
-            padding: 16px;
-            font-family: 'Geist Mono', monospace;
-            font-size: 9pt;
-            line-height: 1.5;
-            white-space: pre;
-            overflow-x: auto;
-            color: var(--nv-text-primary);
-        }
-
-        .str { color: var(--nv-accent-success); }
-        .cmt { color: #55585E; font-style: italic; }
-
-        /* 6. RESPONSIVE TOKEN GRID SYSTEM */
-        .table-scroll-container {
-            width: 100%;
-            overflow-x: auto;
-            margin: 20px 0;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .token-table-view {
+        /* Technical Data Matrices */
+        .matrix-table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 600px;
+            margin: var(--spacing-lg) 0;
+            font-size: 13px;
         }
 
-        .token-table-view th {
+        .matrix-table th {
             background-color: var(--nv-bg-surface);
             color: var(--nv-text-primary);
-            font-size: 8pt;
             font-weight: 600;
             text-transform: uppercase;
+            font-size: 11px;
             letter-spacing: 1px;
             text-align: left;
-            padding: 12px;
+            padding: var(--spacing-md);
             border: 1px solid var(--nv-bg-element);
         }
 
-        .token-table-view td {
-            padding: 12px;
+        .matrix-table td {
+            padding: var(--spacing-md);
             border-bottom: 1px solid var(--nv-bg-element);
-            font-size: 9pt;
             color: var(--nv-text-muted);
+            vertical-align: middle;
         }
 
-        .color-swatch-box {
-            width: 36px;
-            height: 36px;
-            border-radius: 6px;
-            border: 1px solid var(--nv-bg-element);
-        }
-
-        /* Responsive Footer Module */
-        footer {
-            margin-top: 60px;
-            border-top: 1px solid var(--nv-bg-element);
-            padding: 30px 0 5px 0;
+        .font-code {
             font-family: 'Geist Mono', monospace;
-            font-size: 8pt;
-            color: var(--nv-text-muted);
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            letter-spacing: 0.5px;
+            font-size: 12px;
+            color: var(--nv-text-primary);
+            background-color: var(--nv-bg-surface);
+            padding: 2px 6px;
+            border-radius: var(--radius-sm);
         }
 
-        @media (min-width: 600px) {
-            footer {
-                flex-direction: row;
-                justify-content: space-between;
-            }
+        .color-circle {
+            width: 24px;
+            height: 24px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--nv-bg-element);
+            display: inline-block;
+        }
+
+        /* ---------------------------------------------------------
+           VISUAL SNAPSHOT WORKSPACE CORES
+           --------------------------------------------------------- */
+        .visual-panel {
+            background-color: #0B0B0C;
+            border: 1px dashed var(--nv-accent-brand);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .panel-badge {
+            display: inline-block;
+            font-family: 'Geist Mono', monospace;
+            font-size: 10px;
+            background-color: rgba(71, 123, 255, 0.12);
+            color: var(--nv-accent-brand);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: var(--spacing-lg);
+            font-weight: 600;
+            border: 1px solid rgba(71, 123, 255, 0.2);
+        }
+
+        /* Concrete Mock UI Elements */
+        .mock-btn {
+            display: inline-block;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            text-align: center;
+            vertical-align: middle;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            margin-right: var(--spacing-sm);
+            margin-bottom: var(--spacing-sm);
+            transition: all 0.2s ease;
+            text-decoration: none;
+            border: none;
+        }
+
+        .mock-input-field {
+            width: 100%;
+            background-color: var(--nv-bg-element);
+            border: 1px solid var(--nv-bg-surface);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            color: var(--nv-text-primary);
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            margin-bottom: var(--spacing-md);
+            outline: none;
+        }
+
+        .mock-pill-badge {
+            display: inline-block;
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            margin-right: var(--spacing-sm);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .mock-tag-node {
+            display: inline-block;
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            background-color: var(--nv-bg-element);
+            color: var(--nv-text-primary);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            margin-right: var(--spacing-sm);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .mock-tag-close-btn {
+            display: inline-block;
+            margin-left: var(--spacing-xs);
+            color: var(--nv-text-muted);
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.05);
+            width: 14px;
+            height: 14px;
+            line-height: 13px;
+            text-align: center;
+            border-radius: var(--radius-full);
+            font-size: 9px;
+        }
+
+        /* Monospaced Code Blocks */
+        .code-block {
+            background-color: #0B0B0C;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            font-family: 'Geist Mono', monospace;
+            font-size: 12px;
+            color: var(--nv-text-primary);
+            line-height: 1.5;
+            overflow-x: auto;
+            white-space: pre;
+            border-left: 3px solid var(--nv-accent-brand);
+            border-top: 1px solid var(--nv-bg-element);
+            border-right: 1px solid var(--nv-bg-element);
+            border-bottom: 1px solid var(--nv-bg-element);
+        }
+        .code-str { color: var(--nv-accent-success); }
+        .code-cmt { color: #5c6370; font-style: italic; }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 900px) {
+            body { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; position: relative; }
+            .workspace { padding: var(--spacing-lg); }
         }
     </style>
 </head>
 <body>
 
-    <div class="sticky-hud">
-        <div class="hud-logo">narrabrain<span>TM</span></div>
-        <div class="hud-nav">
-            <a href="#philosophy">01 / Foundations</a>
-            <a href="#colors">02 / Token Core</a>
-            <a href="#typography">03 / Typography</a>
-            <a href="#config">04 / Integration</a>
-        </div>
-    </div>
+    <nav class="sidebar">
+        <a href="#" class="sidebar-brand">narrabrain<span>tm</span></a>
+        <ul class="sidebar-menu">
+            <li><a href="#foundations">01 Foundations &amp; Philosophy</a></li>
+            <li><a href="#spacing">02 Spacing, Curves &amp; Elevation</a></li>
+            <li><a href="#colors">03 Color Tokens &amp; Guardrails</a></li>
+            <li><a href="#typography">04 Typographic Hierarchy</a></li>
+            <li><a href="#components">05 Component Button Matrix</a></li>
+            <li><a href="#forms">06 Form Inputs &amp; Panels</a></li>
+            <li><a href="#badges">07 Badge &amp; Tag Specs</a></li>
+            <li><a href="#tailwind">08 Tailwind CSS Integration</a></li>
+        </ul>
+    </nav>
 
-    <div class="page-wrapper">
-
-        <header class="hero-container">
-            <div class="url-ticker">narrabrain.in/design</div>
-            <h1>Visual infrastructure for <em>story-intelligent</em> generative video layers.</h1>
-            <p class="hero-lead">
-                The interface framework built for parsing deep semantic metadata, cross-library vector asset search, and dual-layer storytelling prompting.
-            </p>
+    <main class="workspace">
+        
+        <header class="doc-header">
+            <h1>Integrated Master Design System Specification</h1>
+            <div class="doc-metadata">
+                DOCUMENT ID: NDS-V9-COMPLETE-WEB // PLATFORM LAYER: STORY-INTELLIGENT UI // RELEASE: JUNE 2026
+            </div>
         </header>
 
-        <section id="philosophy" class="content-section">
-            <h2 class="section-header">01 / System Foundations &amp; Philosophy</h2>
-            <p>
-                The narrabrain workspace orchestrates complex relationships between semantic prompt engineering, asset library querying, and AI video generation layers. Creators manage high-density contextual feedback over extended work periods.
+        <section id="foundations" class="section-anchor">
+            <h2 class="section-title">01 / System Foundations &amp; Philosophy</h2>
+            <p class="lead">
+                The narrabrain engine orchestrates complex multi-track timeline telemetry configurations, data-dense asset queries, and advanced prompt engineering parameters on a zero-glare absolute dark canvas model environment.
             </p>
             <p>
-                The interface maintains a zero-distraction dark mode canvas. By eliminating unnecessary ambient light emission and restricting hyper-saturated accents, we ensure that creators maintain visual focus on generation previews, timeline pacing charts, and contextual text matrices.
+                Standard interfaces cause severe optical exhaustion during extended creative workflows involving massive prompt arrays and deep asset parsing loops. To optimize speed, clarity, and reading longevity, this UI framework operates as an unembellished utility framework, minimizing peripheral brightness and keeping layouts structural.
             </p>
 
-            <div class="specimen-panel" style="border-left: 4px solid var(--nv-accent-brand);">
-                <p style="margin-bottom: 0; font-family: 'Playfair Display', serif; font-style: italic; font-size: 12pt; color: var(--nv-text-primary);">
-                    “The interface is a utility frame. High-density metadata, storytelling prompt structures, and media queries remain clean, organized, and dark—prioritizing content generation over decoration.”
-                </p>
+            <div class="quote-card">
+                <p>“The interface serves exclusively to orient focus toward generative outputs. Structural depth parameters and typography remain flat, highly legible, and deeply desaturated.”</p>
             </div>
 
-            <h3>Core Layout Maxims</h3>
+            <h3 class="section-subtitle">Core System Maxims</h3>
             <ul>
-                <li><strong>The 90/10 Asset Ratio:</strong> Exactly 90% of screen space maps directly to desaturated UI containers. Focus highlights occupy 10% or less, used explicitly to guide the eye toward generation status logs and timeline keyframes.</li>
-                <li><strong>Zero Halation Typography:</strong> Pure white texts on absolute dark backing induce halo ghosting effects during script reading. narrabrain enforces calibrated off-white scales to protect high-density data legibility.</li>
-                <li><strong>Structural Contrast via Depth:</strong> Panel boundaries separating the semantic text input layers from asset search grids are designated by elevation depth modifications (`--nv-bg-surface` to `--nv-bg-element`), avoiding high-contrast borders.</li>
+                <li><strong>The 90/10 Asset Ratio:</strong> Exactly 90% of active application screens map to completely desaturated neutral scales. Luminous brand accents occupy 10% or less of any layout frame surface.</li>
+                <li><strong>Zero Halation Typography:</strong> Pure white text over dark fields triggers visual bleeding. High-contrast textual blocks enforce strictly calibrated off-white glyph scales to secure eye comfort.</li>
+                <li><strong>Structural Contrast via Depth:</strong> Container fields completely omit hard vector border borders, choosing multi-tier Z-axis shadow matrices instead to define operational zones.</li>
             </ul>
+
+            <div class="visual-panel">
+                <span class="panel-badge">Visual Snapshot // 01 Foundations &amp; Core Maxims</span>
+                <div style="background-color: var(--nv-bg-canvas); padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid var(--nv-bg-element);">
+                    <div style="display: flex; gap: var(--spacing-md); align-items: center; flex-wrap: wrap;">
+                        
+                        <div style="flex: 1; min-width: 250px; background-color: var(--nv-bg-surface); padding: var(--spacing-md); border-radius: var(--radius-sm); border: 1px solid var(--nv-bg-element);">
+                            <div style="font-family: 'Geist Mono', monospace; font-size: 10px; color: var(--nv-text-muted); margin-bottom: var(--spacing-sm); text-transform: uppercase;">[Desaturated UI Bed — 90% Workspace Area]</div>
+                            <p style="color: var(--nv-text-primary); font-size: 12px; text-align: left; margin-bottom: var(--spacing-sm);">
+                                <strong>Calibrated Off-White (#E3E5E8):</strong> Perfectly sharp, high-density text reading lines without character glare bleeding.
+                            </p>
+                            <p style="color: #FFFFFF; font-size: 12px; text-shadow: 0 0 4px rgba(255,255,255,0.3); text-align: left; margin-bottom: 0;">
+                                <span style="color: var(--nv-text-muted);">[Halation Threat] Pure White (#FFFFFF) text causes eye-strain artifacts.</span>
+                            </p>
+                        </div>
+                        
+                        <div style="width: 100px; text-align: center;">
+                            <div style="background-color: var(--nv-accent-brand); padding: var(--spacing-sm); border-radius: var(--radius-sm); box-shadow: var(--elevation-2); color: #fff; font-family:'Geist Mono', monospace; font-size: 10px; font-weight: bold; line-height: 1.2;">
+                                10% FOCUS ACCENT
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <section id="colors" class="content-section">
-            <h2 class="section-header">02 / Color Architecture &amp; Token Schema</h2>
+        <section id="spacing" class="section-anchor">
+            <h2 class="section-title">02 / Spacing, Curves &amp; Elevation Radii</h2>
             <p>
-                System variables are tokenized to protect developers and designers from random palette shifts across repository modules. Direct raw hex styling is structurally banned.
+                All interface matrices, padding tracking, layout alignments, and structural gaps strictly implement an 8px modular scale rule, creating consistency across complex content tracks.
             </p>
 
-            <div class="table-scroll-container">
-                <table class="token-table-view">
-                    <thead>
-                        <tr>
-                            <th style="width: 15%;">Swatch</th>
-                            <th style="width: 25%;">Token System Key</th>
-                            <th style="width: 15%;">Hex Code</th>
-                            <th style="width: 45%;">Functional System Application</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><div class="color-swatch-box" style="background-color: #121214;"></div></td>
-                            <td><span class="font-mono-tag">--nv-bg-canvas</span></td>
-                            <td><span class="font-mono-tag">#121214</span></td>
-                            <td><strong>Global Canvas Base.</strong> System viewport container layer. Dampens backlighting glare.</td>
-                        </tr>
-                        <tr>
-                            <td><div class="color-swatch-box" style="background-color: #1E1F22;"></div></td>
-                            <td><span class="font-mono-tag">--nv-bg-surface</span></td>
-                            <td><span class="font-mono-tag">#1E1F22</span></td>
-                            <td><strong>Structural Panel Bed.</strong> Prompt composition fields, vector search results, and library trees.</td>
-                        </tr>
-                        <tr>
-                            <td><div class="color-swatch-box" style="background-color: #2B2D31;"></div></td>
-                            <td><span class="font-mono-tag">--nv-bg-element</span></td>
-                            <td><span class="font-mono-tag">#2B2D31</span></td>
-                            <td><strong>Interactive Field Surface.</strong> Dropdowns, metadata tags, prompt sub-layers, and active fields.</td>
-                        </tr>
-                        <tr>
-                            <td><div class="color-swatch-box" style="background-color: #E3E5E8;"></div></td>
-                            <td><span class="font-mono-tag">--nv-text-primary</span></td>
-                            <td><span class="font-mono-tag">#E3E5E8</span></td>
-                            <td><strong>Primary Text Scale.</strong> Off-white typeface for reading scripts, prompts, and system configurations.</td>
-                        </tr>
-                        <tr>
-                            <td><div class="color-swatch-box" style="background-color: #949BA4;"></div></td>
-                            <td><span class="font-mono-tag">--nv-text-muted</span></td>
-                            <td><span class="font-mono-tag">#949BA4</span></td>
-                            <td><strong>Secondary Information Text.</strong> Frame indexes, storage size tags, file hashes, and inactive states.</td>
-                        </tr>
-                        <tr>
-                            <td><div class="color-swatch-box" style="background-color: #477BFF;"></div></td>
-                            <td><span class="font-mono-tag">--nv-accent-brand</span></td>
-                            <td><span class="font-mono-tag">#477BFF</span></td>
-                            <td><strong>Focus Highlight Accent.</strong> Primary active selection indicators, node pins, and timeline frames.</td>
-                        </tr>
-                        <tr>
-                            <td><div class="color-swatch-box" style="background-color: #24A19C;"></div></td>
-                            <td><span class="font-mono-tag">--nv-accent-success</span></td>
-                            <td><span class="font-mono-tag">#24A19C</span></td>
-                            <td><strong>Operational Utility Green.</strong> Restricted to system telemetry, prompt compilation passes, and sync states.</td>
-                        </tr>
-                        <tr>
-                            <td><div class="color-swatch-box" style="background-color: #D18E34;"></div></td>
-                            <td><span class="font-mono-tag">--nv-accent-warning</span></td>
-                            <td><span class="font-mono-tag">#D18E34</span></td>
-                            <td><strong>Telemetry Warning Orange.</strong> Render failures, broken prompt schemas, and dissatisfaction feedback inputs.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <h3 class="section-subtitle">Sizing &amp; Spacing Matrix</h3>
+            <table class="matrix-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">Token Key</th>
+                        <th style="width: 15%;">Value</th>
+                        <th style="width: 60%;">Functional Layout Application Domain</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="font-code">--spacing-xs</span></td>
+                        <td>4px</td>
+                        <td>Micro-spacing: Internal label badges margins and status indicators icon padding tracks.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="font-code">--spacing-sm</span></td>
+                        <td>8px</td>
+                        <td>Small layouts: Internal input forms tracking padding and sequential control grids.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="font-code">--spacing-md</span></td>
+                        <td>16px</td>
+                        <td>Default system tracking: Standard structural panel padding limits and primary frame tracks.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="font-code">--spacing-lg</span></td>
+                        <td>24px</td>
+                        <td>Large spacing: System main inspector splits and major configuration column breaks.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="font-code">--spacing-xl</span></td>
+                        <td>32px</td>
+                        <td>Extra large spacing: Absolute section barriers and global module margins.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="font-code">--spacing-2xl</span></td>
+                        <td>48px</td>
+                        <td>Maximum layout separation: System views canvas limits and dashboard section fields.</td>
+                    </tr>
+                </tbody>
+            </table>
 
-            <div class="specimen-panel panel-success-directive">
-                <div class="specimen-header-ticker" style="color: var(--nv-accent-success); border-color: #2B2D31;">
-                    Architectural Directive // Chromatic Guardrails (Green)
+            <h3 class="section-subtitle">Border Radius Scale</h3>
+            <table class="matrix-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">Token Curve Key</th>
+                        <th style="width: 15%;">Value</th>
+                        <th style="width: 60%;">Application Domain</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="font-code">--radius-xs</span></td>
+                        <td>2px</td>
+                        <td>Minimal curves: Technical slider handles, form check states, and data points.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="font-code">--radius-sm</span></td>
+                        <td>4px</td>
+                        <td>Small elements: Actionable metadata nodes, tags, and semantic tag wrappers.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="font-code">--radius-md</span></td>
+                        <td>6px</td>
+                        <td>Standard inputs: Form input boxes, actionable tracking items, and tab arrays.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="font-code">--radius-lg</span></td>
+                        <td>8px</td>
+                        <td>Standard modules: Main contextual cards, inner popups, and track listings.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="font-code">--radius-xl</span></td>
+                        <td>12px</td>
+                        <td>Floating blocks: Major setup dialogs, prompt modal frames, and prompt windows.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="font-code">--radius-full</span></td>
+                        <td>9999px</td>
+                        <td>Complete pill layouts: Execution sync bars, badges, and circular status loops.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 class="section-subtitle">Shadow &amp; Elevation Matrix</h3>
+            <table class="matrix-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">Elevation Tier</th>
+                        <th style="width: 50%;">CSS Property Parameters</th>
+                        <th style="width: 25%;">Visual Layer Depth</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="font-code">Elevation-0</span></td>
+                        <td>none</td>
+                        <td>Flush layer with the application background grid.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="font-code">Elevation-1</span></td>
+                        <td>0 1px 3px rgba(0,0,0,0.4)</td>
+                        <td>Subtle separation: Interactive component tracking states.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="font-code">Elevation-2</span></td>
+                        <td>0 4px 8px rgba(0,0,0,0.5)</td>
+                        <td>Standard layout elements: Secondary popovers, cards, and dropdown tracks.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="font-code">Elevation-3</span></td>
+                        <td>0 8px 16px rgba(0,0,0,0.6)</td>
+                        <td>High lift layer: Floating configuration asset tabs, menus, and tools.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="font-code">Elevation-4</span></td>
+                        <td>0 12px 24px rgba(0,0,0,0.7)</td>
+                        <td>Max separation: Dialog prompt screens and full system notifications.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="visual-panel">
+                <span class="panel-badge">Visual Snapshot // 02 Spacing, Curves &amp; Shadow Elevation Stack</span>
+                <div style="background-color: var(--nv-bg-canvas); padding: var(--spacing-lg); border-radius: var(--radius-xl); border: 1px solid var(--nv-bg-element);">
+                    <div style="font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--nv-accent-brand); margin-bottom: var(--spacing-md);">
+                        Demonstrating Layout Tokens: Outer Spacing Track MD (16px), Frame Curve XL (12px)
+                    </div>
+                    
+                    <div style="display: flex; flex-direction: column; gap: var(--spacing-md);">
+                        <div style="background-color: var(--nv-bg-surface); border-radius: var(--radius-xs); padding: var(--spacing-sm); box-shadow: var(--elevation-0);">
+                            <span class="font-code" style="font-size: 11px;">Elevation-0 (Flush Board Layer) — Curve radius-xs (2px)</span>
+                        </div>
+
+                        <div style="background-color: var(--nv-bg-surface); border-radius: var(--radius-sm); padding: var(--spacing-md); box-shadow: var(--elevation-1);">
+                            <span class="font-code" style="font-size: 11px;">Elevation-1 (Subtle Lift) — Curve radius-sm (4px) — padding SM (8px)</span>
+                        </div>
+
+                        <div style="background-color: var(--nv-bg-element); border-radius: var(--radius-md); padding: var(--spacing-md); box-shadow: var(--elevation-2);">
+                            <span class="font-code" style="font-size: 11px;">Elevation-2 (Standard UI Card) — Curve radius-md (6px) — padding MD (16px)</span>
+                        </div>
+
+                        <div style="background-color: var(--nv-bg-element); border-radius: var(--radius-lg); padding: var(--spacing-md); box-shadow: var(--elevation-3); max-width: 90%;">
+                            <span class="font-code" style="font-size: 11px; color: var(--nv-accent-brand);">Elevation-3 (Floating Panel Menu) — Curve radius-lg (8px)</span>
+                            <div style="margin-top: var(--spacing-sm); background-color: var(--nv-bg-canvas); border-radius: var(--radius-full); padding: 4px 12px; display: inline-block; border: 1px solid var(--nv-accent-brand); font-size: 10px; font-family: 'Geist Mono', monospace; color: var(--nv-accent-success);">
+                                --radius-full pill mapping element
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </section>
+
+        <section id="colors" class="section-anchor">
+            <h2 class="section-title">03 / Color Tokens &amp; Chromatic Guardrails</h2>
+            <p>
+                All layout colors map strictly to specialized token mappings. Directly assigning raw hexadecimal strings inside isolated layout markup views is forbidden by compile rules.
+            </p>
+
+            <table class="matrix-table">
+                <thead>
+                    <tr>
+                        <th style="width: 12%;">Swatch</th>
+                        <th style="width: 28%;">Token System Key</th>
+                        <th style="width: 15%;">Hex Parameters</th>
+                        <th style="width: 45%;">Functional System Mapping Context</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><div class="color-circle" style="background-color: #121214;"></div></td>
+                        <td><span class="font-code">--nv-bg-canvas</span></td>
+                        <td>#121214</td>
+                        <td><strong>Global Viewport Bed.</strong> Dampens luminance completely across primary monitors.</td>
+                    </tr>
+                    <tr>
+                        <td><div class="color-circle" style="background-color: #1E1F22;"></div></td>
+                        <td><span class="font-code">--nv-bg-surface</span></td>
+                        <td>#1E1F22</td>
+                        <td><strong>Structural Workspace Base.</strong> Holds user prompt editors, parameters, and sidebars.</td>
+                    </tr>
+                    <tr>
+                        <td><div class="color-circle" style="background-color: #2B2D31;"></div></td>
+                        <td><span class="font-code">--nv-bg-element</span></td>
+                        <td>#2B2D31</td>
+                        <td><strong>Interactive Element Bed.</strong> Form elements, dropdown tracks, fields, and tags.</td>
+                    </tr>
+                    <tr>
+                        <td><div class="color-circle" style="background-color: #E3E5E8;"></div></td>
+                        <td><span class="font-code">--nv-text-primary</span></td>
+                        <td>#E3E5E8</td>
+                        <td><strong>Primary Read Scale.</strong> Calibrated text tone to protect user focus during long reading arcs.</td>
+                    </tr>
+                    <tr>
+                        <td><div class="color-circle" style="background-color: #949BA4;"></div></td>
+                        <td><span class="font-code">--nv-text-muted</span></td>
+                        <td>#949BA4</td>
+                        <td><strong>Secondary Text Scale.</strong> Secondary values logs, timestamps, hashes, and descriptions.</td>
+                    </tr>
+                    <tr>
+                        <td><div class="color-circle" style="background-color: #477BFF;"></div></td>
+                        <td><span class="font-code">--nv-accent-brand</span></td>
+                        <td>#477BFF</td>
+                        <td><strong>Focus Highlight Accent.</strong> Focus rings, active selections, and narrative milestones.</td>
+                    </tr>
+                    <tr>
+                        <td><div class="color-circle" style="background-color: #24A19C;"></div></td>
+                        <td><span class="font-code">--nv-accent-success</span></td>
+                        <td>#24A19C</td>
+                        <td><strong>Utility Status Green.</strong> Active indexing processes and compilation passes.</td>
+                    </tr>
+                    <tr>
+                        <td><div class="color-circle" style="background-color: #D18E34;"></div></td>
+                        <td><span class="font-code">--nv-accent-warning</span></td>
+                        <td>#D18E34</td>
+                        <td><strong>Telemetry Warning Orange.</strong> Script exceptions, breaks, and model feedback hooks.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="directive-card">
+                <div class="directive-header">Architectural Directive // Chromatic Guardrails (Green)</div>
                 <p style="margin-bottom: 0; color: var(--nv-text-primary);">
-                    <strong>The Rule of Functional Utility Green (<span class="font-mono-tag" style="color: var(--nv-accent-success);">--nv-accent-success</span>):</strong> Reserved strictly for telemetry confirmation loops. This token highlights completely compiled generation prompts, successful vector indexing passes across libraries, and connected asset hooks. It must never serve decorative or marketing design purposes.
+                    <strong>The Rule of Functional Utility Green (<span class="font-code" style="color:var(--nv-accent-success);">--nv-accent-success</span>):</strong> Reserved strictly for compilation telemetry validations. This token highlights successful timeline builds, asset linkages, and script compilation finishes. It must never serve marketing or styling layouts.
                 </p>
             </div>
 
-            <div class="specimen-panel panel-warning-directive">
-                <div class="specimen-header-ticker" style="color: var(--nv-accent-warning); border-color: #2B2D31;">
-                    Architectural Directive // Telemetry Loop Guardrails (Orange)
-                </div>
+            <div class="directive-card warning">
+                <div class="directive-header" style="color: var(--nv-accent-warning);">Telemetry Loop Guardrails // Exception Mappings (Orange)</div>
                 <p style="margin-bottom: 0; color: var(--nv-text-primary);">
-                    <strong>The Rule of Functional Warning Orange (<span class="font-mono-tag" style="color: var(--nv-accent-warning);">--nv-accent-warning</span>):</strong> This token signifies critical system exceptions, disconnected file path arrays, or broken layout scripts. Crucially, it functions as an interactive feedback hook for **user dissatisfaction inputs on AI model iterations**—capturing negative reinforcement metrics directly to train, refine, and improve the narrative output layers.
+                    <strong>The Rule of Functional Warning Orange (<span class="font-code" style="color:var(--nv-accent-warning);">--nv-accent-warning</span>):</strong> Identifies critical configuration script faults or broken data linkages. Crucially, it serves as the tracking interaction token for **capturing user dissatisfaction signals on automated prompt generation parameters**—piping corrective loss indices straight to active reinforcement pipelines.
                 </p>
             </div>
 
-            <div class="specimen-panel panel-open-source">
-                <div class="specimen-header-ticker" style="color: var(--nv-text-primary); border-color: #2B2D31;">
-                    Global Manifesto // Open-Source System Availability
-                </div>
-                <p style="margin-bottom: 0; color: var(--nv-text-muted);">
-                    <strong>Public Domain Licensing & Freedom of Use:</strong> This system configuration layout blueprint, along with its color schemas, code tokens, and typographic variables, is **fully open-source**. It is published transparently for use across the engineering and creator communities. Anyone is entirely free to clone, adapt, deploy, or modify this framework for their personal or enterprise software projects without restriction.
+            <div class="directive-card open-source">
+                <div class="directive-header" style="color: var(--nv-text-primary);">Global System Manifesto // Open-Source Infrastructure</div>
+                <p style="margin-bottom: 0;">
+                    This comprehensive visualization scheme, component architecture matrix, token map, and styling layout engine are **completely open-source**. The creator network maintains unrestricted rights to reuse, clone, modify, and deploy this design system framework inside personal or commercial application layouts.
                 </p>
             </div>
-        </section>
 
-        <section id="typography" class="content-section">
-            <h2 class="section-header">03 / Typography Matrix &amp; Hierarchy</h2>
-            <p>
-                The framework uses a distinct typographic hierarchy. The editorial platform features use <strong>Playfair Display</strong>, while dense parameters, node tags, and prompting fields remain anchored in <strong>Inter</strong>.
-            </p>
+            <div class="visual-panel">
+                <span class="panel-badge">Visual Snapshot // 03 Chromatic Guardrails Dashboard Matrix</span>
+                <div style="background-color: var(--nv-bg-canvas); padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid var(--nv-bg-element);">
+                    <div style="background-color: var(--nv-bg-surface); padding: var(--spacing-md); border-radius: var(--radius-md);">
+                        <span class="font-code" style="font-size: 11px; color: var(--nv-text-muted); display: block; margin-bottom: var(--spacing-sm);">Surface Frame Area Token (--nv-bg-surface : #1E1F22)</span>
+                        
+                        <div style="background-color: var(--nv-bg-element); padding: var(--spacing-md); border-radius: var(--radius-sm); margin-bottom: var(--spacing-md);">
+                            <span class="font-code" style="font-size: 11px; color: var(--nv-text-primary);">Nested Control Element Token (--nv-bg-element : #2B2D31)</span>
+                            <div style="margin-top: var(--spacing-xs); color: var(--nv-text-muted); font-size: 12px;">Secondary layout explanation string parameter (--nv-text-muted)</div>
+                        </div>
 
-            <div class="specimen-panel">
-                <div class="specimen-header-ticker">Display Layer / Storytelling Headings (Playfair Display)</div>
-                <div style="font-family: 'Playfair Display', serif; font-size: clamp(20pt, 4vw, 26pt); font-weight: 700; color: var(--nv-text-primary); line-height: 1.2; margin-bottom: 8px;">
-                    The Narrative Layer.
-                </div>
-                <div style="font-family: 'Playfair Display', serif; font-size: clamp(13pt, 2.5vw, 16pt); font-weight: 400; font-style: italic; color: var(--nv-text-muted);">
-                    Decoupled Story Logic, Generated Intelligently.
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--spacing-sm);">
+                            <div style="background-color: rgba(71,123,255,0.08); border: 1px solid var(--nv-accent-brand); padding: var(--spacing-sm); border-radius: var(--radius-sm); text-align: center;">
+                                <span class="font-code" style="font-size: 11px; color: var(--nv-accent-brand);">Active Node Selection Focus</span>
+                            </div>
+                            <div style="background-color: rgba(36,161,156,0.08); border: 1px solid var(--nv-accent-success); padding: var(--spacing-sm); border-radius: var(--radius-sm); text-align: center;">
+                                <span class="font-code" style="font-size: 11px; color: var(--nv-accent-success);">Compile Success Tracking</span>
+                            </div>
+                            <div style="background-color: rgba(209,142,52,0.08); border: 1px solid var(--nv-accent-warning); padding: var(--spacing-sm); border-radius: var(--radius-sm); text-align: center;">
+                                <span class="font-code" style="font-size: 11px; color: var(--nv-accent-warning);">Dissatisfaction Input Hook</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <div class="specimen-panel">
-                <div class="specimen-header-ticker">Interface Layer / Prompt &amp; Asset Data (Inter)</div>
-                <div style="font-size: clamp(11pt, 2vw, 13pt); font-weight: 600; color: var(--nv-text-primary); margin-bottom: 8px; word-break: break-all;">
-                    [Vector_Search_Query]: Cinematic tracking shot, low angle, dusk mood.json
-                </div>
-                <div class="micro-parameter">Match Confidence: 98.4% &nbsp;|&nbsp; Assets Parsed: 1,420,800 &nbsp;|&nbsp; Model Layer: v8.2-Story-Deep</div>
-            </div>
-
-            <h3>Micro-Text Readability Parameters</h3>
-            <p>
-                To prevent character blur on lower-lumen projection units or tracking monitors when rendering parameters below 11px:
-            </p>
-            <ul>
-                <li><strong>Letter Tracking Enhancement:</strong> All dense asset tags and script parameters must execute a forced letter-spacing index of <span class="font-mono-tag">0.05em</span> to clean up character tracking bounds.</li>
-                <li><strong>Anti-Aliasing Smoothing:</strong> Font rendering layers must enforce <span class="font-mono-tag">-webkit-font-smoothing: antialiased;</span> globally to stop sub-pixel bleeding on high-density prompt views.</li>
-            </ul>
         </section>
 
-        <section id="config" class="content-section">
-            <h2 class="section-header">04 / Frontend Integration &amp; Config Specification</h2>
+        <section id="typography" class="section-anchor">
+            <h2 class="section-title">04 / Typographic Scale Matrix</h2>
             <p>
-                Reference this verified framework configuration schema file below to drop directly into your engineering repositories:
+                The typographic core splits presentation layers from micro-data states using a tailored two-family engine: layout display metrics apply <strong>Playfair Display</strong>, while dense parameter logs deploy <strong>Inter</strong>.
             </p>
 
-            <div class="code-container-block">/** @type {import('tailwindcss').Config} */
+            <table class="matrix-table">
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">Token Name</th>
+                        <th style="width: 12%;">Size Spec</th>
+                        <th style="width: 15%;">Line Height</th>
+                        <th style="width: 18%;">Tracking Force</th>
+                        <th style="width: 35%;">Primary Framework Context Mapping</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="font-code">--text-xs</span></td>
+                        <td>10px</td>
+                        <td>1.4</td>
+                        <td>0.03em</td>
+                        <td>Micro-labels, asset timestamp hash marks, rendering loops.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="font-code">--text-sm</span></td>
+                        <td>11px</td>
+                        <td>1.5</td>
+                        <td>0.05em</td>
+                        <td>Structural form headers, metadata points, active data clips.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="font-code">--text-base</span></td>
+                        <td>12px</td>
+                        <td>1.5</td>
+                        <td>0.02em</td>
+                        <td>Standard documentation body lines, values entries settings.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="font-code">--text-md</span></td>
+                        <td>14px</td>
+                        <td>1.6</td>
+                        <td>0.01em</td>
+                        <td>Primary instruction blocks, longer documentation body text.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="font-code">--text-lg</span></td>
+                        <td>16px</td>
+                        <td>1.6</td>
+                        <td>0em</td>
+                        <td>Card title segments, inner modal headers, context notifications.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="font-code">--text-xl</span></td>
+                        <td>18px</td>
+                        <td>1.5</td>
+                        <td>0em</td>
+                        <td>Sub-panel configuration section titles, interactive parameters.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="font-code">--text-2xl</span></td>
+                        <td>20px</td>
+                        <td>1.4</td>
+                        <td>-0.01em</td>
+                        <td>Inspector column anchors, sidebar primary section title elements.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="font-code">--text-3xl</span></td>
+                        <td>24px</td>
+                        <td>1.2</td>
+                        <td>-0.02em</td>
+                        <td>Primary workflow dashboard titles, initialization workspace paths.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="font-code">--text-4xl</span></td>
+                        <td>32px</td>
+                        <td>1.1</td>
+                        <td>-0.02em</td>
+                        <td>Global entry headers, splash layout configurations.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="visual-panel">
+                <span class="panel-badge">Visual Snapshot // 04 Typographic Hierarchy Specimen Stack</span>
+                <div style="background-color: var(--nv-bg-surface); padding: var(--spacing-lg); border-radius: var(--radius-md); border: 1px solid var(--nv-bg-element);">
+                    
+                    <div style="border-bottom: 1px solid var(--nv-bg-element); padding-bottom: var(--spacing-md); margin-bottom: var(--spacing-md);">
+                        <div style="font-family: 'Playfair Display', serif; font-size: 32px; line-height: 1.1; letter-spacing: -0.02em; color: var(--nv-text-primary); margin-bottom: var(--spacing-xs);">
+                            --text-4xl: Playfair Display Master Editorial Header
+                        </div>
+                        <div style="font-family: 'Playfair Display', serif; font-size: 18px; line-height: 1.5; font-style: italic; color: var(--nv-text-muted);">
+                            --text-xl: Subheadings and italic design system notations setup.
+                        </div>
+                    </div>
+
+                    <div style="font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.6; letter-spacing: 0.01em; color: var(--nv-text-primary); margin-bottom: var(--spacing-sm);">
+                        --text-md: Primary instruction logs block element rendering crisp text structures safely.
+                    </div>
+
+                    <div style="font-family: 'Inter', sans-serif; font-size: 12px; line-height: 1.5; letter-spacing: 0.02em; color: var(--nv-text-muted); margin-bottom: var(--spacing-md);">
+                        --text-base: Core documentation text scale running cleanly over dark panel grounds.
+                    </div>
+
+                    <div style="font-family: 'Geist Mono', monospace; font-size: 11px; line-height: 1.5; letter-spacing: 0.05em; color: var(--nv-accent-brand); margin-bottom: var(--spacing-xs);">
+                        --text-sm: [METADATA LABELS CONFIG] TRACKING FORCE EXTRA EXPANDED EXPANSION
+                    </div>
+
+                    <div style="font-family: 'Geist Mono', monospace; font-size: 10px; line-height: 1.4; letter-spacing: 0.03em; color: var(--nv-accent-success);">
+                        --text-xs: COMPILER_LOG_RUN_ID_A97X8F // PIPELINE STRUCT STATUS STRINGS
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="components" class="section-anchor">
+            <h2 class="section-title">05 / Component Matrix Specifications</h2>
+            <p>
+                Action components manage interaction adjustments using small box-shadow depth translations and color value blends instead of loud color flashes, maintaining layout stability.
+            </p>
+
+            <h3 class="section-subtitle">Primary Action Buttons Spec</h3>
+            <table class="matrix-table">
+                <thead>
+                    <tr>
+                        <th style="width: 15%;">Interactive State</th>
+                        <th style="width: 20%;">Background Hex</th>
+                        <th style="width: 15%;">Text Color</th>
+                        <th style="width: 20%;">Border Specs</th>
+                        <th style="width: 30%;">Behavior Parameters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Default</td>
+                        <td>#477BFF (100%)</td>
+                        <td>#E3E5E8</td>
+                        <td>None</td>
+                        <td>Standard layout operational state, pointer cursor response.</td>
+                    </tr>
+                    <tr>
+                        <td>Hover</td>
+                        <td>#3B66D6 (90% mix)</td>
+                        <td>#E3E5E8</td>
+                        <td>1px solid #477BFF</td>
+                        <td>Shifts box shadow to Elevation-1 state tracking.</td>
+                    </tr>
+                    <tr>
+                        <td>Active</td>
+                        <td>#2F52AB (80% mix)</td>
+                        <td>#E3E5E8</td>
+                        <td>1px solid #477BFF</td>
+                        <td>Flattens elevation depth entirely to mirror physical presses.</td>
+                    </tr>
+                    <tr>
+                        <td>Disabled</td>
+                        <td>#2B2D31 (50% alpha)</td>
+                        <td>#949BA4</td>
+                        <td>None</td>
+                        <td>Terminates action mapping listeners; forces not-allowed cursor.</td>
+                    </tr>
+                    <tr>
+                        <td>Loading</td>
+                        <td>#477BFF (Pulse)</td>
+                        <td>#E3E5E8</td>
+                        <td>None</td>
+                        <td>Locks input triggers; plays cyclic opacity animation rules loop.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 class="section-subtitle">Button Scaling Core Slices</h3>
+            <table class="matrix-table">
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">Size Type Token</th>
+                        <th style="width: 15%;">Height Spec</th>
+                        <th style="width: 25%;">Horizontal Padding</th>
+                        <th style="width: 15%;">Font Size</th>
+                        <th style="width: 25%;">Intended Component Context</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Small (sm)</td>
+                        <td>32px</td>
+                        <td>12px</td>
+                        <td>12px</td>
+                        <td>Secondary control lists, configuration toggles, small tabs.</td>
+                    </tr>
+                    <tr>
+                        <td>Medium (md)</td>
+                        <td>40px</td>
+                        <td>16px</td>
+                        <td>14px</td>
+                        <td>Standard application actions, modal configuration elements.</td>
+                    </tr>
+                    <tr>
+                        <td>Large (lg)</td>
+                        <td>48px</td>
+                        <td>20px</td>
+                        <td>16px</td>
+                        <td>Primary generation submits, login gateways.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="visual-panel">
+                <span class="panel-badge">Visual Snapshot // 05 Button Component Workspace Matrix Grid</span>
+                <div style="background-color: var(--nv-bg-surface); padding: var(--spacing-lg); border-radius: var(--radius-md); border: 1px solid var(--nv-bg-element);">
+                    
+                    <div style="margin-bottom: var(--spacing-lg);">
+                        <span class="font-code" style="font-size: 11px; color: var(--nv-text-muted); display: block; margin-bottom: var(--spacing-sm);">Primary State Variants (Medium Slice - 40px Height Base)</span>
+                        
+                        <button class="mock-btn" style="background-color: var(--nv-accent-brand); color: var(--nv-text-primary); padding: 0 var(--spacing-md); height: 40px; font-size: 14px; box-shadow: var(--elevation-2);">Default</button>
+                        
+                        <button class="mock-btn" style="background-color: #3B66D6; color: var(--nv-text-primary); padding: 0 var(--spacing-md); height: 40px; font-size: 14px; border: 1px solid var(--nv-accent-brand); box-shadow: var(--elevation-1);">Hover Spec</button>
+                        
+                        <button class="mock-btn" style="background-color: #2F52AB; color: var(--nv-text-primary); padding: 0 var(--spacing-md); height: 40px; font-size: 14px; border: 1px solid var(--nv-accent-brand); box-shadow: var(--elevation-0);">Active State</button>
+                        
+                        <button class="mock-btn" style="background-color: rgba(43,45,49,0.5); color: var(--nv-text-muted); padding: 0 var(--spacing-md); height: 40px; font-size: 14px; cursor: not-allowed;" disabled>Disabled</button>
+                    </div>
+
+                    <div style="margin-bottom: var(--spacing-lg);">
+                        <span class="font-code" style="font-size: 11px; color: var(--nv-text-muted); display: block; margin-bottom: var(--spacing-sm);">Secondary Actions Outlines (Medium Slice)</span>
+                        <button class="mock-btn" style="background-color: transparent; color: var(--nv-accent-brand); border: 1px solid var(--nv-accent-brand); padding: 0 var(--spacing-md); height: 40px; font-size: 14px;">Default Border</button>
+                        <button class="mock-btn" style="background-color: rgba(71,123,255,0.08); color: var(--nv-accent-brand); border: 1px solid var(--nv-accent-brand); padding: 0 var(--spacing-md); height: 40px; font-size: 14px;">Hover Border</button>
+                    </div>
+
+                    <div>
+                        <span class="font-code" style="font-size: 11px; color: var(--nv-text-muted); display: block; margin-bottom: var(--spacing-sm);">Sizing Increments Matrix</span>
+                        <button class="mock-btn" style="background-color: var(--nv-accent-brand); color: #fff; height: 32px; padding: 0 var(--spacing-sm); font-size: 12px; border-radius: var(--radius-sm);">Small (32px)</button>
+                        <button class="mock-btn" style="background-color: var(--nv-accent-brand); color: #fff; height: 40px; padding: 0 var(--spacing-md); font-size: 14px; border-radius: var(--radius-md);">Medium (40px)</button>
+                        <button class="mock-btn" style="background-color: var(--nv-accent-brand); color: #fff; height: 48px; padding: 0 var(--spacing-lg); font-size: 16px; border-radius: var(--radius-lg);">Large (48px)</button>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="forms" class="section-anchor">
+            <h2 class="section-title">06 / Form Inputs &amp; Panels</h2>
+            <p>
+                Form components isolate data updates within fine border highlights instead of changing background fields, preventing brightness shifts on screen.
+            </p>
+
+            <h3 class="section-subtitle">Text Input Field Component State Parameters</h3>
+            <table class="matrix-table">
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">Component State</th>
+                        <th style="width: 15%;">Background</th>
+                        <th style="width: 25%;">Border Spec Rule</th>
+                        <th style="width: 15%;">Text Color</th>
+                        <th style="width: 25%;">Interface System Response</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Default Empty</td>
+                        <td>#2B2D31</td>
+                        <td>1px solid #1E1F22</td>
+                        <td>#E3E5E8</td>
+                        <td>Displays default input placeholder text utilizing `--nv-text-muted`.</td>
+                    </tr>
+                    <tr>
+                        <td>Focused Base</td>
+                        <td>#2B2D31</td>
+                        <td>2px solid #477BFF</td>
+                        <td>#E3E5E8</td>
+                        <td>Triggers interactive level depth shadow Elevation-1 shifts.</td>
+                    </tr>
+                    <tr>
+                        <td>Error State</td>
+                        <td>#2B2D31</td>
+                        <td>2px solid #D18E34</td>
+                        <td>#D18E34</td>
+                        <td>Pipes validation failure message block text right under input fields.</td>
+                    </tr>
+                    <tr>
+                        <td>Success State</td>
+                        <td>#2B2D31</td>
+                        <td>2px solid #24A19C</td>
+                        <td>#E3E5E8</td>
+                        <td>Displays a validation confirmation symbol inside the trailing element frame.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="visual-panel">
+                <span class="panel-badge">Visual Snapshot // 06 Form Input States &amp; Layout Panels Mockup</span>
+                <div style="background-color: var(--nv-bg-canvas); padding: var(--spacing-md); border-radius: var(--radius-lg); border: 1px solid var(--nv-bg-element);">
+                    <div style="display: flex; gap: var(--spacing-md); flex-wrap: wrap;">
+                        
+                        <div style="width: 220px; background-color: var(--nv-bg-surface); padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid var(--nv-bg-element);">
+                            <span class="font-code" style="font-size: 10px; color: var(--nv-text-muted); display: block; margin-bottom: var(--spacing-sm);">Sidebar Panel Configuration</span>
+                            <div style="font-size: 12px; color: var(--nv-accent-brand); margin-bottom: 4px;">• Asset_Master_Timeline.mp4</div>
+                            <div style="font-size: 12px; color: var(--nv-text-muted);">• Core_Script_Layer.json</div>
+                        </div>
+
+                        <div style="flex: 1; min-width: 280px; background-color: var(--nv-bg-canvas); padding: var(--spacing-md);">
+                            <span class="font-code" style="font-size: 10px; color: var(--nv-text-muted); display: block; margin-bottom: var(--spacing-md);">Content Panel Interface Playground</span>
+                            
+                            <div style="margin-bottom: var(--spacing-md);">
+                                <label style="font-size: 11px; color: var(--nv-accent-brand); display: block; margin-bottom: 4px; font-family: 'Geist Mono', monospace;">Active Field Interaction Tracking</label>
+                                <div class="mock-input-field" style="border: 2px solid var(--nv-accent-brand); box-shadow: var(--elevation-1); margin-bottom: 0;">cinematic perspective tracking shot tracking hyper-drive...</div>
+                            </div>
+
+                            <div style="margin-bottom: var(--spacing-md);">
+                                <div class="mock-input-field" style="border: 2px solid var(--nv-accent-warning); color: var(--nv-accent-warning); margin-bottom: 4px;">Invalid compilation token cluster hierarchy array configuration</div>
+                                <div style="font-size: 11px; color: var(--nv-accent-warning); font-family: 'Geist Mono', monospace;">[System Fault 505] Critical code syntax loop error check.</div>
+                            </div>
+
+                            <div>
+                                <div class="mock-input-field" style="border: 2px solid var(--nv-accent-success); margin-bottom: 0; color: var(--nv-text-primary);">Narrative generation sequence structural linkage completed successfully. ✓</div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="badges" class="section-anchor">
+            <h2 class="section-title">07 / Badge &amp; Tag Element Specifications</h2>
+            <p>
+                Status elements organize telemetry tracks, prompt tags, and sorting conditions within structured grids, using system token hues to provide immediate operational feedback.
+            </p>
+
+            <h3 class="section-subtitle">Global Badge Classification Scale</h3>
+            <table class="matrix-table">
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">Badge Type Target</th>
+                        <th style="width: 15%;">Background</th>
+                        <th style="width: 15%;">Text Color</th>
+                        <th style="width: 35%;">Functional Context Rules Mappings</th>
+                        <th style="width: 15%;">Height Spec</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Status Badge</td>
+                        <td>#24A19C</td>
+                        <td>#121214</td>
+                        <td>Confirms complete metadata linkage or dynamic pipeline indexing.</td>
+                        <td>16px</td>
+                    </tr>
+                    <tr>
+                        <td>Alert Exception</td>
+                        <td>#D18E34</td>
+                        <td>#121214</td>
+                        <td>Signals pipeline block issues, error indicators, or system exceptions.</td>
+                        <td>16px</td>
+                    </tr>
+                    <tr>
+                        <td>Info System Tag</td>
+                        <td>#477BFF</td>
+                        <td>#FFFFFF</td>
+                        <td>Flags standard operational components or automation scripts.</td>
+                        <td>14px</td>
+                    </tr>
+                    <tr>
+                        <td>Outline Border Badge</td>
+                        <td>Transparent</td>
+                        <td>#477BFF</td>
+                        <td>Secondary asset indicators or dynamic list properties.</td>
+                        <td>14px</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="visual-panel">
+                <span class="panel-badge">Visual Snapshot // 07 Badge Components &amp; Dismissible Meta Tags Array</span>
+                <div style="background-color: var(--nv-bg-surface); padding: var(--spacing-lg); border-radius: var(--radius-md); border: 1px solid var(--nv-bg-element);">
+                    
+                    <div style="margin-bottom: var(--spacing-lg); border-bottom: 1px solid var(--nv-bg-element); padding-bottom: var(--spacing-md);">
+                        <span class="font-code" style="font-size: 11px; color: var(--nv-text-muted); display: block; margin-bottom: var(--spacing-sm);">System Badge Component Real Instances</span>
+                        <span class="mock-pill-badge" style="background-color: var(--nv-accent-success); color: var(--nv-bg-canvas);">SYNCED COMPLIANT</span>
+                        <span class="mock-pill-badge" style="background-color: var(--nv-accent-warning); color: var(--nv-bg-canvas);">EXCEPTION FAULT</span>
+                        <span class="mock-pill-badge" style="background-color: var(--nv-accent-brand); color: #fff;">MODEL_PIPELINE_V9</span>
+                        <span class="mock-pill-badge" style="background-color: transparent; color: var(--nv-accent-brand); border: 1px solid var(--nv-accent-brand);">OPTIONAL_FLAG</span>
+                    </div>
+
+                    <div>
+                        <span class="font-code" style="font-size: 11px; color: var(--nv-text-muted); display: block; margin-bottom: var(--spacing-sm);">Dismissible Sorting Nodes (Curve radius-sm // Font size text-xs tracking expanded)</span>
+                        <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-xs);">
+                            <span class="mock-tag-node">Resolution Target: 4K UHD <span class="mock-tag-close-btn">×</span></span>
+                            <span class="mock-tag-node">Frame-Rate Anchor: 60 FPS <span class="mock-tag-close-btn">×</span></span>
+                            <span class="mock-tag-node">Encoding Master: Apple ProRes 422 <span class="mock-tag-close-btn">×</span></span>
+                            <span class="mock-tag-node" style="border: 1px dashed var(--nv-accent-brand); background-color: transparent; color: var(--nv-accent-brand); cursor: pointer;">+ Append Telemetry Tag</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="tailwind" class="section-anchor">
+            <h2 class="section-title">08 / Tailwind CSS Integration Blueprint</h2>
+            <p>
+                To maintain configuration harmony across federated developer modules, integrate this precise design system configuration block within active project theme setups.
+            </p>
+
+            <div class="visual-panel">
+                <span class="panel-badge">Visual Snapshot // 08 Developer Code IDE Console View</span>
+                <pre class="code-block"><code><span class="code-cmt">/** @type {import('tailwindcss').Config} */</span>
 module.exports = {
   theme: {
     extend: {
       colors: {
-        narrabrain: {
-          canvas: <span class="str">'#121214'</span>,
-          surface: <span class="str">'#1E1F22'</span>,
-          element: <span class="str">'#2B2D31'</span>,
-          primary: <span class="str">'#E3E5E8'</span>,
-          muted: <span class="str">'#949BA4'</span>,
-          brand: <span class="str">'#477BFF'</span>,
-          success: <span class="str">'#24A19C'</span>,
-          warning: <span class="str">'#D18E34'</span>,
+        <span class="code-str">narrabrain</span>: {
+          canvas: <span class="code-str">'#121214'</span>,
+          surface: <span class="code-str">'#1E1F22'</span>,
+          element: <span class="code-str">'#2B2D31'</span>,
+          primary: <span class="code-str">'#E3E5E8'</span>,
+          brand: <span class="code-str">'#477BFF'</span>,
+          success: <span class="code-str">'#24A19C'</span>,
+          warning: <span class="code-str">'#D18E34'</span>,
         }
       },
-      fontFamily: {
-        display: [<span class="str">'Playfair Display'</span>, <span class="str">'serif'</span>],
-        ui: [<span class="str">'Inter'</span>, <span class="str">'sans-serif'</span>],
-      },
-      letterSpacing: {
-        micro: <span class="str">'0.05em'</span>,
+      spacing: { xs: <span class="code-str">'4px'</span>, sm: <span class="code-str">'8px'</span>, md: <span class="code-str">'16px'</span>, lg: <span class="code-str">'24px'</span> },
+      borderRadius: { xs: <span class="code-str">'2px'</span>, sm: <span class="code-str">'4px'</span>, md: <span class="code-str">'6px'</span>, lg: <span class="code-str">'8px'</span>, xl: <span class="code-str">'12px'</span>, full: <span class="code-str">'9999px'</span> },
+      boxShadow: {
+        <span class="code-str">'elevation-1'</span>: <span class="code-str">'0 1px 3px rgba(0,0,0,0.4)'</span>,
+        <span class="code-str">'elevation-2'</span>: <span class="code-str">'0 4px 8px rgba(0,0,0,0.5)'</span>,
+        <span class="code-str">'elevation-3'</span>: <span class="code-str">'0 8px 16px rgba(0,0,0,0.6)'</span>,
       }
-    },
-  },
-  plugins: [],
-}</div>
+    }
+  }
+}</code></pre>
+            </div>
+
+            <h3 class="section-subtitle">Integration &amp; Deployment Manual Notes</h3>
+            <ul>
+                <li><strong>Utility Call Syntax:</strong> Always reference structural backgrounds and properties using utility indicators like <span class="font-code">bg-narrabrain-canvas</span> or <span class="font-code">text-narrabrain-primary</span>.</li>
+                <li><strong>Z-Axis Separation Layouts:</strong> Avoid manual vector container border values; manage layout separation using token shadow markers to maintain accurate depth tiers.</li>
+            </ul>
         </section>
 
-        <footer>
-            <div>&copy; 2026 Narrabrain Labs. Open-Source Design Asset.</div>
-        </footer>
-
-    </div>
+    </main>
 
 </body>
 </html>
