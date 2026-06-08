@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Narrabrain Design System — Open Source Component Library</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --canvas: #121214;
+            --surface: #1E1F22;
+            --element: #2B2D31;
+            --text-primary: #E3E5E8;
+            --text-muted: #949BA4;
+            --accent-brand: #477BFF;
+            --accent-success: #24A19C;
+            --accent-warning: #D18E34;
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--canvas) 0%, #0a0e13 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* HEADER & NAVIGATION */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(18, 18, 20, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(71, 123, 255, 0.1);
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-brand), #6dd5ed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav {
+            display: flex;
+            gap: 32px;
+        }
+
+        nav a {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: var(--accent-brand);
+        }
+
+        /* MAIN CONTAINER */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 40px;
+        }
+
+        /* SECTION STYLING */
+        section {
+            margin-bottom: 120px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        section:nth-child(1) { animation-delay: 0.1s; }
+        section:nth-child(2) { animation-delay: 0.2s; }
+        section:nth-child(3) { animation-delay: 0.3s; }
+        section:nth-child(n+4) { opacity: 1; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* TYPOGRAPHY */
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-brand));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 32px;
+            color: var(--accent-brand);
+            padding-bottom: 16px;
+            border-bottom: 2px solid rgba(71, 123, 255, 0.2);
+            display: inline-block;
+        }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: var(--text-muted);
+            margin-bottom: 48px;
+            line-height: 1.6;
+        }
+
+        p {
+            font-size: 14px;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            line-height: 1.7;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            margin-bottom: 100px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin-bottom: 60px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-brand), #6dd5ed);
+            color: var(--canvas);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(71, 123, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--accent-brand);
+            color: var(--accent-brand);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(71, 123, 255, 0.1);
+        }
+
+        /* GRID LAYOUTS */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .grid-4 {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        /* CARDS */
+        .card {
+            background: var(--surface);
+            border: 1px solid rgba(71, 123, 255, 0.1);
+            border-radius: 8px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: rgba(71, 123, 255, 0.3);
+            background: rgba(71, 123, 255, 0.05);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .card h3 {
+            margin-bottom: 12px;
+        }
+
+        .card-code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--accent-brand);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px;
+            border-radius: 4px;
+            margin-top: 12px;
+            overflow-x: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .copy-btn {
+            background: none;
+            border: none;
+            color: var(--accent-brand);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            margin-left: 12px;
+            flex-shrink: 0;
+        }
+
+        .copy-btn:hover {
+            background: rgba(71, 123, 255, 0.2);
+        }
+
+        .copy-btn.copied {
+            color: var(--accent-success);
+        }
+
+        /* COLOR SWATCHES */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .color-swatch {
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(71, 123, 255, 0.1);
+        }
+
+        .color-swatch:hover {
+            transform: scale(1.05);
+            border-color: rgba(71, 123, 255, 0.3);
+        }
+
+        .swatch-color {
+            width: 100%;
+            height: 80px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 600;
+        }
+
+        .swatch-info {
+            background: var(--element);
+            padding: 12px;
+        }
+
+        .swatch-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .swatch-hex {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--accent-brand);
+        }
+
+        /* COMPONENT SHOWCASE */
+        .component-demo {
+            background: var(--surface);
+            border: 1px solid rgba(71, 123, 255, 0.1);
+            border-radius: 8px;
+            padding: 32px;
+            margin-top: 32px;
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .demo-button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .demo-button.primary {
+            background: var(--accent-brand);
+            color: white;
+        }
+
+        .demo-button.primary:hover {
+            background: #3a63e8;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(71, 123, 255, 0.3);
+        }
+
+        .demo-button.primary:active {
+            background: #2a4fb8;
+            transform: translateY(0);
+        }
+
+        .demo-button.secondary {
+            background: transparent;
+            border: 1px solid var(--accent-brand);
+            color: var(--accent-brand);
+        }
+
+        .demo-button.secondary:hover {
+            background: rgba(71, 123, 255, 0.1);
+        }
+
+        .demo-button.success {
+            background: var(--accent-success);
+            color: var(--canvas);
+        }
+
+        .demo-button.warning {
+            background: var(--accent-warning);
+            color: var(--canvas);
+        }
+
+        .demo-button.disabled {
+            background: var(--element);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        /* INPUT DEMO */
+        .demo-input {
+            padding: 12px 16px;
+            background: var(--element);
+            border: 1px solid var(--surface);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .demo-input:focus {
+            outline: none;
+            border-color: var(--accent-brand);
+            border-width: 2px;
+            box-shadow: 0 0 0 3px rgba(71, 123, 255, 0.1);
+        }
+
+        /* SPACING VISUALIZATION */
+        .spacing-demo {
+            background: var(--surface);
+            border: 1px solid rgba(71, 123, 255, 0.1);
+            border-radius: 8px;
+            padding: 32px;
+            margin-top: 32px;
+        }
+
+        .spacing-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .spacing-bar {
+            background: var(--accent-brand);
+            height: 20px;
+            border-radius: 2px;
+        }
+
+        .spacing-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text-muted);
+            min-width: 80px;
+        }
+
+        /* CODE BLOCK */
+        .code-block {
+            background: #0a0e13;
+            border: 1px solid rgba(71, 123, 255, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 24px;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--accent-brand);
+            line-height: 1.6;
+            display: block;
+            padding-right: 70px;
+        }
+
+        .copy-code-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 8px 12px;
+            background: var(--surface);
+            border: 1px solid var(--accent-brand);
+            color: var(--accent-brand);
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .copy-code-btn:hover {
+            background: rgba(71, 123, 255, 0.15);
+            box-shadow: 0 4px 12px rgba(71, 123, 255, 0.2);
+        }
+
+        /* DIVIDER */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(71, 123, 255, 0.2), transparent);
+            margin: 80px 0;
+        }
+
+        /* TABLE STYLING */
+        .spec-table {
+            width: 100%;
+            margin-top: 24px;
+            border-collapse: collapse;
+            border: 1px solid rgba(71, 123, 255, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .spec-table thead {
+            background: var(--accent-brand);
+            color: white;
+        }
+
+        .spec-table th {
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .spec-table td {
+            padding: 12px 16px;
+            border-top: 1px solid rgba(71, 123, 255, 0.1);
+            font-size: 13px;
+        }
+
+        .spec-table tr:nth-child(even) {
+            background: rgba(71, 123, 255, 0.02);
+        }
+
+        .spec-table code {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-brand);
+            background: rgba(71, 123, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 11px;
+        }
+
+        /* FOOTER */
+        footer {
+            border-top: 1px solid rgba(71, 123, 255, 0.1);
+            padding: 60px 40px;
+            margin-top: 120px;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        footer p {
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .footer-badge {
+            display: inline-block;
+            background: var(--accent-success);
+            color: var(--canvas);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-top: 16px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                gap: 12px;
+                justify-content: center;
+            }
+
+            nav a {
+                font-size: 11px;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            .container {
+                padding: 40px 20px;
+            }
+
+            .grid-2,
+            .grid-3,
+            .grid-4 {
+                grid-template-columns: 1fr;
+            }
+
+            .color-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .component-demo {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="logo">narrabrain™</div>
+        <nav>
+            <a href="#foundations" class="nav-link">Foundations</a>
+            <a href="#spacing" class="nav-link">Spacing</a>
+            <a href="#colors" class="nav-link">Colors</a>
+            <a href="#typography" class="nav-link">Typography</a>
+            <a href="#components" class="nav-link">Components</a>
+            <a href="#tailwind" class="nav-link">Config</a>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+        <!-- HERO SECTION -->
+        <section class="hero" id="foundations">
+            <div class="hero-content">
+                <h1>Design System v9.0</h1>
+                <p class="subtitle">Complete, open-source component library & token specification for the Narrabrain platform. Professional-grade dark mode infrastructure optimized for high-density creative environments.</p>
+                <div class="cta-buttons">
+                    <a href="#components" class="btn btn-primary">View Components</a>
+                    <a href="#tailwind" class="btn btn-secondary">Tailwind Config</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- PHILOSOPHY SECTION -->
+        <section id="philosophy">
+            <h2>System Philosophy</h2>
+            <p><strong>Core Principle:</strong> The user interface functions as an invisible utility framework. High-density prompt properties, vector queries, and timeline parameters remain dark, flat, and structured—prioritizing creative work over layout decoration.</p>
+            <div class="grid" style="margin-top: 32px;">
+                <div class="card">
+                    <h3>The 90/10 Asset Ratio</h3>
+                    <p>Exactly 90% of screen space maps to desaturated neutral UI. Luminous focus accents occupy 10% or less, deployed explicitly to guide orientation.</p>
+                </div>
+                <div class="card">
+                    <h3>Zero Halation Typography</h3>
+                    <p>Pure white text on dark backgrounds causes visual ghosting. We enforce calibrated off-white scales to protect long-term reading comfort.</p>
+                </div>
+                <div class="card">
+                    <h3>Structural Contrast via Depth</h3>
+                    <p>Panels use layered shadow elevation instead of high-contrast borders. This minimizes visual noise while maintaining clear spatial relationships.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- SPACING SECTION -->
+        <section id="spacing">
+            <h2>Spacing & Sizing</h2>
+            <p>All spacing follows an 8px modular grid system for visual consistency and alignment efficiency.</p>
+            
+            <div class="spacing-demo">
+                <div class="spacing-item">
+                    <span class="spacing-label">--spacing-xs</span>
+                    <div class="spacing-bar" style="width: 20px;"></div>
+                    <span style="font-size: 12px; color: var(--text-muted);">4px</span>
+                </div>
+                <div class="spacing-item">
+                    <span class="spacing-label">--spacing-sm</span>
+                    <div class="spacing-bar" style="width: 40px;"></div>
+                    <span style="font-size: 12px; color: var(--text-muted);">8px</span>
+                </div>
+                <div class="spacing-item">
+                    <span class="spacing-label">--spacing-md</span>
+                    <div class="spacing-bar" style="width: 80px;"></div>
+                    <span style="font-size: 12px; color: var(--text-muted);">16px</span>
+                </div>
+                <div class="spacing-item">
+                    <span class="spacing-label">--spacing-lg</span>
+                    <div class="spacing-bar" style="width: 120px;"></div>
+                    <span style="font-size: 12px; color: var(--text-muted);">24px</span>
+                </div>
+                <div class="spacing-item">
+                    <span class="spacing-label">--spacing-xl</span>
+                    <div class="spacing-bar" style="width: 160px;"></div>
+                    <span style="font-size: 12px; color: var(--text-muted);">32px</span>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 40px;">Border Radius Scale</h3>
+            <div class="grid-3" style="margin-top: 24px;">
+                <div class="card" style="text-align: center;">
+                    <div style="width: 60px; height: 40px; background: var(--accent-brand); border-radius: 2px; margin: 0 auto 16px;"></div>
+                    <p style="font-size: 12px;"><code style="color: var(--accent-brand);">--radius-xs</code></p>
+                    <p style="font-size: 11px; color: var(--text-muted);">2px</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="width: 60px; height: 40px; background: var(--accent-brand); border-radius: 4px; margin: 0 auto 16px;"></div>
+                    <p style="font-size: 12px;"><code style="color: var(--accent-brand);">--radius-sm</code></p>
+                    <p style="font-size: 11px; color: var(--text-muted);">4px</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="width: 60px; height: 40px; background: var(--accent-brand); border-radius: 6px; margin: 0 auto 16px;"></div>
+                    <p style="font-size: 12px;"><code style="color: var(--accent-brand);">--radius-md</code></p>
+                    <p style="font-size: 11px; color: var(--text-muted);">6px</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="width: 60px; height: 40px; background: var(--accent-brand); border-radius: 8px; margin: 0 auto 16px;"></div>
+                    <p style="font-size: 12px;"><code style="color: var(--accent-brand);">--radius-lg</code></p>
+                    <p style="font-size: 11px; color: var(--text-muted);">8px</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="width: 60px; height: 40px; background: var(--accent-brand); border-radius: 12px; margin: 0 auto 16px;"></div>
+                    <p style="font-size: 12px;"><code style="color: var(--accent-brand);">--radius-xl</code></p>
+                    <p style="font-size: 11px; color: var(--text-muted);">12px</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="width: 60px; height: 40px; background: var(--accent-brand); border-radius: 50%; margin: 0 auto 16px;"></div>
+                    <p style="font-size: 12px;"><code style="color: var(--accent-brand);">--radius-full</code></p>
+                    <p style="font-size: 11px; color: var(--text-muted);">9999px</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- COLORS SECTION -->
+        <section id="colors">
+            <h2>Color System</h2>
+            <p>Strategic color tokens mapped to functional definitions. Direct hardcoding is prohibited—all colors must reference design tokens.</p>
+            
+            <div class="color-grid">
+                <div class="color-swatch" onclick="copyToClipboard('#121214', this)">
+                    <div class="swatch-color" style="background: #121214;">#121214</div>
+                    <div class="swatch-info">
+                        <div class="swatch-name">Canvas Base</div>
+                        <div class="swatch-hex">--nv-bg-canvas</div>
+                    </div>
+                </div>
+
+                <div class="color-swatch" onclick="copyToClipboard('#1E1F22', this)">
+                    <div class="swatch-color" style="background: #1E1F22;">#1E1F22</div>
+                    <div class="swatch-info">
+                        <div class="swatch-name">Surface Bed</div>
+                        <div class="swatch-hex">--nv-bg-surface</div>
+                    </div>
+                </div>
+
+                <div class="color-swatch" onclick="copyToClipboard('#2B2D31', this)">
+                    <div class="swatch-color" style="background: #2B2D31;">#2B2D31</div>
+                    <div class="swatch-info">
+                        <div class="swatch-name">Element Surface</div>
+                        <div class="swatch-hex">--nv-bg-element</div>
+                    </div>
+                </div>
+
+                <div class="color-swatch" onclick="copyToClipboard('#E3E5E8', this)">
+                    <div class="swatch-color" style="background: #E3E5E8;">#E3E5E8</div>
+                    <div class="swatch-info">
+                        <div class="swatch-name">Primary Text</div>
+                        <div class="swatch-hex">--nv-text-primary</div>
+                    </div>
+                </div>
+
+                <div class="color-swatch" onclick="copyToClipboard('#949BA4', this)">
+                    <div class="swatch-color" style="background: #949BA4;">#949BA4</div>
+                    <div class="swatch-info">
+                        <div class="swatch-name">Muted Text</div>
+                        <div class="swatch-hex">--nv-text-muted</div>
+                    </div>
+                </div>
+
+                <div class="color-swatch" onclick="copyToClipboard('#477BFF', this)">
+                    <div class="swatch-color" style="background: #477BFF;">#477BFF</div>
+                    <div class="swatch-info">
+                        <div class="swatch-name">Brand Accent</div>
+                        <div class="swatch-hex">--nv-accent-brand</div>
+                    </div>
+                </div>
+
+                <div class="color-swatch" onclick="copyToClipboard('#24A19C', this)">
+                    <div class="swatch-color" style="background: #24A19C;">#24A19C</div>
+                    <div class="swatch-info">
+                        <div class="swatch-name">Success</div>
+                        <div class="swatch-hex">--nv-accent-success</div>
+                    </div>
+                </div>
+
+                <div class="color-swatch" onclick="copyToClipboard('#D18E34', this)">
+                    <div class="swatch-color" style="background: #D18E34;">#D18E34</div>
+                    <div class="swatch-info">
+                        <div class="swatch-name">Warning</div>
+                        <div class="swatch-hex">--nv-accent-warning</div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 40px;">Chromatic Guardrails</h3>
+            <div class="grid" style="margin-top: 24px;">
+                <div class="card">
+                    <h3 style="color: var(--accent-success);">Success Green (#24A19C)</h3>
+                    <p>Reserved strictly for telemetry confirmation loops. Highlights compiled prompts, successful vector passes, and connected assets. Never for decoration.</p>
+                </div>
+                <div class="card">
+                    <h3 style="color: var(--accent-warning);">Warning Orange (#D18E34)</h3>
+                    <p>Signifies critical system exceptions and broken layouts. Functions as an interactive feedback hook for user dissatisfaction inputs on AI iterations.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- TYPOGRAPHY SECTION -->
+        <section id="typography">
+            <h2>Typography System</h2>
+            <p>Dual font pairing: Playfair Display for editorial elements, Inter for operational data.</p>
+            
+            <div style="margin-top: 40px;">
+                <h3>Display Layer (Playfair Display)</h3>
+                <div style="font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 700; color: var(--text-primary); margin: 24px 0;">The Narrative Layer</div>
+                <p style="font-size: 12px; color: var(--text-muted);">Used for titles, headings, and editorial marketing content.</p>
+            </div>
+
+            <div style="margin-top: 40px;">
+                <h3>Interface Layer (Inter)</h3>
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>Token</th>
+                            <th>Size</th>
+                            <th>Line Height</th>
+                            <th>Letter Spacing</th>
+                            <th>Usage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>--text-xs</code></td>
+                            <td>10px</td>
+                            <td>1.4</td>
+                            <td>0.03em</td>
+                            <td>Captions, metadata</td>
+                        </tr>
+                        <tr>
+                            <td><code>--text-sm</code></td>
+                            <td>11px</td>
+                            <td>1.5</td>
+                            <td>0.05em</td>
+                            <td>Labels, timestamps</td>
+                        </tr>
+                        <tr>
+                            <td><code>--text-base</code></td>
+                            <td>12px</td>
+                            <td>1.5</td>
+                            <td>0.02em</td>
+                            <td>Body, form labels</td>
+                        </tr>
+                        <tr>
+                            <td><code>--text-md</code></td>
+                            <td>14px</td>
+                            <td>1.6</td>
+                            <td>0.01em</td>
+                            <td>Primary body text</td>
+                        </tr>
+                        <tr>
+                            <td><code>--text-lg</code></td>
+                            <td>16px</td>
+                            <td>1.6</td>
+                            <td>0em</td>
+                            <td>Subheadings</td>
+                        </tr>
+                        <tr>
+                            <td><code>--text-2xl</code></td>
+                            <td>20px</td>
+                            <td>1.4</td>
+                            <td>-0.01em</td>
+                            <td>Section headings</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- COMPONENTS SECTION -->
+        <section id="components">
+            <h2>Component Library</h2>
+
+            <!-- BUTTONS -->
+            <h3 style="margin-top: 40px;">Buttons</h3>
+            <p>All states use subtle elevation adjustments and color shifts rather than loud background changes.</p>
+            
+            <div class="component-demo">
+                <button class="demo-button primary">Primary Button</button>
+                <button class="demo-button primary" style="opacity: 0.9;">Hover State</button>
+                <button class="demo-button secondary">Secondary Button</button>
+                <button class="demo-button success">Success</button>
+                <button class="demo-button warning">Warning</button>
+                <button class="demo-button disabled" disabled>Disabled</button>
+            </div>
+
+            <h3 style="margin-top: 40px;">Button Sizing</h3>
+            <div class="component-demo" style="flex-direction: column;">
+                <button class="demo-button primary" style="padding: 8px 12px; font-size: 12px;">Small (32px)</button>
+                <button class="demo-button primary" style="padding: 12px 24px; font-size: 14px;">Medium (40px)</button>
+                <button class="demo-button primary" style="padding: 16px 28px; font-size: 16px;">Large (48px)</button>
+            </div>
+
+            <!-- INPUTS -->
+            <h3 style="margin-top: 40px;">Form Inputs</h3>
+            <p>Input states communicate changes through border indicators rather than background color shifts.</p>
+            
+            <div style="margin-top: 24px; display: flex; flex-direction: column; gap: 16px; max-width: 400px;">
+                <div>
+                    <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Default State</p>
+                    <input type="text" class="demo-input" placeholder="Enter text...">
+                </div>
+                <div>
+                    <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Focused State</p>
+                    <input type="text" class="demo-input" placeholder="Click me..." autofocus>
+                </div>
+                <div>
+                    <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Filled State</p>
+                    <input type="text" class="demo-input" value="Filled value">
+                </div>
+            </div>
+
+            <!-- BADGES -->
+            <h3 style="margin-top: 40px;">Badges & Tags</h3>
+            <div class="component-demo" style="gap: 12px;">
+                <div style="display: inline-block; padding: 6px 12px; background: var(--accent-success); color: var(--canvas); border-radius: 4px; font-size: 12px; font-weight: 600;">Status Active</div>
+                <div style="display: inline-block; padding: 6px 12px; background: var(--accent-warning); color: var(--canvas); border-radius: 4px; font-size: 12px; font-weight: 600;">Alert</div>
+                <div style="display: inline-block; padding: 6px 12px; background: var(--accent-brand); color: white; border-radius: 4px; font-size: 12px; font-weight: 600;">Info Badge</div>
+                <div style="display: inline-block; padding: 6px 12px; background: transparent; border: 1px solid var(--accent-brand); color: var(--accent-brand); border-radius: 4px; font-size: 12px; font-weight: 600;">Outline Tag</div>
+            </div>
+
+            <!-- CARD VARIANTS -->
+            <h3 style="margin-top: 40px;">Card Variants</h3>
+            <div class="grid">
+                <div class="card" style="border: none; box-shadow: 0 1px 3px rgba(0,0,0,0.3);">
+                    <h3>Default Card</h3>
+                    <p>Standard content grouping with subtle elevation.</p>
+                </div>
+                <div class="card" style="border: 1px solid var(--accent-brand);">
+                    <h3>Elevated Card</h3>
+                    <p>Interactive/selectable with brand accent border.</p>
+                </div>
+                <div class="card" style="border: 1px solid rgba(148, 155, 164, 0.2);">
+                    <h3>Minimal Card</h3>
+                    <p>Subtle content sections with muted borders.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- TAILWIND SECTION -->
+        <section id="tailwind">
+            <h2>Tailwind CSS Configuration</h2>
+            <p>Copy this configuration into your <code style="color: var(--accent-brand);">tailwind.config.js</code> file. All design tokens map directly to CSS utilities.</p>
+            
+            <div class="code-block">
+                <button class="copy-code-btn" onclick="copyCodeBlock(this)">COPY</button>
+                <code>/** @type {import('tailwindcss').Config} */
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        narrabrain: {
+          canvas: '#121214',
+          surface: '#1E1F22',
+          element: '#2B2D31',
+          primary: '#E3E5E8',
+          brand: '#477BFF',
+          success: '#24A19C',
+          warning: '#D18E34',
+        }
+      },
+      spacing: {
+        'xs': '4px',
+        'sm': '8px',
+        'md': '16px',
+        'lg': '24px',
+        'xl': '32px',
+        '2xl': '48px',
+      },
+      borderRadius: {
+        'xs': '2px',
+        'sm': '4px',
+        'md': '6px',
+        'lg': '8px',
+        'xl': '12px',
+        'full': '9999px',
+      },
+      fontSize: {
+        'xs': ['10px', { lineHeight: '1.4', letterSpacing: '0.03em' }],
+        'sm': ['11px', { lineHeight: '1.5', letterSpacing: '0.05em' }],
+        'base': ['12px', { lineHeight: '1.5', letterSpacing: '0.02em' }],
+        'md': ['14px', { lineHeight: '1.6', letterSpacing: '0.01em' }],
+        'lg': ['16px', { lineHeight: '1.6', letterSpacing: '0em' }],
+        '2xl': ['20px', { lineHeight: '1.4', letterSpacing: '-0.01em' }],
+      },
+      boxShadow: {
+        'elevation-1': '0 1px 3px rgba(0,0,0,0.3)',
+        'elevation-2': '0 4px 8px rgba(0,0,0,0.4)',
+        'elevation-3': '0 8px 16px rgba(0,0,0,0.5)',
+        'elevation-4': '0 12px 24px rgba(0,0,0,0.6)',
+      },
+      fontFamily: {
+        display: ['Playfair Display', 'serif'],
+        ui: ['Inter', 'sans-serif'],
+      },
+    },
+  },
+  plugins: [],
+}</code>
+            </div>
+
+            <h3 style="margin-top: 40px;">Integration Notes</h3>
+            <div class="grid">
+                <div class="card">
+                    <h3>Color Mapping</h3>
+                    <p>Always use utility tokens like <code style="color: var(--accent-brand);">bg-narrabrain-canvas</code> or <code style="color: var(--accent-brand);">text-narrabrain-primary</code>. Never hardcode hex values.</p>
+                </div>
+                <div class="card">
+                    <h3>Elevation & Depth</h3>
+                    <p>Block raw border declarations. Use shadow utilities like <code style="color: var(--accent-brand);">shadow-elevation-2</code> for structural separation.</p>
+                </div>
+                <div class="card">
+                    <h3>Typography</h3>
+                    <p>Use <code style="color: var(--accent-brand);">font-display</code> for headings (Playfair), <code style="color: var(--accent-brand);">font-ui</code> for body (Inter).</p>
+                </div>
+                <div class="card">
+                    <h3>Responsive Grid</h3>
+                    <p>Spacing tokens follow 8px modular grid. Use <code style="color: var(--accent-brand);">space-md</code>, <code style="color: var(--accent-brand);">space-lg</code> for consistent layouts.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- FOOTER -->
+        <footer>
+            <p><strong>Narrabrain Design System v9.0</strong></p>
+            <p>Complete, open-source component library & token specification</p>
+            <p style="font-size: 12px; margin-top: 24px; color: var(--text-muted);">
+                This design system is fully open-source. Free to clone, adapt, deploy, and modify for personal or enterprise projects without restriction.
+            </p>
+            <p style="font-size: 12px; margin-top: 12px;">
+                Document ID: NDS-V9-COMPLETE-WEB | Release: June 2026
+            </p>
+            <div class="footer-badge">✓ OPEN SOURCE</div>
+        </footer>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        // Navigation highlighting
+        const navLinks = document.querySelectorAll('nav a');
+        const sections = document.querySelectorAll('section');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Copy to clipboard functionality
+        function copyToClipboard(text, element) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = element.querySelector('.swatch-hex').textContent;
+                element.querySelector('.swatch-hex').textContent = '✓ Copied!';
+                element.style.borderColor = 'var(--accent-success)';
+                
+                setTimeout(() => {
+                    element.querySelector('.swatch-hex').textContent = originalText;
+                    element.style.borderColor = 'rgba(71, 123, 255, 0.1)';
+                }, 2000);
+            });
+        }
+
+        // Copy code block
+        function copyCodeBlock(button) {
+            const codeBlock = button.parentElement.querySelector('code');
+            const text = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                button.textContent = '✓ COPIED';
+                button.style.background = 'rgba(36, 161, 156, 0.2)';
+                button.style.borderColor = 'var(--accent-success)';
+                button.style.color = 'var(--accent-success)';
+                
+                setTimeout(() => {
+                    button.textContent = 'COPY';
+                    button.style.background = 'rgba(71, 123, 255, 0.1)';
+                    button.style.borderColor = 'var(--accent-brand)';
+                    button.style.color = 'var(--accent-brand)';
+                }, 2000);
+            });
+        }
+
+        // Smooth scroll behavior already enabled in CSS
+    </script>
+</body>
+</html>
