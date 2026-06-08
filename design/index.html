@@ -38,33 +38,36 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* 3. SCROLLABLE FRAMEWORK CONTAINERS */
+        /* 3. RESPONSIVE CONTAINER WITH FLUID PADDING */
         .page-wrapper {
             max-width: 1000px;
             margin: 0 auto;
-            padding: 0 24px;
+            padding: 0 max(16px, 4vw);
         }
 
-        /* Sticky Navigation HUD */
+        /* FIXED FIXED-NAVIGATION DE-CLUTTERING APPARATUS */
         .sticky-hud {
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(18, 18, 20, 0.8);
+            background: rgba(18, 18, 20, 0.9);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--nv-bg-element);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 24px;
+            padding: 16px max(16px, 4vw);
+            gap: 20px;
         }
 
         .hud-logo {
             font-family: 'Playfair Display', serif;
-            font-size: 16pt;
+            font-size: 15pt;
             font-weight: 700;
             letter-spacing: -0.5px;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .hud-logo span {
@@ -76,49 +79,59 @@
             margin-left: 1px;
         }
 
+        /* Mobile Scroll-Engine for Tabs */
         .hud-nav {
             display: flex;
-            gap: 24px;
+            gap: 20px;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding-bottom: 4px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Hide scrollbar for clean UI */
+        }
+
+        .hud-nav::-webkit-scrollbar {
+            display: none;
         }
 
         .hud-nav a {
             color: var(--nv-text-muted);
             font-family: 'Geist Mono', monospace;
-            font-size: 8.5pt;
+            font-size: 8pt;
             text-transform: uppercase;
             text-decoration: none;
             letter-spacing: 1px;
             transition: color 0.2s ease;
+            display: inline-block;
         }
 
         .hud-nav a:hover {
             color: var(--nv-text-primary);
         }
 
-        /* Hero Splash Section */
+        /* 4. FLUID SPACING SYSTEM (Addresses massive gaps across viewport shifts) */
         .hero-container {
-            padding: 120px 0 80px 0;
+            padding: clamp(40px, 8vw, 80px) 0 clamp(30px, 6vw, 50px) 0;
             border-bottom: 1px solid var(--nv-bg-element);
-            margin-bottom: 80px;
         }
 
         .url-ticker {
             font-family: 'Geist Mono', monospace;
-            font-size: 9pt;
+            font-size: 8.5pt;
             color: var(--nv-accent-brand);
             text-transform: uppercase;
             letter-spacing: 3px;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             font-weight: 600;
         }
 
         h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 40pt;
+            font-size: clamp(24pt, 5vw, 36pt);
             font-weight: 700;
-            line-height: 1.15;
-            letter-spacing: -1px;
-            margin-bottom: 24px;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+            margin-bottom: 20px;
         }
 
         h1 em {
@@ -128,54 +141,58 @@
         }
 
         .hero-lead {
-            font-size: 13.5pt;
+            font-size: clamp(11pt, 2vw, 13pt);
             font-weight: 300;
             color: var(--nv-text-muted);
             max-width: 760px;
-            line-height: 1.7;
+            line-height: 1.65;
         }
 
-        /* 4. SCROLL LAYOUT ARCHITECTURE CLASSES */
+        /* Dynamic Section Compactor */
         .content-section {
-            padding: 60px 0;
-            margin-bottom: 40px;
+            padding: clamp(35px, 6vw, 55px) 0;
+            border-bottom: 1px solid rgba(43, 45, 49, 0.4);
+        }
+        
+        .content-section:last-of-type {
+            border-bottom: none;
         }
 
         .section-header {
             font-family: 'Playfair Display', serif;
-            font-size: 20pt;
+            font-size: clamp(15pt, 3vw, 18pt);
             font-weight: 700;
             color: var(--nv-text-primary);
             border-bottom: 1px solid var(--nv-bg-element);
-            padding-bottom: 12px;
-            margin-bottom: 32px;
-            letter-spacing: -0.3px;
+            padding-bottom: 10px;
+            margin-bottom: 24px;
+            letter-spacing: -0.2px;
         }
 
         h3 {
             font-family: 'Inter', sans-serif;
-            font-size: 11pt;
+            font-size: 10pt;
             font-weight: 600;
             color: var(--nv-accent-brand);
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            margin: 36px 0 16px 0;
+            margin: 28px 0 14px 0;
         }
 
         p {
             color: var(--nv-text-muted);
-            margin-bottom: 20px;
-            text-align: justify;
+            margin-bottom: 16px;
+            text-align: left; /* Better rendering alignment on compact mobile displays */
         }
 
         ul {
-            margin-bottom: 24px;
-            padding-left: 20px;
+            margin-bottom: 20px;
+            padding-left: 18px;
         }
 
         li {
             color: var(--nv-text-muted);
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         li strong {
@@ -183,109 +200,123 @@
             font-weight: 600;
         }
 
-        /* High-Density Structural Specimen Blocks */
+        /* High-Density Structural Specimen Panels */
         .specimen-panel {
             background-color: var(--nv-bg-surface);
             border: 1px solid var(--nv-bg-element);
             border-radius: 8px;
-            padding: 32px;
-            margin-bottom: 24px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            padding: clamp(16px, 4vw, 28px);
+            margin-bottom: 20px;
         }
 
         .specimen-header-ticker {
             font-family: 'Geist Mono', monospace;
-            font-size: 8pt;
+            font-size: 7.5pt;
             font-weight: 700;
             color: var(--nv-text-muted);
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
             border-bottom: 1px solid var(--nv-bg-element);
-            padding-bottom: 10px;
-            margin-bottom: 24px;
+            padding-bottom: 8px;
+            margin-bottom: 18px;
         }
 
-        /* Specialty Chromatic Guardrail Overrides */
         .panel-success-directive { border-left: 4px solid var(--nv-accent-success); }
         .panel-warning-directive { border-left: 4px solid var(--nv-accent-warning); }
 
-        /* 5. TYPOGRAPHY AND CODES PARAMETERS MAP */
         .font-mono-tag {
             font-family: 'Geist Mono', monospace;
             font-weight: bold;
             color: var(--nv-text-primary);
-            font-size: 9.5pt;
+            font-size: 9pt;
+            word-break: break-all; /* Prevents overflow from tearing code layout containers */
         }
 
         .micro-parameter {
-            font-size: 8.5pt !important;
-            letter-spacing: 0.05em !important; /* Spacing protection rule */
+            font-size: 8pt !important;
+            letter-spacing: 0.05em !important;
             text-transform: uppercase !important;
             color: var(--nv-text-muted);
+            line-height: 1.4;
         }
 
+        /* 5. OVERFLOW PROTECTED CODE CONTAINERS */
         .code-container-block {
             background-color: #0B0B0C;
             border: 1px solid var(--nv-bg-element);
             border-left: 3px solid var(--nv-accent-success);
             border-radius: 6px;
-            padding: 24px;
+            padding: 16px;
             font-family: 'Geist Mono', monospace;
-            font-size: 9.5pt;
+            font-size: 9pt;
             line-height: 1.5;
             white-space: pre;
             overflow-x: auto;
             color: var(--nv-text-primary);
         }
 
-        .kw { color: var(--nv-accent-brand); font-weight: bold; }
         .str { color: var(--nv-accent-success); }
         .cmt { color: #55585E; font-style: italic; }
 
-        /* Color Systems Matrix Layout */
+        /* 6. RESPONSIVE TOKEN GRID SYSTEM */
+        .table-scroll-container {
+            width: 100%;
+            overflow-x: auto;
+            margin: 20px 0;
+            -webkit-overflow-scrolling: touch;
+        }
+
         .token-table-view {
             width: 100%;
             border-collapse: collapse;
-            margin: 24px 0;
+            min-width: 600px; /* Forces stable architecture on small mobile panels */
         }
 
         .token-table-view th {
             background-color: var(--nv-bg-surface);
             color: var(--nv-text-primary);
-            font-size: 8.5pt;
+            font-size: 8pt;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
             text-align: left;
-            padding: 14px 16px;
+            padding: 12px;
             border: 1px solid var(--nv-bg-element);
         }
 
         .token-table-view td {
-            padding: 16px;
+            padding: 12px;
             border-bottom: 1px solid var(--nv-bg-element);
-            font-size: 9.5pt;
+            font-size: 9pt;
             color: var(--nv-text-muted);
         }
 
         .color-swatch-box {
-            width: 44px;
-            height: 44px;
+            width: 36px;
+            height: 36px;
             border-radius: 6px;
             border: 1px solid var(--nv-bg-element);
         }
 
-        /* Footer Apparatus */
+        /* Responsive Footer Module */
         footer {
-            margin-top: 120px;
+            margin-top: 60px;
             border-top: 1px solid var(--nv-bg-element);
-            padding: 40px 0 60px 0;
+            padding: 30px 0 5px 0;
             font-family: 'Geist Mono', monospace;
-            font-size: 8.5pt;
+            font-size: 8pt;
             color: var(--nv-text-muted);
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            gap: 12px;
             letter-spacing: 0.5px;
+        }
+
+        @media (min-width: 600px) {
+            footer {
+                flex-direction: row;
+                justify-content: space-between;
+            }
         }
     </style>
 </head>
@@ -321,7 +352,7 @@
             </p>
 
             <div class="specimen-panel" style="border-left: 4px solid var(--nv-accent-brand);">
-                <p style="margin-bottom: 0; font-family: 'Playfair Display', serif; font-style: italic; font-size: 13pt; color: var(--nv-text-primary);">
+                <p style="margin-bottom: 0; font-family: 'Playfair Display', serif; font-style: italic; font-size: 12pt; color: var(--nv-text-primary);">
                     “The UI must be an invisible frame. The canvas stays completely dark and structurally desaturated, ensuring the user's focus is focused entirely on raw master content.”
                 </p>
             </div>
@@ -340,66 +371,68 @@
                 The color space configuration is mapped explicitly to combat macular exhaustion. All core variables must be referenced as system design tokens. Direct raw hex mapping inside component modules is structurally banned to preserve framework stability.
             </p>
 
-            <table class="token-table-view">
-                <thead>
-                    <tr>
-                        <th style="width: 15%;">Swatch</th>
-                        <th style="width: 25%;">Token System Key</th>
-                        <th style="width: 15%;">Hex Code</th>
-                        <th style="width: 45%;">Functional System Application</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><div class="color-swatch-box" style="background-color: #121214;"></div></td>
-                        <td><span class="font-mono-tag">--nv-bg-canvas</span></td>
-                        <td><span class="font-mono-tag">#121214</span></td>
-                        <td><strong>Global Canvas Base.</strong> The system container layer. Absorbs light glare across desktop viewports.</td>
-                    </tr>
-                    <tr>
-                        <td><div class="color-swatch-box" style="background-color: #1E1F22;"></div></td>
-                        <td><span class="font-mono-tag">--nv-bg-surface</span></td>
-                        <td><span class="font-mono-tag">#1E1F22</span></td>
-                        <td><strong>Structural Panel Bed.</strong> Tool areas, media asset bins, timeline containers, and sidebar wrappers.</td>
-                    </tr>
-                    <tr>
-                        <td><div class="color-swatch-box" style="background-color: #2B2D31;"></div></td>
-                        <td><span class="font-mono-tag">--nv-bg-element</span></td>
-                        <td><span class="font-mono-tag">#2B2D31</span></td>
-                        <td><strong>Interactive Field Surface.</strong> Dropdowns, track layers, contextual inputs, and default button states.</td>
-                    </tr>
-                    <tr>
-                        <td><div class="color-swatch-box" style="background-color: #E3E5E8;"></div></td>
-                        <td><span class="font-mono-tag">--nv-text-primary</span></td>
-                        <td><span class="font-mono-tag">#E3E5E8</span></td>
-                        <td><strong>Primary Text Scale.</strong> Dampened off-white typeface. High legibility index under severe low-light room conditions.</td>
-                    </tr>
-                    <tr>
-                        <td><div class="color-swatch-box" style="background-color: #949BA4;"></div></td>
-                        <td><span class="font-mono-tag">--nv-text-muted</span></td>
-                        <td><span class="font-mono-tag">#949BA4</span></td>
-                        <td><strong>Secondary Information Text.</strong> Non-critical data fields, tracking metadata, inactive states, and timeline frames.</td>
-                    </tr>
-                    <tr>
-                        <td><div class="color-swatch-box" style="background-color: #477BFF;"></div></td>
-                        <td><span class="font-mono-tag">--nv-accent-brand</span></td>
-                        <td><span class="font-mono-tag">#477BFF</span></td>
-                        <td><strong>Focus Highlight Accent.</strong> Selection boundaries, active workspace tabs, interactive keyframe heads.</td>
-                    </tr>
-                    <tr>
-                        <td><div class="color-swatch-box" style="background-color: #24A19C;"></div></td>
-                        <td><span class="font-mono-tag">--nv-accent-success</span></td>
-                        <td><span class="font-mono-tag">#24A19C</span></td>
-                        <td><strong>Operational Utility Green.</strong> Restricted to system telemetry, render states, and syntax indicators.</td>
-                    </tr>
-                    <tr>
-                        <td><div class="color-swatch-box" style="background-color: #D18E34;"></div></td>
-                        <td><span class="font-mono-tag">--nv-accent-warning</span></td>
-                        <td><span class="font-mono-tag">#D18E34</span></td>
-                        <td><strong>Telemetry Warning Orange.</strong> Highlights broken rendering paths, pipeline failures, and dissatisfaction telemetry loop inputs.</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-scroll-container">
+                <table class="token-table-view">
+                    <thead>
+                        <tr>
+                            <th style="width: 15%;">Swatch</th>
+                            <th style="width: 25%;">Token System Key</th>
+                            <th style="width: 15%;">Hex Code</th>
+                            <th style="width: 45%;">Functional System Application</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><div class="color-swatch-box" style="background-color: #121214;"></div></td>
+                            <td><span class="font-mono-tag">--nv-bg-canvas</span></td>
+                            <td><span class="font-mono-tag">#121214</span></td>
+                            <td><strong>Global Canvas Base.</strong> The system container layer. Absorbs light glare across desktop viewports.</td>
+                        </tr>
+                        <tr>
+                            <td><div class="color-swatch-box" style="background-color: #1E1F22;"></div></td>
+                            <td><span class="font-mono-tag">--nv-bg-surface</span></td>
+                            <td><span class="font-mono-tag">#1E1F22</span></td>
+                            <td><strong>Structural Panel Bed.</strong> Tool areas, media asset bins, timeline containers, and sidebar wrappers.</td>
+                        </tr>
+                        <tr>
+                            <td><div class="color-swatch-box" style="background-color: #2B2D31;"></div></td>
+                            <td><span class="font-mono-tag">--nv-bg-element</span></td>
+                            <td><span class="font-mono-tag">#2B2D31</span></td>
+                            <td><strong>Interactive Field Surface.</strong> Dropdowns, track layers, contextual inputs, and default button states.</td>
+                        </tr>
+                        <tr>
+                            <td><div class="color-swatch-box" style="background-color: #E3E5E8;"></div></td>
+                            <td><span class="font-mono-tag">--nv-text-primary</span></td>
+                            <td><span class="font-mono-tag">#E3E5E8</span></td>
+                            <td><strong>Primary Text Scale.</strong> Dampened off-white typeface. High legibility index under severe low-light room conditions.</td>
+                        </tr>
+                        <tr>
+                            <td><div class="color-swatch-box" style="background-color: #949BA4;"></div></td>
+                            <td><span class="font-mono-tag">--nv-text-muted</span></td>
+                            <td><span class="font-mono-tag">#949BA4</span></td>
+                            <td><strong>Secondary Information Text.</strong> Non-critical data fields, tracking metadata, inactive states, and timeline frames.</td>
+                        </tr>
+                        <tr>
+                            <td><div class="color-swatch-box" style="background-color: #477BFF;"></div></td>
+                            <td><span class="font-mono-tag">--nv-accent-brand</span></td>
+                            <td><span class="font-mono-tag">#477BFF</span></td>
+                            <td><strong>Focus Highlight Accent.</strong> Selection boundaries, active workspace tabs, interactive keyframe heads.</td>
+                        </tr>
+                        <tr>
+                            <td><div class="color-swatch-box" style="background-color: #24A19C;"></div></td>
+                            <td><span class="font-mono-tag">--nv-accent-success</span></td>
+                            <td><span class="font-mono-tag">#24A19C</span></td>
+                            <td><strong>Operational Utility Green.</strong> Restricted to system telemetry, render states, and syntax indicators.</td>
+                        </tr>
+                        <tr>
+                            <td><div class="color-swatch-box" style="background-color: #D18E34;"></div></td>
+                            <td><span class="font-mono-tag">--nv-accent-warning</span></td>
+                            <td><span class="font-mono-tag">#D18E34</span></td>
+                            <td><strong>Telemetry Warning Orange.</strong> Highlights broken rendering paths, pipeline failures, and dissatisfaction telemetry loop inputs.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
             <div class="specimen-panel panel-success-directive">
                 <div class="specimen-header-ticker" style="color: var(--nv-accent-success); border-color: #2B2D31;">
@@ -428,17 +461,17 @@
 
             <div class="specimen-panel">
                 <div class="specimen-header-ticker">Display Layer / Brand Headings (Playfair Display)</div>
-                <div style="font-family: 'Playfair Display', serif; font-size: 28pt; font-weight: 700; color: var(--nv-text-primary); line-height: 1.2; margin-bottom: 8px;">
+                <div style="font-family: 'Playfair Display', serif; font-size: clamp(20pt, 4vw, 26pt); font-weight: 700; color: var(--nv-text-primary); line-height: 1.2; margin-bottom: 8px;">
                     The Creative Console.
                 </div>
-                <div style="font-family: 'Playfair Display', serif; font-size: 18pt; font-weight: 400; font-style: italic; color: var(--nv-text-muted);">
+                <div style="font-family: 'Playfair Display', serif; font-size: clamp(13pt, 2.5vw, 16pt); font-weight: 400; font-style: italic; color: var(--nv-text-muted);">
                     Post-Production Orchestration, Perfected.
                 </div>
             </div>
 
             <div class="specimen-panel">
                 <div class="specimen-header-ticker">Interface Layer / Engineering Elements (Inter)</div>
-                <div style="font-size: 14pt; font-weight: 600; color: var(--nv-text-primary); margin-bottom: 6px;">
+                <div style="font-size: clamp(11pt, 2vw, 13pt); font-weight: 600; color: var(--nv-text-primary); margin-bottom: 8px; word-break: break-all;">
                     Master_Sequence_V4_2026_Final.mov
                 </div>
                 <div class="micro-parameter">02:14:55:08 &nbsp;|&nbsp; 4096 × 2160 &nbsp;|&nbsp; REDCODE RAW v8.3</div>
@@ -490,7 +523,7 @@ module.exports = {
         </section>
 
         <footer>
-            <div>&copy; 2026 Narrabrain Labs Private Limited. System Manifest Rulebook Frame.</div>
+            <div>&copy; 2026 narrabrain™ labs. System Manifest Rulebook Frame.</div>
             <div>narrabrain.in/design</div>
         </footer>
 
