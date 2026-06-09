@@ -5,32 +5,99 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title>Privacy | Narrabrain Labs</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Geist+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=Playfair+Display:wght@400;500;600;700&display=fallback" rel="stylesheet">
     <style>
+        /* NDS-V9 Design System Specification Root Tokens */
+        :root {
+            --nv-bg-canvas: #121214;
+            --nv-bg-surface: #1E1F22;
+            --nv-bg-element: #2B2D31;
+            --nv-text-primary: #E3E5E8;
+            --nv-text-muted: #949BA4;
+            --nv-accent-brand: #477BFF;
+            --nv-accent-success: #24A19C;
+            --nv-accent-warning: #D18E34;
+            
+            --radius-xl: 12px;
+            --radius-3xl: 24px;
+            --radius-full: 9999px;
+        }
+
         body { 
-            color: #71717a; 
+            background-color: var(--nv-bg-canvas);
+            color: var(--nv-text-primary); 
             font-family: 'Inter', sans-serif; 
             -webkit-font-smoothing: antialiased; 
+            margin: 0;
+            padding: 0;
         }
-        .mono { font-family: 'Geist Mono', monospace; }
-        .text-logo-blue { color: #06b6d4; }
+
+        /* Typography Scales */
+        .text-xs { font-size: 10px; line-height: 1.4; letter-spacing: 0.03em; }
+        .text-sm { font-size: 11px; line-height: 1.5; letter-spacing: 0.05em; }
+        .text-base { font-size: 13px; line-height: 1.6; letter-spacing: 0.01em; }
+        .text-3xl { font-size: 28px; line-height: 1.2; letter-spacing: -0.02em; font-family: 'Playfair Display', serif; font-weight: 500; }
+        .text-4xl { font-size: 36px; line-height: 1.15; letter-spacing: -0.03em; font-family: 'Playfair Display', serif; font-weight: 500; }
+
+        .display-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 500;
+            color: var(--nv-text-primary);
+        }
+
+        .mono { 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
         
-        /* Dark Mesh Background to enhance glass effect */
+        /* Calibrated Ambient Background Mesh */
         .bg-mesh {
-            background-color: #000000;
             background-image: 
-                radial-gradient(at 15% 0%, rgba(6, 182, 212, 0.08) 0, transparent 40%), 
-                radial-gradient(at 85% 100%, rgba(59, 130, 246, 0.08) 0, transparent 40%);
+                radial-gradient(at 15% 0%, rgba(71, 123, 255, 0.07) 0, transparent 40%), 
+                radial-gradient(at 85% 100%, rgba(36, 161, 156, 0.06) 0, transparent 40%);
             background-attachment: fixed;
         }
 
-        /* Glassmorphism Utility */
+        /* Zero-Glare Glassmorphism Panel Mechanics */
         .glass-panel {
             background: rgba(255, 255, 255, 0.02);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-panel:hover {
+            border-color: rgba(71, 123, 255, 0.25);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+        }
+
+        /* Interactive Elements styling */
+        .text-link {
+            color: var(--nv-accent-brand);
+            transition: color 0.3s ease;
+        }
+        .text-link:hover {
+            color: #7097FF;
+            text-decoration: underline;
+        }
+
+        /* Structural Graphic Indicators */
+        .flow-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(180deg, var(--nv-accent-brand), transparent);
+            margin-top: 12px;
+            margin-bottom: 24px;
+        }
+        .dot {
+            width: 5px;
+            height: 5px;
+            background: var(--nv-accent-brand);
+            border-radius: var(--radius-full);
+            box-shadow: 0 0 12px var(--nv-accent-brand);
         }
     </style>
 </head>
@@ -38,45 +105,66 @@
     
     <div class="max-w-3xl mx-auto w-full">
         <nav class="mb-12">
-            <a href="/" class="text-[10px] mono uppercase tracking-widest text-zinc-500 hover:text-cyan-400 transition-colors duration-300">← Return to Blueprint</a>
+            <a href="/" class="text-xs mono tracking-widest transition-colors duration-300 hover:text-white" style="color: var(--nv-text-muted);">
+                ← Return to Blueprint
+            </a>
         </nav>
         
-        <main class="glass-panel p-8 md:p-12 rounded-3xl">
-            <h1 class="text-3xl md:text-4xl text-zinc-100 font-semibold mb-4 tracking-tighter drop-shadow-md">Privacy Policy</h1>
-            <p class="mono text-[10px] uppercase tracking-widest text-logo-blue mb-10 font-bold">DPDP Act (India) 2023 Compliance</p>
+        <main class="glass-panel p-8 md:p-16 rounded-3xl" style="border-radius: 32px; border-top: 3px solid var(--nv-accent-brand);">
+            <h1 class="text-4xl display-title mb-3 tracking-tight">Privacy Policy</h1>
+            <p class="mono text-[10px] uppercase font-bold mb-12 tracking-widest" style="color: var(--nv-accent-brand);">DPDP Act (India) 2023 Compliance</p>
             
-            <div class="space-y-10">
-               <section>
-    <h2 class="text-zinc-200 text-xs font-bold uppercase tracking-widest mb-3 mono">1. Collection and Intent</h2>
-    <p class="text-sm md:text-base text-zinc-400 font-light leading-relaxed">We collect:</p>
-    <ul class="text-sm md:text-base text-zinc-400 font-light leading-relaxed list-disc list-inside ml-2 mt-2 space-y-2">
-        <li><strong class="text-zinc-300">Contact information</strong> (name, email) to manage beta access and product updates</li>
-        <li><strong class="text-zinc-300">Survey responses</strong> (workflow preferences, creative pain points, AI adoption insights) to develop and improve Narrabrain</li>
-    </ul>
-    <p class="text-sm md:text-base text-zinc-400 font-light leading-relaxed mt-3">This data is handled exclusively by the founder and stored securely. Survey data may be aggregated and anonymized for product research and insights, but will never publicly identify you.</p>
-</section>
+            <div class="space-y-12">
+                <section class="relative">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="dot"></div>
+                        <h2 class="mono text-xs font-bold uppercase tracking-wider" style="color: var(--nv-text-primary);">1. Collection and Intent</h2>
+                    </div>
+                    <div class="pl-5 space-y-4 text-base font-light leading-relaxed" style="color: var(--nv-text-muted);">
+                        <p>We collect:</p>
+                        <ul class="list-disc list-inside space-y-2.5 pl-2">
+                            <li><strong class="font-medium text-white">Contact information</strong> (name, email) to manage beta access and product updates</li>
+                            <li><strong class="font-medium text-white">Survey responses</strong> (workflow preferences, creative pain points, AI adoption insights) to develop and improve Narrabrain</li>
+                        </ul>
+                        <p class="pt-2">This data is handled exclusively by the founder and stored securely. Survey data may be aggregated and anonymized for product research and insights, but will never publicly identify you.</p>
+                    </div>
+                </section>
 
-<section>
-    <h2 class="text-zinc-200 text-xs font-bold uppercase tracking-widest mb-3 mono">2. Data Residency and Processing</h2>
-    <p class="text-sm md:text-base text-zinc-400 font-light leading-relaxed">Your personal data is transmitted securely and stored within our protected cloud infrastructure (Google Workspace). Processing is overseen manually by the founder to maintain strict data integrity. Survey responses are stored in encrypted private sheets accessible only to authorized personnel.</p>
-</section>
+                <section class="relative">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="dot"></div>
+                        <h2 class="mono text-xs font-bold uppercase tracking-wider" style="color: var(--nv-text-primary);">2. Data Residency and Processing</h2>
+                    </div>
+                    <div class="pl-5 text-base font-light leading-relaxed" style="color: var(--nv-text-muted);">
+                        <p>Your personal data is transmitted securely and stored within our protected cloud infrastructure (Google Workspace). Processing is overseen manually by the founder to maintain strict data integrity. Survey responses are stored in encrypted private sheets accessible only to authorized personnel.</p>
+                    </div>
+                </section>
 
-<section>
-    <h2 class="text-zinc-200 text-xs font-bold uppercase tracking-widest mb-3 mono">3. Your Rights & Consent Withdrawal</h2>
-    <p class="text-sm md:text-base text-zinc-400 font-light leading-relaxed">In accordance with the <strong class="text-zinc-300 font-medium">Digital Personal Data Protection Act (2023)</strong>, you have the right to:</p>
-    <ul class="text-sm md:text-base text-zinc-400 font-light leading-relaxed list-disc list-inside ml-2 mt-2 space-y-2">
-        <li>Access your personal data and survey responses</li>
-        <li>Request correction or modification of your data</li>
-        <li>Withdraw your consent and request full erasure at any time</li>
-    </ul>
-    <p class="text-sm md:text-base text-zinc-400 font-light leading-relaxed mt-3">To exercise these rights, contact us at <a href="mailto:hello@narrabrain.in" class="text-cyan-500 hover:text-cyan-400 transition-colors">hello@narrabrain.in</a>.</p>
-</section>
+                <section class="relative">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="dot"></div>
+                        <h2 class="mono text-xs font-bold uppercase tracking-wider" style="color: var(--nv-text-primary);">3. Your Rights & Consent Withdrawal</h2>
+                    </div>
+                    <div class="pl-5 space-y-4 text-base font-light leading-relaxed" style="color: var(--nv-text-muted);">
+                        <p>In accordance with the <strong class="text-white font-medium">Digital Personal Data Protection Act (2023)</strong>, you have the right to:</p>
+                        <ul class="list-disc list-inside space-y-2.5 pl-2">
+                            <li>Access your personal data and survey responses</li>
+                            <li>Request correction or modification of your data</li>
+                            <li>Withdraw your consent and request full erasure at any time</li>
+                        </ul>
+                        <p class="pt-2">To exercise these rights, contact us at <a href="mailto:hello@narrabrain.in" class="text-link">hello@narrabrain.in</a>.</p>
+                    </div>
+                </section>
 
-<section>
-    <h2 class="text-zinc-200 text-xs font-bold uppercase tracking-widest mb-3 mono">4. Grievance Redressal</h2>
-    <p class="text-sm md:text-base text-zinc-400 font-light leading-relaxed">For any complaints, queries, or data concerns regarding your personal information or survey responses under DPDP regulations, the founder acts as our Grievance Officer and can be reached directly at <a href="mailto:founder@narrabrain.in" class="text-cyan-500 hover:text-cyan-400 transition-colors">founder@narrabrain.in</a>.</p>
-</section>
-
+                <section class="relative">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="dot"></div>
+                        <h2 class="mono text-xs font-bold uppercase tracking-wider" style="color: var(--nv-text-primary);">4. Grievance Redressal</h2>
+                    </div>
+                    <div class="pl-5 text-base font-light leading-relaxed" style="color: var(--nv-text-muted);">
+                        <p>For any complaints, queries, or data concerns regarding your personal information or survey responses under DPDP regulations, the founder acts as our Grievance Officer and can be reached directly at <a href="mailto:founder@narrabrain.in" class="text-link">founder@narrabrain.in</a>.</p>
+                    </div>
+                </section>
             </div>
         </main>
     </div>
