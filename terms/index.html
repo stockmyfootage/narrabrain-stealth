@@ -5,32 +5,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title>Terms | Narrabrain Labs</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Geist+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=Playfair+Display:wght@400;500;600;700&display=fallback" rel="stylesheet">
     <style>
+        /* NDS-V9 Design System Specification Root Tokens */
+        :root {
+            --nv-bg-canvas: #121214;
+            --nv-bg-surface: #1E1F22;
+            --nv-bg-element: #2B2D31;
+            --nv-text-primary: #E3E5E8;
+            --nv-text-muted: #949BA4;
+            --nv-accent-brand: #477BFF;
+            --nv-accent-success: #24A19C;
+            --nv-accent-warning: #D18E34;
+            
+            --radius-xl: 12px;
+            --radius-3xl: 24px;
+            --radius-full: 9999px;
+        }
+
         body { 
-            color: #71717a; 
+            background-color: var(--nv-bg-canvas);
+            color: var(--nv-text-primary); 
             font-family: 'Inter', sans-serif; 
             -webkit-font-smoothing: antialiased; 
+            margin: 0;
+            padding: 0;
         }
-        .mono { font-family: 'Geist Mono', monospace; }
-        .text-logo-blue { color: #06b6d4; }
+
+        /* Typography Scales */
+        .text-xs { font-size: 10px; line-height: 1.4; letter-spacing: 0.03em; }
+        .text-sm { font-size: 11px; line-height: 1.5; letter-spacing: 0.05em; }
+        .text-base { font-size: 13px; line-height: 1.6; letter-spacing: 0.01em; }
+        .text-3xl { font-size: 28px; line-height: 1.2; letter-spacing: -0.02em; font-family: 'Playfair Display', serif; font-weight: 500; }
+        .text-4xl { font-size: 36px; line-height: 1.15; letter-spacing: -0.03em; font-family: 'Playfair Display', serif; font-weight: 500; }
+
+        .display-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 500;
+            color: var(--nv-text-primary);
+        }
+
+        .mono { 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
         
-        /* Dark Mesh Background to enhance glass effect */
+        /* Calibrated Ambient Background Mesh */
         .bg-mesh {
-            background-color: #000000;
             background-image: 
-                radial-gradient(at 15% 0%, rgba(6, 182, 212, 0.08) 0, transparent 40%), 
-                radial-gradient(at 85% 100%, rgba(59, 130, 246, 0.08) 0, transparent 40%);
+                radial-gradient(at 15% 0%, rgba(71, 123, 255, 0.07) 0, transparent 40%), 
+                radial-gradient(at 85% 100%, rgba(36, 161, 156, 0.06) 0, transparent 40%);
             background-attachment: fixed;
         }
 
-        /* Glassmorphism Utility */
+        /* Zero-Glare Glassmorphism Panel Mechanics */
         .glass-panel {
             background: rgba(255, 255, 255, 0.02);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-panel:hover {
+            border-color: rgba(71, 123, 255, 0.25);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+        }
+
+        /* Interactive Elements styling */
+        .text-link {
+            color: var(--nv-accent-brand);
+            transition: color 0.3s ease;
+        }
+        .text-link:hover {
+            color: #7097FF;
+            text-decoration: underline;
+        }
+
+        /* Structural Graphic Indicators */
+        .dot {
+            width: 5px;
+            height: 5px;
+            background: var(--nv-accent-brand);
+            border-radius: var(--radius-full);
+            box-shadow: 0 0 12px var(--nv-accent-brand);
         }
     </style>
 </head>
@@ -38,71 +98,113 @@
     
     <div class="max-w-3xl mx-auto w-full">
         <nav class="mb-12">
-            <a href="/" class="text-[10px] mono uppercase tracking-widest text-zinc-500 hover:text-cyan-400 transition-colors duration-300">← Return to Blueprint</a>
+            <a href="/" class="text-xs mono tracking-widest transition-colors duration-300 hover:text-white" style="color: var(--nv-text-muted);">
+                ← Return to Blueprint
+            </a>
         </nav>
         
-        <main class="glass-panel p-8 md:p-12 rounded-3xl">
-            <h1 class="text-3xl md:text-4xl text-zinc-100 font-semibold mb-4 tracking-tighter drop-shadow-md">Terms of Service</h1>
-            <p class="mono text-[10px] uppercase tracking-widest text-logo-blue mb-10 font-bold">Status: Active</p>
+        <main class="glass-panel p-8 md:p-16 rounded-3xl" style="border-radius: 32px; border-top: 3px solid var(--nv-accent-brand);">
+            <h1 class="text-4xl display-title mb-3 tracking-tight">Terms of Service</h1>
+            <p class="mono text-[10px] uppercase font-bold mb-12 tracking-widest" style="color: var(--nv-accent-brand);">Status: Active</p>
             
-            <div class="space-y-10">
-               <section>
-    <h2 class="text-zinc-200 text-xs font-bold uppercase tracking-widest mb-3 mono">1. Entity Status</h2>
-    <p class="text-sm md:text-base text-zinc-400 font-light leading-relaxed"><strong class="text-zinc-300 font-medium">Narrabrain Labs Private Limited</strong> (CIN: U63111MH2026PTC471492) is an active legal entity incorporated in India. All technical frameworks described, including the <strong class="text-zinc-300 font-medium">SCLC Engine</strong> and neuro-symbolic architecture, are proprietary specifications.</p>
-</section>
+            <div class="space-y-12">
+                <section class="relative">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="dot"></div>
+                        <h2 class="mono text-xs font-bold uppercase tracking-wider" style="color: var(--nv-text-primary);">1. Entity Status</h2>
+                    </div>
+                    <div class="pl-5 text-base font-light leading-relaxed" style="color: var(--nv-text-muted);">
+                        <p><strong class="font-medium text-white">Narrabrain Labs Private Limited</strong> (CIN: U63111MH2026PTC471492) is an active legal entity incorporated in India. All technical frameworks described, including the <strong class="font-medium text-white">SCLC Engine</strong> and neuro-symbolic architecture, are proprietary specifications.</p>
+                    </div>
+                </section>
 
-<section>
-    <h2 class="text-zinc-200 text-xs font-bold uppercase tracking-widest mb-3 mono">2. User Eligibility & Responsibilities</h2>
-    <p class="text-sm md:text-base text-zinc-400 font-light leading-relaxed">By accessing and using Narrabrain's survey, you confirm that:</p>
-    <ul class="text-sm md:text-base text-zinc-400 font-light leading-relaxed list-disc list-inside ml-2 mt-2 space-y-2">
-        <li>You are 18 years of age or older (or have parental/guardian consent)</li>
-        <li>You provide truthful and accurate information in your responses</li>
-        <li>You acknowledge your responses may inform our product development</li>
-        <li>You grant Narrabrain the right to use anonymized feedback for research and insights</li>
-    </ul>
-</section>
+                <section class="relative">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="dot"></div>
+                        <h2 class="mono text-xs font-bold uppercase tracking-wider" style="color: var(--nv-text-primary);">2. User Eligibility & Responsibilities</h2>
+                    </div>
+                    <div class="pl-5 space-y-4 text-base font-light leading-relaxed" style="color: var(--nv-text-muted);">
+                        <p>By accessing and using Narrabrain's survey, you confirm that:</p>
+                        <ul class="list-disc list-inside space-y-2.5 pl-2">
+                            <li>You are 18 years of age or older (or have parental/guardian consent)</li>
+                            <li>You provide truthful and accurate information in your responses</li>
+                            <li>You acknowledge your responses may inform our product development</li>
+                            <li>You grant Narrabrain the right to use anonymized feedback for research and insights</li>
+                        </ul>
+                    </div>
+                </section>
 
-<section>
-    <h2 class="text-zinc-200 text-xs font-bold uppercase tracking-widest mb-3 mono">3. Intellectual Property & Restrictions</h2>
-    <p class="text-sm md:text-base text-zinc-400 font-light leading-relaxed">Access to Narrabrain's whitepaper, documentation, and technical specifications is granted for institutional evaluation only. You may not:</p>
-    <ul class="text-sm md:text-base text-zinc-400 font-light leading-relaxed list-disc list-inside ml-2 mt-2 space-y-2">
-        <li>Reproduce, distribute, or commercially sell the SCLC architecture or neuro-symbolic framework specifications</li>
-        <li>Create derivative works or systems mimicking our proprietary logic without explicit written consent</li>
-        <li>Reverse-engineer, decompile, or extract algorithmic designs from our documentation</li>
-        <li>Use our intellectual property to develop competing solutions</li>
-    </ul>
-</section>
+                <section class="relative">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="dot"></div>
+                        <h2 class="mono text-xs font-bold uppercase tracking-wider" style="color: var(--nv-text-primary);">3. Intellectual Property & Restrictions</h2>
+                    </div>
+                    <div class="pl-5 space-y-4 text-base font-light leading-relaxed" style="color: var(--nv-text-muted);">
+                        <p>Access to Narrabrain's whitepaper, documentation, and technical specifications is granted for institutional evaluation only. You may not:</p>
+                        <ul class="list-disc list-inside space-y-2.5 pl-2">
+                            <li>Reproduce, distribute, or commercially sell the SCLC architecture or neuro-symbolic framework specifications</li>
+                            <li>Create derivative works or systems mimicking our proprietary logic without explicit written consent</li>
+                            <li>Reverse-engineer, decompile, or extract algorithmic designs from our documentation</li>
+                            <li>Use our intellectual property to develop competing solutions</li>
+                        </ul>
+                    </div>
+                </section>
 
-<section>
-    <h2 class="text-zinc-200 text-xs font-bold uppercase tracking-widest mb-3 mono">4. Survey Responses & Feedback Rights</h2>
-    <p class="text-sm md:text-base text-zinc-400 font-light leading-relaxed">Regarding your survey participation:</p>
-    <ul class="text-sm md:text-base text-zinc-400 font-light leading-relaxed list-disc list-inside ml-2 mt-2 space-y-2">
-        <li>You retain intellectual property rights to your responses</li>
-        <li>Narrabrain may use aggregated and anonymized insights for product research, feature development, and public case studies</li>
-        <li>Your individual survey responses remain completely confidential and private</li>
-        <li>You may request deletion of your responses at any time by contacting <a href="mailto:hello@narrabrain.in" class="text-cyan-500 hover:text-cyan-400 transition-colors">hello@narrabrain.in</a></li>
-    </ul>
-</section>
+                <section class="relative">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="dot"></div>
+                        <h2 class="mono text-xs font-bold uppercase tracking-wider" style="color: var(--nv-text-primary);">4. Survey Responses & Feedback Rights</h2>
+                    </div>
+                    <div class="pl-5 space-y-4 text-base font-light leading-relaxed" style="color: var(--nv-text-muted);">
+                        <p>Regarding your survey participation:</p>
+                        <ul class="list-disc list-inside space-y-2.5 pl-2">
+                            <li>You retain intellectual property rights to your responses</li>
+                            <li>Narrabrain may use aggregated and anonymized insights for product research, feature development, and public case studies</li>
+                            <li>Your individual survey responses remain completely confidential and private</li>
+                            <li>You may request deletion of your responses at any time by contacting <a href="mailto:hello@narrabrain.in" class="text-link">hello@narrabrain.in</a></li>
+                        </ul>
+                    </div>
+                </section>
 
-<section>
-    <h2 class="text-zinc-200 text-xs font-bold uppercase tracking-widest mb-3 mono">5. Disclaimer & Limitation of Liability</h2>
-    <p class="text-sm md:text-base text-zinc-400 font-light leading-relaxed">Narrabrain Labs and its survey platform are provided "as-is" without warranties of any kind, express or implied. We are not liable for indirect, incidental, special, or consequential damages, including loss of profits or data, arising from your use of or inability to use our services. This includes damages from third-party claims related to your participation.</p>
-</section>
+                <section class="relative">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="dot"></div>
+                        <h2 class="mono text-xs font-bold uppercase tracking-wider" style="color: var(--nv-text-primary);">5. Disclaimer & Limitation of Liability</h2>
+                    </div>
+                    <div class="pl-5 text-base font-light leading-relaxed" style="color: var(--nv-text-muted);">
+                        <p>Narrabrain Labs and its survey platform are provided "as-is" without warranties of any kind, express or implied. We are not liable for indirect, incidental, special, or consequential damages, including loss of profits or data, arising from your use of or inability to use our services. This includes damages from third-party claims related to your participation.</p>
+                    </div>
+                </section>
 
-<section>
-    <h2 class="text-zinc-200 text-xs font-bold uppercase tracking-widest mb-3 mono">6. Dispute Resolution & Governing Law</h2>
-    <p class="text-sm md:text-base text-zinc-400 font-light leading-relaxed">These Terms of Service are governed by and construed in accordance with the laws of India. Any disputes arising from these terms or your use of Narrabrain's services shall be subject to exclusive jurisdiction and resolved through arbitration under the Arbitration and Conciliation Act, 1996, with proceedings conducted in Mumbai. Both parties agree to binding arbitration as the sole remedy for disputes.</p>
-</section>
+                <section class="relative">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="dot"></div>
+                        <h2 class="mono text-xs font-bold uppercase tracking-wider" style="color: var(--nv-text-primary);">6. Dispute Resolution & Governing Law</h2>
+                    </div>
+                    <div class="pl-5 text-base font-light leading-relaxed" style="color: var(--nv-text-muted);">
+                        <p>These Terms of Service are governed by and construed in accordance with the laws of India. Any disputes arising from these terms or your use of Narrabrain's services shall be subject to exclusive jurisdiction and resolved through arbitration under the Arbitration and Conciliation Act, 1996, with proceedings conducted in Mumbai. Both parties agree to binding arbitration as the sole remedy for disputes.</p>
+                    </div>
+                </section>
 
-<section>
-    <h2 class="text-zinc-200 text-xs font-bold uppercase tracking-widest mb-3 mono">7. Modifications to Terms</h2>
-    <p class="text-sm md:text-base text-zinc-400 font-light leading-relaxed">Narrabrain Labs reserves the right to modify these Terms of Service at any time. Material changes will be communicated to users via email at least 30 days in advance. Your continued use of the survey following such modifications constitutes your acceptance of the updated terms.</p>
-</section>
+                <section class="relative">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="dot"></div>
+                        <h2 class="mono text-xs font-bold uppercase tracking-wider" style="color: var(--nv-text-primary);">7. Modifications to Terms</h2>
+                    </div>
+                    <div class="pl-5 text-base font-light leading-relaxed" style="color: var(--nv-text-muted);">
+                        <p>Narrabrain Labs reserves the right to modify these Terms of Service at any time. Material changes will be communicated to users via email at least 30 days in advance. Your continued use of the survey following such modifications constitutes your acceptance of the updated terms.</p>
+                    </div>
+                </section>
 
-<section>
-    <h2 class="text-zinc-200 text-xs font-bold uppercase tracking-widest mb-3 mono">8. Contact & Grievance</h2>
-    <p class="text-sm md:text-base text-zinc-400 font-light leading-relaxed">For questions, concerns, or grievances regarding these Terms of Service, please contact us at <a href="mailto:hello@narrabrain.in" class="text-cyan-500 hover:text-cyan-400 transition-colors">hello@narrabrain.in</a> or <a href="mailto:founder@narrabrain.in" class="text-cyan-500 hover:text-cyan-400 transition-colors">founder@narrabrain.in</a>.</p>
-</section>
+                <section class="relative">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="dot"></div>
+                        <h2 class="mono text-xs font-bold uppercase tracking-wider" style="color: var(--nv-text-primary);">8. Contact & Grievance</h2>
+                    </div>
+                    <div class="pl-5 text-base font-light leading-relaxed" style="color: var(--nv-text-muted);">
+                        <p>For questions, concerns, or grievances regarding these Terms of Service, please contact us at <a href="mailto:hello@narrabrain.in" class="text-link">hello@narrabrain.in</a> or <a href="mailto:founder@narrabrain.in" class="text-link">founder@narrabrain.in</a>.</p>
+                    </div>
+                </section>
             </div>
         </main>
     </div>
