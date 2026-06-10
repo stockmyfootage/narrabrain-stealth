@@ -387,18 +387,47 @@
 
     </main>
 
-    <footer class="p-8 md:p-12 border-t glass-panel mt-auto rounded-none border-x-0 border-b-0" style="border-color: rgba(255, 255, 255, 0.06); background: rgba(18, 18, 20, 0.4);">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-[11px] mono uppercase tracking-widest">
-            <div class="text-center md:text-left">
-                <p class="text-white font-medium mb-1" style="letter-spacing: -0.02em;">Narrabrain Labs</p>
-                <p class="text-zinc-500 lowercase tracking-normal text-[10px]">Stealth R&D / Conceptual Phase</p>
+     <footer class="p-8 md:p-12 border-t glass-panel mt-auto rounded-none border-x-0 border-b-0" style="border-color: rgba(255, 255, 255, 0.06); background: rgba(18, 18, 20, 0.4);">
+        <div class="max-w-6xl mx-auto">
+            <!-- Primary Legal Information -->
+            <div class="mb-8 pb-8 border-b" style="border-color: rgba(255, 255, 255, 0.05);">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+                    <!-- Company Name & Registration -->
+                    <div class="space-y-3">
+                        <p class="text-white text-sm font-medium" style="letter-spacing: -0.02em; line-height: 1.4;">Narrabrain Labs<br/>Private Limited</p>
+                        <p class="mono text-[9px]" style="color: var(--nv-accent-brand); letter-spacing: 0.15em;">CIN: U63111MH2026PTC471492</p>
+                    </div>
+
+                    <!-- Registered Office -->
+                    <div class="space-y-2 col-span-1 md:col-span-2">
+                        <p class="text-xs" style="color: var(--nv-text-muted); line-height: 1.6;">
+                            Innov8 R-City, R City Offices, 4th Floor, North Wing, R City Mall, LBS Marg, Ghatkopar West, Mumbai – 400086, Maharashtra, India
+                        </p>
+                    </div>
+                </div>
             </div>
-            <div class="flex flex-wrap justify-center md:justify-end gap-6 items-center font-bold text-zinc-500">
-                <a href="mailto:hello@narrabrain.in" class="hover:text-blue-400 transition-colors lowercase tracking-normal text-zinc-400 font-normal">hello@narrabrain.in</a>
-                <span class="text-zinc-800 hidden md:inline">|</span>
-                <a href="/privacy/" class="hover:text-white transition-colors text-zinc-400">Privacy</a>
-                <span class="text-zinc-800 hidden md:inline">|</span>
-                <a href="/terms/" class="hover:text-white transition-colors text-zinc-400">Terms</a>
+
+            <!-- Contact & Links -->
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                <!-- Contact Information -->
+                <div class="space-y-2 flex flex-col">
+                    <a href="mailto:hello@narrabrain.in" class="text-xs transition-colors duration-300" style="color: var(--nv-text-muted); text-decoration: none;">
+                        Email: hello@narrabrain.in
+                    </a>
+                    <a href="mailto:founder@narrabrain.in" class="text-xs transition-colors duration-300" style="color: var(--nv-text-muted); text-decoration: none;">
+                        For Grievance Redressal:founder@narrabrain.in
+                    </a>
+                </div>
+
+                <!-- Footer Links & Copyright -->
+                <div class="flex flex-col items-start md:items-end space-y-2">
+                    <div class="flex flex-wrap gap-4 items-center mono text-xs" style="color: var(--nv-text-muted);">
+                        <a href="/privacy" class="hover:text-white transition-colors" style="text-decoration: none;">Privacy</a>
+                        <span style="color: rgba(255, 255, 255, 0.1);">|</span>
+                        <a href="/terms" class="hover:text-white transition-colors" style="text-decoration: none;">Terms</a>
+                    </div>
+                    <p class="mono text-[9px]" style="color: rgba(71, 123, 255, 0.4); letter-spacing: 0.15em;">© 2026 | Patent Pending</p>
+                </div>
             </div>
         </div>
     </footer>
