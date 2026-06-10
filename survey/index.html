@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Narrabrain Labs Research</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght=400;600;700&family=Playfair+Display:wght=700;800&display=swap" rel="stylesheet">
 <style>
 :root {
   --primary: #ff006e;
@@ -355,11 +355,46 @@ textarea::placeholder, input::placeholder {
   z-index: 2000;
   opacity: 0;
   transition: opacity 0.4s ease;
+  padding: 24px;
+  overflow-y: auto;
 }
 
 #done-page.show {
   display: flex;
   opacity: 1;
+}
+
+/* Styled SurveySwap Subcard Element */
+.surveyswap-reward-panel {
+  max-width: 440px;
+  margin: 24px auto 0 auto;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: left;
+}
+
+.surveyswap-btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  background: linear-gradient(135deg, var(--secondary), var(--tertiary));
+  color: var(--black);
+  font-weight: 700;
+  font-size: 12px;
+  padding: 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 16px;
+  transition: all 0.2s ease;
+}
+
+.surveyswap-btn:hover {
+  box-shadow: 0 0 20px rgba(0,245,255,0.25);
+  transform: translateY(-1px);
 }
 
 @keyframes vibrate {
@@ -1014,11 +1049,19 @@ textarea::placeholder, input::placeholder {
     </div>
 
     <div id="done-page">
-      <div style="text-align: center;">
+      <div style="text-align: center; max-width: 500px; width: 100%;">
         <div style="font-size: 72px; margin-bottom: 28px; animation: fadeInScale 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);">✨</div>
         <div style="font-family: 'Playfair Display', serif; font-size: 52px; font-weight: 800; margin-bottom: 20px; background: linear-gradient(135deg, var(--secondary), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Done</div>
         <p style="font-size: 15px; color: rgba(255,255,255,0.65); margin-bottom: 12px;">Thanks for sharing your insights.</p>
-        <p style="font-size: 13px; color: rgba(255,255,255,0.45);">Closing in <span id="countdown" style="font-weight: 600; color: rgba(255,255,255,0.7);">5</span> seconds...</p>
+        
+        <div id="surveyswap-block" class="hidden surveyswap-reward-panel">
+          <p style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--secondary); margin-bottom: 6px;">SurveySwap Reward Earned</p>
+          <p style="font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.4;">Click the verification link below to credit your account with free research participant Karma instantly.</p>
+          <a href="https://surveyswap.io/sr/80DF-VRQH-ZG47" target="_blank" class="surveyswap-btn">Claim Karma Credits →</a>
+          <p style="font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 12px; font-family: monospace; text-align: center;">Manual Code: 80DF-VRQH-ZG47</p>
+        </div>
+
+        <p id="timer-message" style="font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 24px;">Closing in <span id="countdown" style="font-weight: 600; color: rgba(255,255,255,0.7);">5</span> seconds...</p>
       </div>
     </div>
 
@@ -1098,13 +1141,12 @@ function validateSection(n) {
       { type: 'radio', name: 'willingness' }
     ],
     6: [
-      { type: 'email', name: 'email' }, // <-- ADD THIS LINE
+      { type: 'email', name: 'email' },
       { type: 'textarea', name: 'biggest-problem' },
       { type: 'radio', name: 'ideal-tool' },
       { type: 'radio', name: 'beta' },
       { type: 'checkbox', name: 'privacy-consent' }
     ]
-
   };
   
   const sectionRules = rules[n] || [];
@@ -1114,25 +1156,21 @@ function validateSection(n) {
     qg.classList.remove('error-state');
   });
 
-for (let rule of sectionRules) {
+  for (let rule of sectionRules) {
     const inputElement = currentSecElement.querySelector(`input[name="${rule.name}"], textarea[name="${rule.name}"]`);
     const questionGroup = inputElement ? inputElement.closest('.question-group') : null;
     
     if (!questionGroup) continue;
     let isFilled = false;
     
-    // Find the error tracking text container inside this specific group
     const errorDiv = questionGroup.querySelector('.error-message');
 
     if (rule.type === 'text' || rule.type === 'textarea') {
       isFilled = inputElement && inputElement.value.trim() !== '';
-      // Reset default error message text if it was modified by a previous validation pass
       if (!isFilled && errorDiv) errorDiv.textContent = '[you forgot to fill this]';
       
     } else if (rule.type === 'email') {
       const emailValue = inputElement ? inputElement.value.trim() : '';
-      
-      // Standard structural pattern check (syntax verification)
       const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
       if (emailValue === '') {
@@ -1140,9 +1178,9 @@ for (let rule of sectionRules) {
         isFilled = false;
       } else if (!emailPattern.test(emailValue)) {
         if (errorDiv) errorDiv.textContent = '[please enter a valid email address]';
-        isFilled = false; // Fails syntax check even if the box isn't empty
+        isFilled = false;
       } else {
-        isFilled = true;  // Safe and structurally valid
+        isFilled = true;
       }
 
     } else if (rule.type === 'radio' || rule.type === 'checkbox') {
@@ -1162,8 +1200,7 @@ for (let rule of sectionRules) {
         }, 10);
       }
     }
-}
-
+  }
 
   if (firstErrorElement) {
     firstErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -1239,7 +1276,6 @@ function submitForm() {
   const formElement = document.getElementById('survey-form');
   if (!formElement) return;
 
-  // --- NEW BLOCK: PREVENT DOUBLE SUBMISSIONS ---
   const btnNext = document.getElementById('btn-next');
   if (btnNext && btnNext.textContent.includes('Submit')) {
     btnNext.disabled = true;
@@ -1247,7 +1283,6 @@ function submitForm() {
     btnNext.style.opacity = '0.5';
     btnNext.style.cursor = 'not-allowed';
   }
-  // ----------------------------------------------
 
   const data = {};
   
@@ -1289,7 +1324,6 @@ function submitForm() {
   })
   .catch(err => {
     console.error('Submission pipeline connection error:', err);
-    // Even on error, clean up so the UI doesn't get stuck forever
     executeLayoutCleanup();
   });
 }
@@ -1308,12 +1342,28 @@ function executeLayoutCleanup() {
 
 function showDonePage() {
   const donePage = document.getElementById('done-page');
-  if (donePage) {
-    donePage.classList.add('show');
-    
-    let countdown = 5;
-    const countdownEl = document.getElementById('countdown');
-    
+  if (!donePage) return;
+  
+  donePage.classList.add('show');
+  
+  // URL check parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  const isSurveySwap = urlParams.get('source') === 'surveyswap';
+  
+  let countdown = 5;
+  const countdownEl = document.getElementById('countdown');
+  const timerMessage = document.getElementById('timer-message');
+  const swapBlock = document.getElementById('surveyswap-block');
+
+  if (isSurveySwap && swapBlock) {
+    swapBlock.classList.remove('hidden');
+    // Disable or alter default timeout rules so the participant can easily read/interact with the link
+    if (timerMessage) {
+      timerMessage.innerHTML = "You may now navigate back or close this window safely.";
+      timerMessage.style.color = "rgba(255,255,255,0.6)";
+    }
+  } else {
+    // Standard users get your normal 5-second auto-reload sequence
     const countdownInterval = setInterval(() => {
       countdown--;
       if (countdownEl) countdownEl.textContent = countdown;
